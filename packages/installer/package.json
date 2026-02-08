@@ -3,6 +3,15 @@
   "version": "3.2.0",
   "description": "AIOS Installer - Automated setup wizard for AIOS projects (greenfield & brownfield)",
   "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./config/configure-environment": "./src/config/configure-environment.js",
+    "./config/templates/core-config-template": "./src/config/templates/core-config-template.js",
+    "./config/templates/env-template": "./src/config/templates/env-template.js",
+    "./config/validation/config-validator": "./src/config/validation/config-validator.js",
+    "./detection": "./src/detection/detect-project-type.js",
+    "./wizard": "./src/wizard/wizard.js"
+  },
   "bin": {
     "aios-installer": "./src/index.js"
   },

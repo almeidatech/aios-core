@@ -1,0 +1,31 @@
+{
+  "name": "@aios/core",
+  "version": "3.10.0",
+  "description": "AIOS Core Engine - orchestration, execution, health-check, quality-gates, memory, permissions, registry, MCP, session, elicitation",
+  "main": "index.js",
+  "module": "index.esm.js",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.esm.js"
+    },
+    "./health-check": "./health-check/index.js",
+    "./registry": "./registry/registry-loader.js",
+    "./orchestration": "./orchestration/index.js",
+    "./permissions": "./permissions/permission-mode.js",
+    "./elicitation": "./elicitation/elicitation-engine.js",
+    "./config": "./config/config-loader.js",
+    "./session": "./session/context-detector.js",
+    "./memory": "./memory/context-snapshot.js",
+    "./execution": "./execution/build-orchestrator.js",
+    "./manifest": "./manifest/manifest-generator.js",
+    "./quality-gates": "./quality-gates/quality-gate-manager.js",
+    "./mcp": "./mcp/global-config-manager.js",
+    "./utils": "./utils/output-formatter.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "private": true
+}

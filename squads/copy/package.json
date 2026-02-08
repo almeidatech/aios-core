@@ -1,0 +1,9 @@
+{
+  "name": "@aios/squad-copy",
+  "version": "3.0.0",
+  "description": "Copy - Elite Copywriting Squad (Hopkins, Schwartz, Halbert, Ogilvy, Kennedy, Benson)",
+  "keywords": ["aios", "aios-squad", "copywriting", "direct-response"],
+  "author": "AIOS Team",
+  "license": "MIT",
+  "private": true
+}

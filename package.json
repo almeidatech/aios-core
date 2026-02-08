@@ -9,7 +9,15 @@
   },
   "preferGlobal": false,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "squads/*",
+    "src",
+    ".aios-core/core",
+    ".aios-core/cli",
+    ".aios-core/infrastructure",
+    ".aios-core/development",
+    "apps/dashboard",
+    "apps/monitor-server"
   ],
   "files": [
     "bin/",
@@ -45,7 +53,9 @@
     "sync:ide:windsurf": "node .aios-core/infrastructure/scripts/ide-sync/index.js sync --ide windsurf",
     "sync:ide:trae": "node .aios-core/infrastructure/scripts/ide-sync/index.js sync --ide trae",
     "prepublishOnly": "npm run generate:manifest && npm run validate:manifest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "link:all": "node scripts/link-all.js",
+    "link:dry": "node scripts/link-all.js --dry-run"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",

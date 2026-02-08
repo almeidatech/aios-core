@@ -1,0 +1,20 @@
+{
+  "name": "@aios/development",
+  "version": "3.10.0",
+  "description": "AIOS Development Assets - agent definitions, tasks, templates, workflows, checklists, agent-teams",
+  "main": "scripts/squad/index.js",
+  "exports": {
+    ".": "./scripts/squad/index.js",
+    "./agents": "./agents/",
+    "./tasks": "./tasks/",
+    "./templates": "./templates/",
+    "./workflows": "./workflows/",
+    "./checklists": "./checklists/",
+    "./agent-teams": "./agent-teams/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "private": true
+}

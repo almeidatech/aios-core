@@ -21,7 +21,19 @@
     "baseUrl": ".",
     "paths": {
       "@synkra/aios-core": ["./.aios-core/core"],
-      "@synkra/aios-core/*": ["./.aios-core/core/*"]
+      "@synkra/aios-core/*": ["./.aios-core/core/*"],
+      "@aios/core": ["./.aios-core/core"],
+      "@aios/core/*": ["./.aios-core/core/*"],
+      "@aios/cli": ["./.aios-core/cli"],
+      "@aios/cli/*": ["./.aios-core/cli/*"],
+      "@aios/infrastructure": ["./.aios-core/infrastructure"],
+      "@aios/infrastructure/*": ["./.aios-core/infrastructure/*"],
+      "@aios/development": ["./.aios-core/development"],
+      "@aios/development/*": ["./.aios-core/development/*"],
+      "@aios/installer": ["./packages/installer/src"],
+      "@aios/installer/*": ["./packages/installer/src/*"],
+      "@aios/wizard": ["./src/wizard"],
+      "@aios/wizard/*": ["./src/*"]
     }
   },
   "include": [
@@ -32,6 +44,8 @@
     "src/**/*",
     "common/**/*",
     "bin/**/*",
+    "packages/**/*",
+    "apps/**/*",
     "*.js"
   ],
   "exclude": [

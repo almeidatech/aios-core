@@ -1,0 +1,33 @@
+{
+  "name": "@aios/wizard",
+  "version": "3.10.0",
+  "description": "AIOS Installation Wizard - interactive project setup with IDE configuration, validation, and i18n",
+  "main": "wizard/index.js",
+  "exports": {
+    ".": "./wizard/index.js",
+    "./wizard": "./wizard/index.js",
+    "./wizard/feedback": "./wizard/feedback.js",
+    "./wizard/validation": "./wizard/validation/index.js",
+    "./wizard/ide-config": "./wizard/ide-config-generator.js",
+    "./wizard/i18n": "./wizard/i18n.js",
+    "./config": "./config/ide-configs.js",
+    "./installer": "./installer/aios-core-installer.js",
+    "./installer/post-install-validator": "./installer/post-install-validator.js",
+    "./installer/dependency-installer": "./installer/dependency-installer.js",
+    "./installer/brownfield-upgrader": "./installer/brownfield-upgrader.js",
+    "./utils": "./utils/aios-colors.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "chalk": "^4.1.2",
+    "fs-extra": "^11.3.2",
+    "inquirer": "^8.2.6",
+    "js-yaml": "^4.1.0",
+    "execa": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "private": true
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@aios/cli",
+  "version": "3.10.0",
+  "description": "AIOS CLI Commands - workers, manifest, QA, MCP, migrate, generate, metrics, validate",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./commands/workers": "./commands/workers/index.js",
+    "./commands/manifest": "./commands/manifest/index.js",
+    "./commands/mcp": "./commands/mcp/index.js",
+    "./commands/qa": "./commands/qa/index.js",
+    "./commands/migrate": "./commands/migrate/index.js",
+    "./commands/metrics": "./commands/metrics/index.js",
+    "./commands/generate": "./commands/generate/index.js",
+    "./commands/validate": "./commands/validate/index.js"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "chalk": "^4.1.2",
+    "fs-extra": "^11.3.2",
+    "ora": "^5.4.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "private": true
+}
