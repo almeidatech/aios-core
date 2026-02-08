@@ -5,7 +5,8 @@
   "bin": {
     "aios": "bin/aios.js",
     "aios-core": "bin/aios.js",
-    "aios-minimal": "bin/aios-minimal.js"
+    "aios-minimal": "bin/aios-minimal.js",
+    "aios-sync": "scripts/aios-sync.js"
   },
   "preferGlobal": false,
   "workspaces": [
@@ -117,7 +118,7 @@
     "husky": "^9.1.7",
     "jest": "^30.2.0",
     "lint-staged": "^16.1.1",
-    "mocha": "^11.7.5",
+    "mocha": "^11.3.0",
     "prettier": "^3.5.3",
     "semantic-release": "^25.0.2",
     "typescript": "^5.9.3",

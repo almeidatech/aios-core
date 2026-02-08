@@ -22,6 +22,7 @@
 14. [Scripts Utilitarios](#14-scripts-utilitarios)
 15. [Troubleshooting](#15-troubleshooting)
 16. [Referencia Rapida](#16-referencia-rapida)
+17. [Quick Setup - Usar em Outros Projetos e Maquinas](#17-quick-setup---usar-em-outros-projetos-e-maquinas)
 
 ---
 
@@ -29,7 +30,7 @@
 
 O `aios-core` e um monorepo npm workspaces que organiza o framework AIOS (AI-Orchestrated System) em **10 pacotes** independentes, todos consumiveis via `npm link` por qualquer projeto local.
 
-```
+```text
 aios-core/                          # Root (v3.10.0)
   packages/                         # Pacotes npm reutilizaveis
   squads/                           # Squads de agentes especializados
@@ -46,7 +47,7 @@ aios-core/                          # Root (v3.10.0)
 ## 2. Pre-requisitos
 
 | Ferramenta | Versao Minima | Verificar |
-|------------|--------------|-----------|
+| ------------ | -------------- | ----------- |
 | Node.js | >= 18.0.0 | `node -v` |
 | npm | >= 9.0.0 | `npm -v` |
 | Git | Qualquer | `git --version` |
@@ -83,6 +84,7 @@ npm install
 ```
 
 Isso faz automaticamente:
+
 - Instala todas as dependencias do root e dos workspaces
 - Cria symlinks em `node_modules/@aios/` para cada pacote workspace
 - Faz hoisting de dependencias compartilhadas para o root `node_modules/`
@@ -94,7 +96,8 @@ npm run link:dry
 ```
 
 Saida esperada:
-```
+
+```text
   Found 10 workspace packages:
 
   @aios/installer (packages\installer) -> would link
@@ -121,7 +124,7 @@ Deve listar: `cli`, `core`, `dashboard`, `development`, `infrastructure`, `insta
 
 ## 4. Estrutura do Monorepo
 
-```
+```text
 aios-core/
  |
  |-- packages/                      # PACOTES REUTILIZAVEIS
@@ -240,7 +243,7 @@ aios-core/
 ### 5.1 Pacotes de Engine
 
 | Pacote | O que faz | Exports principais |
-|--------|-----------|-------------------|
+| -------- | ----------- | ------------------- |
 | **@aios/core** | Motor central do AIOS | `ConfigCache`, `ElicitationEngine`, `HealthCheckEngine`, `ServiceRegistry`, `SessionContextLoader`, `loadAgentConfig`, `loadRegistry`, `validateYAML` (32 total) |
 | **@aios/cli** | Comandos CLI (Commander.js) | `run()` - roda workers, manifest, mcp, qa, migrate, metrics, generate, validate |
 | **@aios/infrastructure** | 70+ ferramentas utilitarias | `GitWrapper`, `TemplateEngine`, `DependencyAnalyzer`, `ComponentGenerator`, `TestGenerator`, `PerformanceAnalyzer`, `BackupManager`, `RepositoryDetector` (53 total) |
@@ -249,21 +252,21 @@ aios-core/
 ### 5.2 Pacotes de Instalacao
 
 | Pacote | O que faz | Exports principais |
-|--------|-----------|-------------------|
+| -------- | ----------- | ------------------- |
 | **@aios/wizard** | Wizard interativo de instalacao | `runWizard()`, validadores, configurador IDE, i18n |
 | **@aios/installer** | Automacao de setup | `configureEnvironment()`, `detectProjectType()`, `wizard()` |
 
 ### 5.3 Squads
 
 | Pacote | O que faz | Conteudo |
-|--------|-----------|----------|
+| -------- | ----------- | ------------------- |
 | **@aios/squad-copy** | Copywriting de alta conversao | 9 agentes (Hopkins, Schwartz, Halbert, Ogilvy, Kennedy, Todd Brown, Benson, Bencivenga, Sugarman), 37 tasks, 7 workflows, swipe files |
 | **@aios/squad-creator** | Meta-squad: fabrica de squads | 5 meta-agentes (Squad Architect, Diagnostician, Oalanicolas, Pedro Valerio), 26 tasks, 8 workflows, scripts Python |
 
 ### 5.4 Apps
 
 | Pacote | O que faz | Tech |
-|--------|-----------|------|
+| -------- | ----------- | ------------------- |
 | **@aios/dashboard** | Dashboard web do AIOS | Next.js 16, React 19, Zustand, Tailwind, Radix UI |
 | **@aios/monitor-server** | Servidor de eventos real-time | Bun, TypeScript |
 
@@ -460,7 +463,7 @@ node bin/aios.js
 ### 8.2 Comandos
 
 | Comando | Descricao |
-|---------|-----------|
+| --------- | ----------- |
 | `aios` | Roda o wizard de instalacao |
 | `aios install` | Instala no projeto atual |
 | `aios init <nome>` | Cria novo projeto |
@@ -475,7 +478,7 @@ node bin/aios.js
 ### 8.3 Scripts npm do monorepo
 
 | Script | Descricao |
-|--------|-----------|
+| -------- | ----------- | ------------------- |
 | `npm test` | Roda testes (Jest) |
 | `npm run test:watch` | Testes em modo watch |
 | `npm run test:coverage` | Testes com cobertura |
@@ -502,6 +505,7 @@ Um squad e um pacote de agentes especializados com tasks, workflows, templates e
 **Proposito**: Time de copywriters lendarios para criar pecas de alta conversao.
 
 **Agentes por Tier**:
+
 - **Tier 0 (Diagnostico)**: Claude Hopkins, Eugene Schwartz
 - **Tier 1 (Masters $500M+)**: Gary Halbert, Gary Bencivenga, David Ogilvy
 - **Tier 2 (Sistematizadores)**: Dan Kennedy, Todd Brown
@@ -519,6 +523,7 @@ Um squad e um pacote de agentes especializados com tasks, workflows, templates e
 **Proposito**: Meta-squad para criar novos squads baseados em "elite minds" reais.
 
 **Meta-Agentes**:
+
 - **Orchestrator**: Squad Architect
 - **Tier 0**: Squad Diagnostician
 - **Tier 1**: Oalanicolas (mind cloning), Pedro Valerio (process design)
@@ -560,6 +565,7 @@ console.log(agents); // ['claude-hopkins.md', 'david-ogilvy.md', ...]
 **Tech**: Next.js 16, React 19, Zustand, Tailwind CSS 4, Radix UI
 
 **Paginas**:
+
 - Agents - Gerenciamento de agentes
 - GitHub - Integracao GitHub
 - Kanban - Board de tarefas
@@ -609,20 +615,20 @@ Os workflows ficam em `.aios-core/development/workflows/` em dois formatos:
 
 ### Workflows disponiveis
 
-| Workflow | YAML | Markdown |
-|----------|------|----------|
-| Greenfield Full-Stack | `greenfield-fullstack.yaml` | `GREENFIELD-FULLSTACK-WORKFLOW.md` |
-| Greenfield Service | `greenfield-service.yaml` | `GREENFIELD-SERVICE-WORKFLOW.md` |
-| Greenfield UI | `greenfield-ui.yaml` | `GREENFIELD-UI-WORKFLOW.md` |
-| Brownfield Discovery | `brownfield-discovery.yaml` | `BROWNFIELD-DISCOVERY-WORKFLOW.md` |
-| Brownfield Full-Stack | `brownfield-fullstack.yaml` | `BROWNFIELD-FULLSTACK-WORKFLOW.md` |
-| Brownfield Service | `brownfield-service.yaml` | `BROWNFIELD-SERVICE-WORKFLOW.md` |
-| Brownfield UI | `brownfield-ui.yaml` | `BROWNFIELD-UI-WORKFLOW.md` |
-| Auto Worktree | `auto-worktree.yaml` | `AUTO-WORKTREE-WORKFLOW.md` |
-| QA Loop | `qa-loop.yaml` | `QA-LOOP-WORKFLOW.md` |
-| Spec Pipeline | `spec-pipeline.yaml` | `SPEC-PIPELINE-WORKFLOW.md` |
-| Story Development Cycle | - | `STORY-DEVELOPMENT-CYCLE-WORKFLOW.md` |
-| Design System Build Quality | - | `DESIGN-SYSTEM-BUILD-QUALITY-WORKFLOW.md` |
+| Workflow                      | YAML                           | Markdown                                    |
+|-------------------------------|--------------------------------|---------------------------------------------|
+| Greenfield Full-Stack         | `greenfield-fullstack.yaml`    | `GREENFIELD-FULLSTACK-WORKFLOW.md`          |
+| Greenfield Service            | `greenfield-service.yaml`      | `GREENFIELD-SERVICE-WORKFLOW.md`            |
+| Greenfield UI                 | `greenfield-ui.yaml`           | `GREENFIELD-UI-WORKFLOW.md`                 |
+| Brownfield Discovery          | `brownfield-discovery.yaml`    | `BROWNFIELD-DISCOVERY-WORKFLOW.md`          |
+| Brownfield Full-Stack         | `brownfield-fullstack.yaml`    | `BROWNFIELD-FULLSTACK-WORKFLOW.md`          |
+| Brownfield Service            | `brownfield-service.yaml`      | `BROWNFIELD-SERVICE-WORKFLOW.md`            |
+| Brownfield UI                 | `brownfield-ui.yaml`           | `BROWNFIELD-UI-WORKFLOW.md`                 |
+| Auto Worktree                 | `auto-worktree.yaml`           | `AUTO-WORKTREE-WORKFLOW.md`                 |
+| QA Loop                       | `qa-loop.yaml`                 | `QA-LOOP-WORKFLOW.md`                       |
+| Spec Pipeline                 | `spec-pipeline.yaml`           | `SPEC-PIPELINE-WORKFLOW.md`                 |
+| Story Development Cycle       | -                              | `STORY-DEVELOPMENT-CYCLE-WORKFLOW.md`       |
+| Design System Build Quality   | -                              | `DESIGN-SYSTEM-BUILD-QUALITY-WORKFLOW.md`   |
 
 ---
 
@@ -720,7 +726,7 @@ npm run link:dry
 
 O `@aios/squad-creator` automatiza a criacao de squads:
 
-```
+```text
 Consulte: squads/squad-creator/docs/QUICK-START.md
 ```
 
@@ -728,7 +734,7 @@ Consulte: squads/squad-creator/docs/QUICK-START.md
 
 O monorepo inclui um template em `templates/squad/` com a estrutura padrao:
 
-```
+```text
 templates/squad/
   agents/
   tasks/
@@ -824,6 +830,7 @@ npm run format
 **Causa**: Um `package.json` de workspace tem formato invalido.
 
 **Solucao**:
+
 ```bash
 # Verificar qual workspace falha
 npm ls --workspaces 2>&1 | grep ERR
@@ -837,6 +844,7 @@ node -e "JSON.parse(require('fs').readFileSync('squads/copy/package.json'))"
 **Causa**: Os symlinks nao foram criados.
 
 **Solucao**:
+
 ```bash
 # Verificar symlinks
 ls node_modules/@aios/
@@ -851,6 +859,7 @@ npm install
 **Causa**: O pacote nao foi linkado globalmente.
 
 **Solucao**:
+
 ```bash
 # No monorepo
 npm run link:all
@@ -867,6 +876,7 @@ npm link @aios/core
 **Causa**: npm link cria symlinks, entao mudancas devem aparecer automaticamente. Se nao aparecem, o modulo pode estar em cache.
 
 **Solucao**:
+
 ```bash
 # Limpar cache do Node
 node -e "delete require.cache[require.resolve('@aios/core')]"
@@ -879,6 +889,7 @@ node -e "delete require.cache[require.resolve('@aios/core')]"
 **Causa**: Dependencias do dashboard nao foram instaladas.
 
 **Solucao**:
+
 ```bash
 # No root do monorepo (resolve todos os workspaces)
 npm install
@@ -891,6 +902,7 @@ npm run dev
 ### Problema: Monitor server precisa de Bun
 
 **Solucao**:
+
 ```bash
 # Instalar Bun
 npm install -g bun
@@ -903,6 +915,7 @@ bun run dev
 ### Problema: Git diz "dubious ownership"
 
 **Solucao**:
+
 ```bash
 git config --global --add safe.directory D:/aios-core
 ```
@@ -945,11 +958,142 @@ npm install               # detecta automaticamente via squads/*
 
 ### Mapa de imports
 
-```
+```text
 require('@aios/core')            ->  .aios-core/core/index.js
 require('@aios/cli')             ->  .aios-core/cli/index.js
 require('@aios/infrastructure')  ->  .aios-core/infrastructure/index.js
 require('@aios/development')     ->  .aios-core/development/scripts/squad/index.js
 require('@aios/wizard')          ->  src/wizard/index.js
 require('@aios/installer')       ->  packages/installer/src/index.js
+```
+
+---
+
+## 17. Quick Setup - Usar em Outros Projetos e Maquinas
+
+### A. Mesma maquina - novo projeto greenfield
+
+```bash
+# 1. Garantir que o monorepo esta linkado (so precisa fazer 1x)
+cd d:/aios-core
+npm install
+npm run link:all
+
+# 2. Criar seu projeto novo
+mkdir d:/meus-projetos/novo-projeto
+cd d:/meus-projetos/novo-projeto
+npm init -y
+
+# 3. Linkar os pacotes que precisar
+npm link @aios/core @aios/infrastructure @aios/cli @aios/development
+
+# 4. Sincronizar agentes AIOS para Claude Code e Antigravity
+aios-sync
+
+# 5. Pronto! Use no seu codigo
+node -e "console.log(Object.keys(require('@aios/core')))"
+```
+
+### B. Outra maquina - setup do zero
+
+```bash
+# 1. Clonar o repo (privado ou publico)
+git clone https://github.com/almeidatech/aios-core.git
+cd aios-core
+git checkout feat/monorepo-workspaces
+
+# 2. Instalar e linkar
+npm install
+npm run link:all
+
+# 3. Ir para o projeto consumidor
+cd /caminho/do/meu-projeto
+npm link @aios/core @aios/infrastructure @aios/cli @aios/development
+
+# 4. Sincronizar agentes AIOS
+aios-sync
+
+# 5. Verificar
+node -e "console.log(Object.keys(require('@aios/core')))"
+```
+
+### C. Cheat sheet - copiar e colar
+
+**Na maquina do monorepo (1x)**:
+
+```bash
+cd d:/aios-core && npm install && npm run link:all
+```
+
+**Em cada projeto novo**:
+
+```bash
+npm link @aios/core @aios/infrastructure @aios/cli @aios/development
+```
+
+**Linkar TUDO de uma vez**:
+
+```bash
+npm link @aios/core @aios/cli @aios/infrastructure @aios/development @aios/wizard @aios/installer @aios/squad-copy @aios/squad-creator @aios/dashboard @aios/monitor-server
+```
+
+### D. Dicas importantes
+
+| Dica | Detalhe |
+|------|---------|
+| Links sao symlinks | Qualquer alteracao no monorepo reflete nos projetos automaticamente |
+| `npm install` desfaz links | Apos rodar `npm install` no projeto, re-linke com `npm link @aios/...` |
+| `npm run link:all` so no monorepo | Esse script existe apenas no `aios-core/package.json`, NAO no projeto consumidor |
+| No projeto consumidor use `npm link` | Ex: `npm link @aios/core @aios/infrastructure` (sem `run`) |
+| Node >= 18 obrigatorio | Todos os pacotes exigem Node 18+ |
+| Windows: paths | Use `/` em scripts, `\` e aceito apenas no terminal |
+| Bun so para monitor | `@aios/monitor-server` roda com Bun, todos os demais com Node |
+
+### E. Sincronizar agentes AIOS (`aios-sync`)
+
+O comando `aios-sync` sincroniza os 12 agentes AIOS como slash commands no Claude Code e rules no Antigravity.
+
+```bash
+# Pre-requisito: linkar os pacotes necessarios
+npm link @aios/development @aios/infrastructure
+
+# Sincronizar agentes (Claude Code + Antigravity por default)
+aios-sync
+
+# Sincronizar para todas as 5 IDEs
+aios-sync --all
+
+# Sincronizar so para uma IDE
+aios-sync --ide claude-code
+aios-sync --ide antigravity
+aios-sync --ide cursor
+
+# Preview sem escrever arquivos
+aios-sync --dry-run
+```
+
+**Resultado**: Cria os diretorios com os agentes sincronizados:
+- `.claude/commands/AIOS/agents/` → 12 agentes + 4 redirects (slash commands)
+- `.antigravity/rules/agents/` → 12 agentes + 4 redirects (rules)
+
+**Agentes disponiveis apos sync**:
+`@aios-master`, `@analyst`, `@architect`, `@data-engineer`, `@dev`, `@devops`, `@pm`, `@po`, `@qa`, `@sm`, `@squad-creator`, `@ux-design-expert`
+
+### F. Troubleshooting rapido
+
+```bash
+# Verificar se os links globais existem
+npm ls -g --depth=0 2>/dev/null | grep @aios
+
+# Se nao existem, re-linkar
+cd d:/aios-core && npm run link:all
+
+# Verificar no projeto consumidor
+node -e "console.log(require.resolve('@aios/core'))"
+
+# Se MODULE_NOT_FOUND, re-linkar no projeto
+npm link @aios/core
+
+# Se aios-sync nao encontra agentes, re-linkar development + infrastructure
+npm link @aios/development @aios/infrastructure
 ```
