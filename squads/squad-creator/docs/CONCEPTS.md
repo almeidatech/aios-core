@@ -45,6 +45,7 @@ Um **Squad** é um conjunto de agentes especializados que trabalham juntos em um
 ```
 
 **Componentes de um Squad:**
+
 - **Orchestrator:** Coordena os agents, roteia requests
 - **Agents:** Especialistas baseados em elite minds reais
 - **Tasks:** Operações atômicas
@@ -57,25 +58,27 @@ Um **Squad** é um conjunto de agentes especializados que trabalham juntos em um
 ## 2. Mind vs Agent
 
 ### Mind (Pessoa Real)
+
 O **mind** é a pessoa real cujo conhecimento queremos capturar.
 
 ```yaml
 mind:
-  name: "{Expert Name}"  # e.g., Gary Halbert, Warren Buffett
-  domain: "{Domain}"  # e.g., Direct Response Copywriting, Investment
-  known_for: "{Notable Works}"  # e.g., The Boron Letters, Shareholder Letters
-  has_documented_frameworks: true  # OBRIGATÓRIO
+  name: '{Expert Name}' # e.g., Gary Halbert, Warren Buffett
+  domain: '{Domain}' # e.g., Direct Response Copywriting, Investment
+  known_for: '{Notable Works}' # e.g., The Boron Letters, Shareholder Letters
+  has_documented_frameworks: true # OBRIGATÓRIO
 ```
 
 ### Agent (Clone Digital)
+
 O **agent** é o clone digital do mind, capaz de responder como ele responderia.
 
 ```yaml
 agent:
-  name: "{agent-name}"  # e.g., gary-halbert, contract-reviewer
-  based_on: "{Mind Name}"  # e.g., Gary Halbert, Expert Name
-  voice_dna: "Extraído de livros, entrevistas, cartas"
-  thinking_dna: "Frameworks, heurísticas, decisões"
+  name: '{agent-name}' # e.g., gary-halbert, contract-reviewer
+  based_on: '{Mind Name}' # e.g., Gary Halbert, Expert Name
+  voice_dna: 'Extraído de livros, entrevistas, cartas'
+  thinking_dna: 'Frameworks, heurísticas, decisões'
 ```
 
 ### Regra Fundamental
@@ -93,6 +96,7 @@ agent:
 ```
 
 **Por isso:**
+
 - ✅ Clone experts com frameworks documentados (e.g., Gary Halbert, Warren Buffett)
 - ❌ Não clone "{role} genérico" (não tem skin in the game)
 
@@ -107,23 +111,23 @@ O **DNA** é a essência capturada do mind, dividida em duas partes:
 ```yaml
 voice_dna:
   vocabulary:
-    power_words: ["pile of money", "starving crowd", "A-pile"]
-    signature_phrases: ["The answer is in the market"]
-    never_use: ["synergy", "leverage", "optimize"]
+    power_words: ['pile of money', 'starving crowd', 'A-pile']
+    signature_phrases: ['The answer is in the market']
+    never_use: ['synergy', 'leverage', 'optimize']
 
   storytelling:
-    recurring_stories: ["The Boron Letters origin"]
-    anecdotes: ["Prison writing story"]
+    recurring_stories: ['The Boron Letters origin']
+    anecdotes: ['Prison writing story']
 
   tone:
     dimensions:
-      formal_casual: 20/100      # Muito casual
-      serious_playful: 60/100   # Levemente sério
-      direct_indirect: 90/100   # Muito direto
+      formal_casual: 20/100 # Muito casual
+      serious_playful: 60/100 # Levemente sério
+      direct_indirect: 90/100 # Muito direto
 
   anti_patterns:
-    never_say: ["It depends", "Maybe"]
-    never_do: ["Use jargon corporativo"]
+    never_say: ['It depends', 'Maybe']
+    never_do: ['Use jargon corporativo']
 ```
 
 ### Thinking DNA (Como decide)
@@ -131,26 +135,26 @@ voice_dna:
 ```yaml
 thinking_dna:
   primary_framework:
-    name: "A-Pile Method"
+    name: 'A-Pile Method'
     steps:
-      - "Identify the starving crowd"
+      - 'Identify the starving crowd'
       - "Find what they're already buying"
-      - "Create irresistible offer"
+      - 'Create irresistible offer'
 
   heuristics:
     decision:
-      - "When in doubt, test"
-      - "Market > Copy"
+      - 'When in doubt, test'
+      - 'Market > Copy'
     veto:
       - "Never sell to people who don't want to buy"
 
   recognition_patterns:
-    first_notice: ["Market size", "Existing demand"]
-    red_flags: ["No proven market", "Complicated offer"]
+    first_notice: ['Market size', 'Existing demand']
+    red_flags: ['No proven market', 'Complicated offer']
 
   objection_handling:
-    "Copy is manipulative":
-      response: "All communication is persuasion..."
+    'Copy is manipulative':
+      response: 'All communication is persuasion...'
       conviction_level: 10/10
 ```
 
@@ -224,12 +228,12 @@ As fontes são classificadas por **confiança**:
 
 ### Tiers de Fontes
 
-| Tier | Tipo | Confiança | Exemplos |
-|------|------|-----------|----------|
-| **Tier 0** | Do usuário | MÁXIMA | PDFs próprios, transcrições |
-| **Tier 1** | Primário (do expert) | ALTA | Livros, entrevistas diretas |
-| **Tier 2** | Secundário (sobre expert) | MÉDIA | Biografias, case studies |
-| **Tier 3** | Terciário (agregado) | BAIXA | Wikipedia, resumos |
+| Tier       | Tipo                      | Confiança | Exemplos                    |
+| ---------- | ------------------------- | --------- | --------------------------- |
+| **Tier 0** | Do usuário                | MÁXIMA    | PDFs próprios, transcrições |
+| **Tier 1** | Primário (do expert)      | ALTA      | Livros, entrevistas diretas |
+| **Tier 2** | Secundário (sobre expert) | MÉDIA     | Biografias, case studies    |
+| **Tier 3** | Terciário (agregado)      | BAIXA     | Wikipedia, resumos          |
 
 ### Requisitos Mínimos
 
@@ -237,9 +241,9 @@ As fontes são classificadas por **confiança**:
 minimum_requirements:
   total_sources: 10
   tier_1_sources: 5
-  source_types: 3  # livros, entrevistas, artigos
-  content_volume: "5h áudio OU 200 páginas"
-  triangulation: "3+ fontes por claim principal"
+  source_types: 3 # livros, entrevistas, artigos
+  content_volume: '5h áudio OU 200 páginas'
+  triangulation: '3+ fontes por claim principal'
 ```
 
 ### Triangulação
@@ -263,9 +267,9 @@ Claim: "Gary Halbert usava o A-pile method"
 
 ```yaml
 yolo_mode:
-  quando_usar: "Não tenho materiais, quer rapidez"
-  fidelity_esperada: "60-75%"
-  interações: "Mínimas (só aprovação final)"
+  quando_usar: 'Não tenho materiais, quer rapidez'
+  fidelity_esperada: '60-75%'
+  interações: 'Mínimas (só aprovação final)'
 
   o_que_faz:
     - Pesquisa web automaticamente
@@ -273,18 +277,18 @@ yolo_mode:
     - Prossegue sem perguntar (exceto crítico)
 
   para_quando:
-    - "< 5 fontes encontradas"
-    - "Expert muito obscuro"
-    - "Quality gate crítico falha"
+    - '< 5 fontes encontradas'
+    - 'Expert muito obscuro'
+    - 'Quality gate crítico falha'
 ```
 
 ### QUALITY Mode 💎
 
 ```yaml
 quality_mode:
-  quando_usar: "Tenho livros/PDFs/materiais do expert"
-  fidelity_esperada: "85-95%"
-  interações: "Moderadas (coleta + validação)"
+  quando_usar: 'Tenho livros/PDFs/materiais do expert'
+  fidelity_esperada: '85-95%'
+  interações: 'Moderadas (coleta + validação)'
 
   o_que_faz:
     - Pede materiais do usuário
@@ -292,21 +296,21 @@ quality_mode:
     - Valida DNA extraído com usuário
 
   checkpoints:
-    - "Validar minds selecionados"
-    - "Coletar materiais"
-    - "Validar DNA extraído"
-    - "Aprovar agentes"
+    - 'Validar minds selecionados'
+    - 'Coletar materiais'
+    - 'Validar DNA extraído'
+    - 'Aprovar agentes'
 ```
 
 ### HYBRID Mode 🔀
 
 ```yaml
 hybrid_mode:
-  quando_usar: "Tenho materiais de alguns experts"
-  fidelity_esperada: "Variável por expert"
+  quando_usar: 'Tenho materiais de alguns experts'
+  fidelity_esperada: 'Variável por expert'
 
   como_funciona:
-    - Para cada mind pergunta: "Tem materiais?"
+    - Para cada mind pergunta: 'Tem materiais?'
     - Se sim → Quality mode para esse mind
     - Se não → YOLO mode para esse mind
 ```
@@ -402,13 +406,13 @@ Fidelity = (tier1_ratio × 0.4) + (voice_score × 0.3) + (thinking_score × 0.3)
 
 ### O que afeta fidelidade
 
-| Fator | Impacto |
-|-------|---------|
-| Materiais do usuário (Tier 0) | +20% |
-| Mais fontes Tier 1 | +10% |
-| Voice DNA completo | +15% |
-| Thinking DNA completo | +15% |
-| Smoke tests passando | Validação |
+| Fator                         | Impacto   |
+| ----------------------------- | --------- |
+| Materiais do usuário (Tier 0) | +20%      |
+| Mais fontes Tier 1            | +10%      |
+| Voice DNA completo            | +15%      |
+| Thinking DNA completo         | +15%      |
+| Smoke tests passando          | Validação |
 
 ---
 
@@ -437,7 +441,7 @@ O Squad Creator tem **especialistas internos** - agents com expertise profunda e
 │  ├── Automation opportunities                                  │
 │  └── "Impossibilitar caminhos errados"                         │
 │                                                                 │
-│  @squad-architect - Orchestrator (default)                     │
+│  @squad-chief - Orchestrator (default)                     │
 │  ├── Squad creation coordination                               │
 │  ├── Delegates to specialists when needed                      │
 │  └── Full workflow management                                  │
@@ -451,14 +455,14 @@ O modelo de 8 camadas para clonar mentes:
 
 ```yaml
 dna_mental_8_layers:
-  layer_1: "Behavioral Patterns"      # O que fazem
-  layer_2: "Communication Style"      # Como falam
-  layer_3: "Routines & Rituals"       # Hábitos
-  layer_4: "Recognition Patterns"     # O que notam
-  layer_5: "Mental Models"            # Como pensam
-  layer_6: "Values Hierarchy"         # O que importa
-  layer_7: "Core Obsessions"          # O que os move
-  layer_8: "Productive Paradoxes"     # Contradições autênticas
+  layer_1: 'Behavioral Patterns' # O que fazem
+  layer_2: 'Communication Style' # Como falam
+  layer_3: 'Routines & Rituals' # Hábitos
+  layer_4: 'Recognition Patterns' # O que notam
+  layer_5: 'Mental Models' # Como pensam
+  layer_6: 'Values Hierarchy' # O que importa
+  layer_7: 'Core Obsessions' # O que os move
+  layer_8: 'Productive Paradoxes' # Contradições autênticas
 ```
 
 ### Process Absolutism (@pedro-valerio)
@@ -467,32 +471,32 @@ A filosofia de design de processos:
 
 ```yaml
 process_absolutism:
-  principle: "Impossibilitar caminhos errados"
+  principle: 'Impossibilitar caminhos errados'
 
   pillars:
-    - "Veto conditions that BLOCK, not warn"
-    - "Automation with guardrails"
-    - "Every step has expected_output"
-    - "If task repeated 3x → must automate"
+    - 'Veto conditions that BLOCK, not warn'
+    - 'Automation with guardrails'
+    - 'Every step has expected_output'
+    - 'If task repeated 3x → must automate'
 
   anti_patterns:
-    - "Processes that only suggest"
-    - "Automation without rollback"
-    - "Human compliance as safety"
+    - 'Processes that only suggest'
+    - 'Automation without rollback'
+    - 'Human compliance as safety'
 ```
 
 ### Quando Usar Cada Especialista
 
-| Situação | Especialista |
-|----------|--------------|
-| Extrair DNA de expert | `@oalanicolas` |
-| Avaliar fontes | `@oalanicolas` |
-| Clone não soa autêntico | `@oalanicolas` |
-| Criar workflow | `@pedro-valerio` |
+| Situação                | Especialista     |
+| ----------------------- | ---------------- |
+| Extrair DNA de expert   | `@oalanicolas`   |
+| Avaliar fontes          | `@oalanicolas`   |
+| Clone não soa autêntico | `@oalanicolas`   |
+| Criar workflow          | `@pedro-valerio` |
 | Definir veto conditions | `@pedro-valerio` |
-| Auditar processo | `@pedro-valerio` |
-| Criar squad completo | `@squad-architect` |
-| Não sei qual usar | `@squad-architect` |
+| Auditar processo        | `@pedro-valerio` |
+| Criar squad completo    | `@squad-chief`   |
+| Não sei qual usar       | `@squad-chief`   |
 
 ---
 
@@ -581,4 +585,4 @@ Mas se o agent responde de forma genérica...
 ---
 
 **Squad Architect | Concepts v1.0**
-*"Entenda o sistema, domine o processo."*
+_"Entenda o sistema, domine o processo."_

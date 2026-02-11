@@ -8,20 +8,20 @@
 
 ## Template Variables
 
-| Variable | Type | Description | Example |
-|----------|------|-------------|---------|
-| `{{specialist_name}}` | string | Human expert name | "Gary Halbert" |
-| `{{specialist_slug}}` | string | Slug format | "gary_halbert" |
-| `{{activity}}` | string | Specific activity | "sales-page" |
-| `{{activity_expanded}}` | string | Expanded description | "Sales Page Creation" |
-| `{{domain}}` | string | Domain area | "copywriting" |
-| `{{time_period}}` | string | Relevant years | "1970-2007" |
-| `{{agent_purpose}}` | string | What agent does | "Create high-converting sales pages" |
-| `{{local_knowledge_note}}` | string | What's already available | "Already have 3,520 lines..." |
-| `{{scope_items}}` | array | 4-6 research angles | [...] |
-| `{{requirements}}` | array | 3-4 research parameters | [...] |
-| `{{sources}}` | array | 3-4 source types | [...] |
-| `{{deliverables}}` | array | 3-5 expected outputs | [...] |
+| Variable                   | Type   | Description              | Example                              |
+| -------------------------- | ------ | ------------------------ | ------------------------------------ |
+| `{{specialist_name}}`      | string | Human expert name        | "Gary Halbert"                       |
+| `{{specialist_slug}}`      | string | Slug format              | "gary_halbert"                       |
+| `{{activity}}`             | string | Specific activity        | "sales-page"                         |
+| `{{activity_expanded}}`    | string | Expanded description     | "Sales Page Creation"                |
+| `{{domain}}`               | string | Domain area              | "copywriting"                        |
+| `{{time_period}}`          | string | Relevant years           | "1970-2007"                          |
+| `{{agent_purpose}}`        | string | What agent does          | "Create high-converting sales pages" |
+| `{{local_knowledge_note}}` | string | What's already available | "Already have 3,520 lines..."        |
+| `{{scope_items}}`          | array  | 4-6 research angles      | [...]                                |
+| `{{requirements}}`         | array  | 3-4 research parameters  | [...]                                |
+| `{{sources}}`              | array  | 3-4 source types         | [...]                                |
+| `{{deliverables}}`         | array  | 3-5 expected outputs     | [...]                                |
 
 ---
 
@@ -47,10 +47,13 @@
 ## SCOPE
 
 {{#each scope_items}}
+
 ### {{this.number}}. {{this.title}}
+
 {{#each this.sub_points}}
-   - {{this}}
-{{/each}}
+
+- {{this}}
+  {{/each}}
 
 {{/each}}
 
@@ -67,8 +70,9 @@
 ## RECOMMENDED SOURCES
 
 {{#each sources}}
+
 - {{this}}
-{{/each}}
+  {{/each}}
 
 ---
 
@@ -110,45 +114,45 @@ scope_templates:
   copywriting:
     - title: "{{SPECIALIST_NAME}}'S CORE METHODOLOGY"
       sub_points:
-        - "Fundamental principles and rules (explicit statements)"
-        - "Process/workflow from start to finish"
-        - "Quality criteria they used to evaluate work"
-        - "What they considered mistakes/anti-patterns"
+        - 'Fundamental principles and rules (explicit statements)'
+        - 'Process/workflow from start to finish'
+        - 'Quality criteria they used to evaluate work'
+        - 'What they considered mistakes/anti-patterns'
 
-    - title: "{{OUTPUT_TYPE}} ANATOMY/STRUCTURE"
+    - title: '{{OUTPUT_TYPE}} ANATOMY/STRUCTURE'
       sub_points:
-        - "Section-by-section breakdown"
-        - "Purpose of each section"
-        - "Transitions between sections"
-        - "Length/proportion guidelines"
+        - 'Section-by-section breakdown'
+        - 'Purpose of each section'
+        - 'Transitions between sections'
+        - 'Length/proportion guidelines'
 
-    - title: "REAL EXAMPLES ANALYZED"
+    - title: 'REAL EXAMPLES ANALYZED'
       sub_points:
         - "{{Specialist}}'s best known works"
-        - "Line-by-line or section-by-section analysis"
-        - "What made them effective"
-        - "Common patterns across winners"
+        - 'Line-by-line or section-by-section analysis'
+        - 'What made them effective'
+        - 'Common patterns across winners'
 
-    - title: "CREATION PROCESS"
+    - title: 'CREATION PROCESS'
       sub_points:
-        - "Research phase before writing"
-        - "Drafting methodology"
-        - "Revision and editing process"
-        - "Testing and iteration"
+        - 'Research phase before writing'
+        - 'Drafting methodology'
+        - 'Revision and editing process'
+        - 'Testing and iteration'
 
-    - title: "MODERN ADAPTATION (2025)"
+    - title: 'MODERN ADAPTATION (2025)'
       sub_points:
-        - "Digital equivalents of original techniques"
-        - "What principles remain timeless"
-        - "What needs adjustment for modern context"
-        - "Platform-specific considerations"
+        - 'Digital equivalents of original techniques'
+        - 'What principles remain timeless'
+        - 'What needs adjustment for modern context'
+        - 'Platform-specific considerations'
 
-    - title: "QUALITY CRITERIA & CHECKLISTS"
+    - title: 'QUALITY CRITERIA & CHECKLISTS'
       sub_points:
-        - "How {{specialist}} evaluated their own work"
-        - "Red flags and warning signs"
-        - "Approval criteria before shipping"
-        - "Comparison: excellent vs weak examples"
+        - 'How {{specialist}} evaluated their own work'
+        - 'Red flags and warning signs'
+        - 'Approval criteria before shipping'
+        - 'Comparison: excellent vs weak examples'
 ```
 
 ### Product Management (Generic)
@@ -156,40 +160,40 @@ scope_templates:
 ```yaml
 scope_templates:
   product_management:
-    - title: "FRAMEWORK COMPARISON"
+    - title: 'FRAMEWORK COMPARISON'
       sub_points:
-        - "Major frameworks in this area"
-        - "When to use which approach"
-        - "Pros/cons of each"
-        - "Integration possibilities"
+        - 'Major frameworks in this area'
+        - 'When to use which approach'
+        - 'Pros/cons of each'
+        - 'Integration possibilities'
 
-    - title: "PROCESS & METHODOLOGY"
+    - title: 'PROCESS & METHODOLOGY'
       sub_points:
-        - "Step-by-step workflow"
-        - "Key decision points"
-        - "Inputs and outputs at each stage"
-        - "Time allocation guidelines"
+        - 'Step-by-step workflow'
+        - 'Key decision points'
+        - 'Inputs and outputs at each stage'
+        - 'Time allocation guidelines'
 
-    - title: "TECHNIQUES & TOOLS"
+    - title: 'TECHNIQUES & TOOLS'
       sub_points:
-        - "Specific techniques with how-to"
-        - "Tools that support the process"
-        - "Templates and artifacts"
-        - "Facilitation approaches"
+        - 'Specific techniques with how-to'
+        - 'Tools that support the process'
+        - 'Templates and artifacts'
+        - 'Facilitation approaches'
 
-    - title: "CASE STUDIES"
+    - title: 'CASE STUDIES'
       sub_points:
-        - "Real-world examples"
-        - "What worked and why"
-        - "What failed and lessons learned"
-        - "Metrics and outcomes"
+        - 'Real-world examples'
+        - 'What worked and why'
+        - 'What failed and lessons learned'
+        - 'Metrics and outcomes'
 
-    - title: "COMMON MISTAKES"
+    - title: 'COMMON MISTAKES'
       sub_points:
-        - "Anti-patterns to avoid"
-        - "Warning signs of problems"
-        - "Recovery strategies"
-        - "Prevention techniques"
+        - 'Anti-patterns to avoid'
+        - 'Warning signs of problems'
+        - 'Recovery strategies'
+        - 'Prevention techniques'
 ```
 
 ### Sales (Specialist-Based)
@@ -199,37 +203,37 @@ scope_templates:
   sales:
     - title: "{{SPECIALIST_NAME}}'S SALES PHILOSOPHY"
       sub_points:
-        - "Core beliefs about selling"
-        - "Mindset and approach"
-        - "Relationship to customer"
-        - "Ethics and boundaries"
+        - 'Core beliefs about selling'
+        - 'Mindset and approach'
+        - 'Relationship to customer'
+        - 'Ethics and boundaries'
 
-    - title: "{{OUTPUT_TYPE}} STRUCTURE"
+    - title: '{{OUTPUT_TYPE}} STRUCTURE'
       sub_points:
-        - "Opening/hook methodology"
-        - "Discovery/qualification process"
-        - "Presentation framework"
-        - "Objection handling"
-        - "Closing techniques"
+        - 'Opening/hook methodology'
+        - 'Discovery/qualification process'
+        - 'Presentation framework'
+        - 'Objection handling'
+        - 'Closing techniques'
 
-    - title: "SCRIPTS & LANGUAGE"
+    - title: 'SCRIPTS & LANGUAGE'
       sub_points:
-        - "Exact phrases that work"
-        - "Questions to ask"
-        - "Transitions between phases"
-        - "Language to avoid"
+        - 'Exact phrases that work'
+        - 'Questions to ask'
+        - 'Transitions between phases'
+        - 'Language to avoid'
 
-    - title: "REAL EXAMPLES"
+    - title: 'REAL EXAMPLES'
       sub_points:
-        - "Documented sales/deals"
-        - "What made them work"
-        - "Variations for different contexts"
+        - 'Documented sales/deals'
+        - 'What made them work'
+        - 'Variations for different contexts'
 
-    - title: "METRICS & OPTIMIZATION"
+    - title: 'METRICS & OPTIMIZATION'
       sub_points:
-        - "Key performance indicators"
-        - "How to measure effectiveness"
-        - "Iteration methodology"
+        - 'Key performance indicators'
+        - 'How to measure effectiveness'
+        - 'Iteration methodology'
 ```
 
 ---
@@ -241,19 +245,19 @@ scope_templates:
 ```yaml
 requirements_comprehensive:
   - "Prioritize primary sources (expert's own words, original works)"
-  - "Include detailed analysis of at least 3 real examples"
-  - "Extract operational processes, not just theory"
-  - "Document both what TO DO and what NOT to do"
+  - 'Include detailed analysis of at least 3 real examples'
+  - 'Extract operational processes, not just theory'
+  - 'Document both what TO DO and what NOT to do'
 ```
 
 ### Complementary (Has Local Knowledge)
 
 ```yaml
 requirements_complementary:
-  - "Focus on gaps not covered in existing material: {{gaps_list}}"
-  - "Cross-reference with local sources for consistency"
-  - "Prioritize new examples not already documented"
-  - "Add modern context and digital adaptation"
+  - 'Focus on gaps not covered in existing material: {{gaps_list}}'
+  - 'Cross-reference with local sources for consistency'
+  - 'Prioritize new examples not already documented'
+  - 'Add modern context and digital adaptation'
 ```
 
 ---
@@ -266,15 +270,15 @@ requirements_complementary:
 sources_copywriting:
   specialist_based:
     - '"{{book_title}}" by {{specialist_name}} (especially {{chapters}})'
-    - "{{specialist_name}} newsletter/letter archive"
-    - "Seminars and interviews with {{specialist_name}}"
-    - "Analysis by practitioners who studied {{specialist_name}}"
+    - '{{specialist_name}} newsletter/letter archive'
+    - 'Seminars and interviews with {{specialist_name}}'
+    - 'Analysis by practitioners who studied {{specialist_name}}'
 
   generic:
-    - "Classic copywriting books (Ogilvy, Hopkins, Schwartz)"
-    - "AWAI and industry training materials"
-    - "Case studies from successful campaigns"
-    - "Academic research on persuasion"
+    - 'Classic copywriting books (Ogilvy, Hopkins, Schwartz)'
+    - 'AWAI and industry training materials'
+    - 'Case studies from successful campaigns'
+    - 'Academic research on persuasion'
 ```
 
 ### Product Management
@@ -292,15 +296,15 @@ sources_product:
 ```yaml
 sources_sales:
   specialist_based:
-    - "Books by {{specialist_name}}"
-    - "Training programs and courses"
-    - "Podcast/interview appearances"
-    - "Practitioner testimonials and case studies"
+    - 'Books by {{specialist_name}}'
+    - 'Training programs and courses'
+    - 'Podcast/interview appearances'
+    - 'Practitioner testimonials and case studies'
 
   generic:
-    - "SPIN Selling, Challenger Sale, etc."
-    - "Sales methodology comparisons"
-    - "CRM and sales enablement research"
+    - 'SPIN Selling, Challenger Sale, etc.'
+    - 'Sales methodology comparisons'
+    - 'CRM and sales enablement research'
 ```
 
 ---
@@ -311,40 +315,40 @@ sources_sales:
 
 ```yaml
 deliverables_standard:
-  - name: "{{Activity}} Structure Template"
-    description: "Complete anatomy with all sections and their purposes"
+  - name: '{{Activity}} Structure Template'
+    description: 'Complete anatomy with all sections and their purposes'
 
-  - name: "{{Specialist}} Process Workflow"
-    description: "Step-by-step methodology from research to completion"
+  - name: '{{Specialist}} Process Workflow'
+    description: 'Step-by-step methodology from research to completion'
 
-  - name: "Quality Checklist"
-    description: "Validation criteria derived from expert standards"
+  - name: 'Quality Checklist'
+    description: 'Validation criteria derived from expert standards'
 
-  - name: "Examples Database"
-    description: "{{N}}+ real examples with structural analysis"
+  - name: 'Examples Database'
+    description: '{{N}}+ real examples with structural analysis'
 
-  - name: "Anti-Patterns Guide"
-    description: "Common mistakes and how to avoid them"
+  - name: 'Anti-Patterns Guide'
+    description: 'Common mistakes and how to avoid them'
 ```
 
 ### Extended Deliverables (Deep Research)
 
 ```yaml
 deliverables_extended:
-  - name: "{{Activity}} Blueprint"
-    description: "Master template with all sections, purposes, and examples"
+  - name: '{{Activity}} Blueprint'
+    description: 'Master template with all sections, purposes, and examples'
 
-  - name: "Phrase/Language Bank"
-    description: "{{N}}+ proven phrases, openings, transitions, closes"
+  - name: 'Phrase/Language Bank'
+    description: '{{N}}+ proven phrases, openings, transitions, closes'
 
-  - name: "Decision Framework"
-    description: "When to use which approach/variation"
+  - name: 'Decision Framework'
+    description: 'When to use which approach/variation'
 
-  - name: "Adaptation Guide"
-    description: "How to modify for different contexts/audiences"
+  - name: 'Adaptation Guide'
+    description: 'How to modify for different contexts/audiences'
 
-  - name: "Measurement Framework"
-    description: "How to evaluate effectiveness"
+  - name: 'Measurement Framework'
+    description: 'How to evaluate effectiveness'
 ```
 
 ---
@@ -356,14 +360,14 @@ deliverables_extended:
 ### Input Variables
 
 ```yaml
-specialist_name: "{expert-name}"  # e.g., "Eugene Schwartz"
-specialist_slug: "{expert_slug}"  # e.g., "eugene_schwartz"
-activity: "{activity}"  # e.g., "headlines"
-activity_expanded: "{Activity Name}"  # e.g., "Headline Creation"
-domain: "{domain}"  # e.g., "copywriting"
-time_period: "{time-period}"  # e.g., "1950-1995"
-agent_purpose: "{agent-purpose-description}"
-local_knowledge_note: "{existing-material-note}"
+specialist_name: '{expert-name}' # e.g., "Eugene Schwartz"
+specialist_slug: '{expert_slug}' # e.g., "eugene_schwartz"
+activity: '{activity}' # e.g., "headlines"
+activity_expanded: '{Activity Name}' # e.g., "Headline Creation"
+domain: '{domain}' # e.g., "copywriting"
+time_period: '{time-period}' # e.g., "1950-1995"
+agent_purpose: '{agent-purpose-description}'
+local_knowledge_note: '{existing-material-note}'
 ```
 
 ### Rendered Output
@@ -393,36 +397,41 @@ testing methodology.
 ## SCOPE
 
 ### 1. THE 5 AWARENESS LEVELS IN PRACTICE (Not Theory)
-   - Unaware: headlines that worked, common structure
-   - Problem Aware: headlines that worked, common structure
-   - Solution Aware: headlines that worked, common structure
-   - Product Aware: headlines that worked, common structure
-   - Most Aware: headlines that worked, common structure
-   - How to DIAGNOSE which level the market is at
+
+- Unaware: headlines that worked, common structure
+- Problem Aware: headlines that worked, common structure
+- Solution Aware: headlines that worked, common structure
+- Product Aware: headlines that worked, common structure
+- Most Aware: headlines that worked, common structure
+- How to DIAGNOSE which level the market is at
 
 ### 2. HEADLINE CREATION MECHANISM
-   - Schwartz's 33-minute work block process
-   - How many headlines he created before choosing
-   - Selection criteria: what made a headline "winner"
-   - Swipe file usage: how he used references
+
+- Schwartz's 33-minute work block process
+- How many headlines he created before choosing
+- Selection criteria: what made a headline "winner"
+- Swipe file usage: how he used references
 
 ### 3. RECURRING STRUCTURES
-   - Identifiable patterns in Schwartz headlines
-   - "Power words" he used repeatedly
-   - Mathematical headline formulas (if they existed)
-   - Ideal length by context
+
+- Identifiable patterns in Schwartz headlines
+- "Power words" he used repeatedly
+- Mathematical headline formulas (if they existed)
+- Ideal length by context
 
 ### 4. MARKET SOPHISTICATION (Different from Awareness)
-   - The 5 levels of sophistication
-   - How this affected the headline
-   - When to use "new" vs "improved" vs "different"
-   - Saturated markets vs virgin markets
+
+- The 5 levels of sophistication
+- How this affected the headline
+- When to use "new" vs "improved" vs "different"
+- Saturated markets vs virgin markets
 
 ### 5. DOCUMENTED CASES
-   - Headlines from "Breakthrough Advertising"
-   - Mail order headlines he wrote
-   - Documented A/B test results
-   - Headlines rejected vs approved (if documented)
+
+- Headlines from "Breakthrough Advertising"
+- Mail order headlines he wrote
+- Documented A/B test results
+- Headlines rejected vs approved (if documented)
 
 ---
 
@@ -476,4 +485,4 @@ testing methodology.
 
 **Template Version:** 1.0.0
 **Created:** 2026-01-22
-**Part of:** squads/squad-architect
+**Part of:** squads/squad-chief

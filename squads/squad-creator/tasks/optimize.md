@@ -3,7 +3,7 @@
 **Task ID:** optimize
 **Version:** 2.1.0
 **Purpose:** Otimizar squads/tasks convertendo Agent → Worker onde possível + análise de economia
-**Orchestrator:** @squad-architect
+**Orchestrator:** @squad-chief
 **Mode:** Analysis + Implementation
 **Pattern:** EXEC-DT-002
 **Execution Type:** `Agent` (requires semantic analysis of task content)
@@ -12,16 +12,16 @@
 
 ## Task Anatomy
 
-| Field | Value |
-|-------|-------|
-| **task_name** | Optimize Squad/Task Execution |
-| **status** | `active` |
-| **responsible_executor** | @squad-architect |
-| **execution_type** | Agent |
-| **input** | `target` (task, squad, ou "all") |
-| **output** | Relatório de otimização + economia de tokens |
-| **action_items** | Analisar, converter, medir economia |
-| **acceptance_criteria** | Tasks otimizadas + relatório de ROI |
+| Field                    | Value                                        |
+| ------------------------ | -------------------------------------------- |
+| **task_name**            | Optimize Squad/Task Execution                |
+| **status**               | `active`                                     |
+| **responsible_executor** | @squad-chief                                 |
+| **execution_type**       | Agent                                        |
+| **input**                | `target` (task, squad, ou "all")             |
+| **output**               | Relatório de otimização + economia de tokens |
+| **action_items**         | Analisar, converter, medir economia          |
+| **acceptance_criteria**  | Tasks otimizadas + relatório de ROI          |
 
 ---
 
@@ -60,7 +60,7 @@ Flags:
 ```yaml
 mandatory_first_step:
   action: READ_COMPLETE
-  file: "squads/squad-creator/data/executor-decision-tree.md"
+  file: 'squads/squad-creator/data/executor-decision-tree.md'
 
   why: |
     The decision tree contains the EXACT 6 questions (Q1-Q6) and criteria
@@ -68,13 +68,13 @@ mandatory_first_step:
     the analysis WILL BE WRONG.
 
   validation:
-    - "File was read completely? If NO → Read it now"
-    - "6 questions understood? Q1, Q2, Q2a, Q2b, Q3, Q4, Q5, Q6"
-    - "Output format understood? Table with columns per question"
+    - 'File was read completely? If NO → Read it now'
+    - '6 questions understood? Q1, Q2, Q2a, Q2b, Q3, Q4, Q5, Q6'
+    - 'Output format understood? Table with columns per question'
 
   if_not_loaded:
     STOP_EXECUTION: true
-    message: "Cannot proceed without loading the decision tree framework"
+    message: 'Cannot proceed without loading the decision tree framework'
 ```
 
 ---
@@ -84,18 +84,18 @@ mandatory_first_step:
 ```yaml
 parse_target:
   if_file:
-    action: "Analisar única task"
-    path: "{target}"
+    action: 'Analisar única task'
+    path: '{target}'
 
   if_squad:
-    action: "Listar todas tasks do squad"
-    glob: "squads/{target}/tasks/*.md"
+    action: 'Listar todas tasks do squad'
+    glob: 'squads/{target}/tasks/*.md'
 
   if_all:
-    action: "Listar todas tasks de todos squads"
-    glob: "squads/*/tasks/*.md"
+    action: 'Listar todas tasks de todos squads'
+    glob: 'squads/*/tasks/*.md'
     exclude:
-      - "squads/squad-creator/*"  # Meta-squad, não analisar
+      - 'squads/squad-creator/*' # Meta-squad, não analisar
 ```
 
 ### Step 0.2: Load Tasks
@@ -103,7 +103,7 @@ parse_target:
 ```yaml
 load_tasks:
   for_each_file:
-    - read: "{file_path}"
+    - read: '{file_path}'
     - extract:
         - task_name
         - execution_type (se existir)
@@ -125,14 +125,14 @@ load_tasks:
 
 ```yaml
 mandatory_dependency:
-  file: "squads/squad-creator/data/executor-decision-tree.md"
+  file: 'squads/squad-creator/data/executor-decision-tree.md'
   action: READ COMPLETELY
-  reason: "Framework contains the 6 questions and exact criteria for classification"
+  reason: 'Framework contains the 6 questions and exact criteria for classification'
 
   validation:
-    - "Framework loaded? If NO → STOP and load it"
-    - "6 questions understood? If NO → Re-read framework"
-    - "Output format clear? If NO → Check Step 1.3"
+    - 'Framework loaded? If NO → STOP and load it'
+    - '6 questions understood? If NO → Re-read framework'
+    - 'Output format clear? If NO → Check Step 1.3'
 ```
 
 **NEVER "interpret" or "summarize" the framework. FOLLOW IT LITERALLY.**
@@ -145,19 +145,18 @@ mandatory_dependency:
 
 ```yaml
 decompose_task:
-  for_each_task:
-    1. Read the task file COMPLETELY
+  for_each_task: 1. Read the task file COMPLETELY
     2. Identify EVERY action/step in the task
     3. List each action as a separate row for analysis
 
   example:
-    task: "db-health-check.md"
+    task: 'db-health-check.md'
     actions_found:
-      - "1.1: Connect to database"
-      - "1.2: Check connection pool status"
-      - "1.3: Run EXPLAIN on slow queries"
-      - "1.4: Check table sizes"
-      - "1.5: Generate health report"
+      - '1.1: Connect to database'
+      - '1.2: Check connection pool status'
+      - '1.3: Run EXPLAIN on slow queries'
+      - '1.4: Check table sizes'
+      - '1.5: Generate health report'
 ```
 
 ---
@@ -216,10 +215,11 @@ analyze_action:
 ```markdown
 ## Task: {task_name}
 
-| Step | Ação | Q1 Det? | Q2 Pura? | Q2a Lib? | Q3 NL? | Q4 Impacto? | Executor | Justificativa |
-|------|------|---------|----------|----------|--------|-------------|----------|---------------|
-| 1.1 | {action} | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌ | Alto/Médio/Baixo | Worker/Agent/Hybrid/Human | {why} |
-| 1.2 | {action} | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌ | Alto/Médio/Baixo | Worker/Agent/Hybrid/Human | {why} |
+| Step | Ação     | Q1 Det?  | Q2 Pura? | Q2a Lib? | Q3 NL? | Q4 Impacto?      | Executor                  | Justificativa |
+| ---- | -------- | -------- | -------- | -------- | ------ | ---------------- | ------------------------- | ------------- |
+| 1.1  | {action} | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌  | Alto/Médio/Baixo | Worker/Agent/Hybrid/Human | {why}         |
+| 1.2  | {action} | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌/⚠️ | ✅/❌  | Alto/Médio/Baixo | Worker/Agent/Hybrid/Human | {why}         |
+
 ...
 ```
 
@@ -228,13 +228,13 @@ analyze_action:
 ```markdown
 ## Task: db-health-check.md
 
-| Step | Ação | Q1 Det? | Q2 Pura? | Q2a Lib? | Q3 NL? | Q4 Impacto? | Executor | Justificativa |
-|------|------|---------|----------|----------|--------|-------------|----------|---------------|
-| 1.1 | Conectar ao banco | ✅ SIM | ✅ SIM | ✅ SIM (pg) | - | - | Worker | Connection string + lib = determinístico |
-| 1.2 | Verificar pool | ✅ SIM | ✅ SIM | ✅ SIM (pg) | - | - | Worker | Query fixa retorna métricas fixas |
-| 1.3 | EXPLAIN queries | ✅ SIM | ✅ SIM | ✅ SIM (pg) | - | - | Worker | EXPLAIN é comando SQL determinístico |
-| 1.4 | Checar tamanhos | ✅ SIM | ✅ SIM | ✅ SIM | - | - | Worker | pg_relation_size() é determinístico |
-| 1.5 | Gerar relatório | ⚠️ PARCIAL | ❌ NÃO | - | ✅ SIM | Baixo | Agent | Interpretar dados e sugerir melhorias |
+| Step | Ação              | Q1 Det?    | Q2 Pura? | Q2a Lib?    | Q3 NL? | Q4 Impacto? | Executor | Justificativa                            |
+| ---- | ----------------- | ---------- | -------- | ----------- | ------ | ----------- | -------- | ---------------------------------------- |
+| 1.1  | Conectar ao banco | ✅ SIM     | ✅ SIM   | ✅ SIM (pg) | -      | -           | Worker   | Connection string + lib = determinístico |
+| 1.2  | Verificar pool    | ✅ SIM     | ✅ SIM   | ✅ SIM (pg) | -      | -           | Worker   | Query fixa retorna métricas fixas        |
+| 1.3  | EXPLAIN queries   | ✅ SIM     | ✅ SIM   | ✅ SIM (pg) | -      | -           | Worker   | EXPLAIN é comando SQL determinístico     |
+| 1.4  | Checar tamanhos   | ✅ SIM     | ✅ SIM   | ✅ SIM      | -      | -           | Worker   | pg_relation_size() é determinístico      |
+| 1.5  | Gerar relatório   | ⚠️ PARCIAL | ❌ NÃO   | -           | ✅ SIM | Baixo       | Agent    | Interpretar dados e sugerir melhorias    |
 
 **Conclusão:** 4/5 ações são Worker, 1/5 é Agent → Task é HYBRID ou pode ter script + agent no final
 ```
@@ -281,45 +281,44 @@ classify_task:
     - If any Human → Task requires HUMAN involvement
 
   categories:
-
     SHOULD_BE_WORKER:
       criteria:
-        - "ALL actions are deterministic (Q1=SIM)"
-        - "ALL can be pure functions (Q2=SIM)"
-        - "Libraries exist OR worth coding (Q2a/Q2b=SIM)"
-      recommendation: "Create Worker script"
-      priority: "HIGH"
+        - 'ALL actions are deterministic (Q1=SIM)'
+        - 'ALL can be pure functions (Q2=SIM)'
+        - 'Libraries exist OR worth coding (Q2a/Q2b=SIM)'
+      recommendation: 'Create Worker script'
+      priority: 'HIGH'
 
     COULD_BE_WORKER:
       criteria:
-        - "MAJORITY of actions are deterministic"
-        - "1-2 actions need interpretation"
-        - "Can split: Worker for deterministic + Agent fallback"
-      recommendation: "Create Worker with Agent fallback"
-      priority: "MEDIUM"
+        - 'MAJORITY of actions are deterministic'
+        - '1-2 actions need interpretation'
+        - 'Can split: Worker for deterministic + Agent fallback'
+      recommendation: 'Create Worker with Agent fallback'
+      priority: 'MEDIUM'
 
     CORRECTLY_AGENT:
       criteria:
-        - "MAJORITY of actions require NL interpretation (Q3=SIM)"
-        - "Impact is LOW (Q4=Baixo)"
-        - "Current execution_type = Agent matches analysis"
-      recommendation: "Keep as Agent"
-      priority: "NONE"
+        - 'MAJORITY of actions require NL interpretation (Q3=SIM)'
+        - 'Impact is LOW (Q4=Baixo)'
+        - 'Current execution_type = Agent matches analysis'
+      recommendation: 'Keep as Agent'
+      priority: 'NONE'
 
     SHOULD_BE_HYBRID:
       criteria:
-        - "Contains Agent actions with MEDIUM/HIGH impact"
-        - "Output affects external users/clients"
-        - "Would benefit from human review"
-      recommendation: "Add human validation step"
-      priority: "MEDIUM"
+        - 'Contains Agent actions with MEDIUM/HIGH impact'
+        - 'Output affects external users/clients'
+        - 'Would benefit from human review'
+      recommendation: 'Add human validation step'
+      priority: 'MEDIUM'
 
     MISCLASSIFIED:
       criteria:
         - "Current execution_type doesn't match analysis"
-        - "Example: execution_type=Agent but all actions are deterministic"
-      recommendation: "Reclassify executor"
-      priority: "HIGH"
+        - 'Example: execution_type=Agent but all actions are deterministic'
+      recommendation: 'Reclassify executor'
+      priority: 'HIGH'
 ```
 
 ---
@@ -335,28 +334,28 @@ calculate_roi:
   per_task:
     current_cost:
       if_agent:
-        tokens_per_execution: "{estimate based on task complexity}"
-        cost_per_1000_tokens: "$0.003 (input) + $0.015 (output)"
-        executions_per_month: "{estimate}"
-        monthly_cost: "{calculation}"
+        tokens_per_execution: '{estimate based on task complexity}'
+        cost_per_1000_tokens: '$0.003 (input) + $0.015 (output)'
+        executions_per_month: '{estimate}'
+        monthly_cost: '{calculation}'
 
     potential_cost:
       if_worker:
-        compute_per_execution: "$0.0001"
-        monthly_cost: "{calculation}"
+        compute_per_execution: '$0.0001'
+        monthly_cost: '{calculation}'
 
     savings:
-      monthly: "{current - potential}"
-      annual: "{monthly × 12}"
+      monthly: '{current - potential}'
+      annual: '{monthly × 12}'
 
     conversion_effort:
-      simple: "2-4 hours (lib exists)"
-      medium: "1-2 days (need to implement)"
-      complex: "3-5 days (edge cases)"
+      simple: '2-4 hours (lib exists)'
+      medium: '1-2 days (need to implement)'
+      complex: '3-5 days (edge cases)'
 
     payback_period:
-      formula: "conversion_effort_cost / monthly_savings"
-      threshold: "< 3 months = worth it"
+      formula: 'conversion_effort_cost / monthly_savings'
+      threshold: '< 3 months = worth it'
 ```
 
 ---
@@ -367,7 +366,7 @@ calculate_roi:
 
 ### Step 3.1: Generate Report
 
-```yaml
+````yaml
 report_template: |
   # Determinism Analysis Report
 
@@ -410,71 +409,78 @@ report_template: |
   ```python
   # Sugestão de implementação
   {code_suggestion}
-  ```
+````
 
-  **ROI:**
-  - Current cost: ${current}/month
-  - After conversion: ${after}/month
-  - Savings: ${savings}/month
-  - Conversion effort: {hours}h
-  - Payback: {days} days
+**ROI:**
 
-  ---
+- Current cost: ${current}/month
+- After conversion: ${after}/month
+- Savings: ${savings}/month
+- Conversion effort: {hours}h
+- Payback: {days} days
 
-  ## 🟡 MEDIUM PRIORITY: Could Be Worker
+---
 
-  Tasks que poderiam ser Worker com algumas modificações:
+## 🟡 MEDIUM PRIORITY: Could Be Worker
 
-  ### {task_name}
+Tasks que poderiam ser Worker com algumas modificações:
 
-  **Current:** Agent
-  **Recommended:** Worker with fallback to Agent
-  **Reason:** {analysis}
+### {task_name}
 
-  **Blockers:**
-  - {blocker_1}
-  - {blocker_2}
+**Current:** Agent
+**Recommended:** Worker with fallback to Agent
+**Reason:** {analysis}
 
-  **Path to Worker:**
-  1. {step_1}
-  2. {step_2}
-  3. {step_3}
+**Blockers:**
 
-  ---
+- {blocker_1}
+- {blocker_2}
 
-  ## ✅ CORRECTLY CLASSIFIED: Agent
+**Path to Worker:**
 
-  Tasks que corretamente usam LLM:
+1. {step_1}
+2. {step_2}
+3. {step_3}
 
-  | Task | Reason |
-  |------|--------|
-  | {task_name} | {reason} |
+---
 
-  ---
+## ✅ CORRECTLY CLASSIFIED: Agent
 
-  ## ⚠️ SHOULD ADD VALIDATION: Hybrid
+Tasks que corretamente usam LLM:
 
-  Tasks Agent que deveriam ter validação humana:
+| Task        | Reason   |
+| ----------- | -------- |
+| {task_name} | {reason} |
 
-  | Task | Impact Level | Recommendation |
-  |------|--------------|----------------|
-  | {task_name} | {level} | Add human review |
+---
 
-  ---
+## ⚠️ SHOULD ADD VALIDATION: Hybrid
 
-  ## Action Items
+Tasks Agent que deveriam ter validação humana:
 
-  ### Immediate (this week)
-  - [ ] Convert {task_1} to Worker
-  - [ ] Convert {task_2} to Worker
+| Task        | Impact Level | Recommendation   |
+| ----------- | ------------ | ---------------- |
+| {task_name} | {level}      | Add human review |
 
-  ### Short-term (this month)
-  - [ ] Evaluate {task_3} for conversion
-  - [ ] Add Hybrid validation to {task_4}
+---
 
-  ### Backlog
-  - [ ] Monitor {task_5} for patterns
-```
+## Action Items
+
+### Immediate (this week)
+
+- [ ] Convert {task_1} to Worker
+- [ ] Convert {task_2} to Worker
+
+### Short-term (this month)
+
+- [ ] Evaluate {task_3} for conversion
+- [ ] Add Hybrid validation to {task_4}
+
+### Backlog
+
+- [ ] Monitor {task_5} for patterns
+
+````
 
 ---
 
@@ -528,7 +534,7 @@ code_generation:
             # Example usage
             result = {function_name}({example_input})
             print(result)
-```
+````
 
 ---
 
@@ -537,6 +543,7 @@ code_generation:
 ### Example 1: Analyzing Single Task (CORRECT FORMAT)
 
 <!-- Example - replace with your squad and task -->
+
 ```
 User: *optimize squads/{squad-name}/tasks/{task-name}.md
 
@@ -586,6 +593,7 @@ Actions found in {task-name}.md:
 ### Example 2: Analyzing Mixed Task (Worker + Agent)
 
 <!-- Example - replace with your squad and task -->
+
 ```
 User: *optimize squads/{squad-name}/tasks/{task-name}.md
 
@@ -625,8 +633,10 @@ Actions found:
 
 **Implementation Strategy:**
 ```
+
 scripts/db-health-checker.sh → Executa queries, coleta dados
 Agent → Recebe dados, interpreta, gera recomendações
+
 ```
 
 ## ROI Calculation
@@ -714,17 +724,17 @@ Agent:
 
 ```yaml
 quality_gate:
-  id: "DET_ANALYSIS_001"
-  name: "Determinism Analysis Quality"
+  id: 'DET_ANALYSIS_001'
+  name: 'Determinism Analysis Quality'
 
   blocking:
-    - "Cada task tem classificação"
-    - "Classificação tem justificativa"
-    - "ROI calculado para conversões"
+    - 'Cada task tem classificação'
+    - 'Classificação tem justificativa'
+    - 'ROI calculado para conversões'
 
   warning:
-    - "Sugestão de código para Workers"
-    - "Action items priorizados"
+    - 'Sugestão de código para Workers'
+    - 'Action items priorizados'
 ```
 
 ---
@@ -737,16 +747,16 @@ quality_gate:
 post_analysis:
   if_should_be_worker:
     suggest:
-      - "Quer que eu crie o script Worker para {task}?"
-      - "Quer que eu atualize a task para execution_type: Worker?"
+      - 'Quer que eu crie o script Worker para {task}?'
+      - 'Quer que eu atualize a task para execution_type: Worker?'
 
   if_should_be_hybrid:
     suggest:
-      - "Quer que eu adicione human_review ao {task}?"
+      - 'Quer que eu adicione human_review ao {task}?'
 
   if_misclassified:
     suggest:
-      - "Quer que eu corrija o execution_type de {task}?"
+      - 'Quer que eu corrija o execution_type de {task}?'
 ```
 
 ---
@@ -761,9 +771,9 @@ post_analysis:
 ```yaml
 inventory_changes:
   scan:
-    - "Encontrar tasks com execution_type: Worker"
-    - "Encontrar scripts criados em scripts/"
-    - "Mapear task → script correspondente"
+    - 'Encontrar tasks com execution_type: Worker'
+    - 'Encontrar scripts criados em scripts/'
+    - 'Mapear task → script correspondente'
 
   collect:
     for_each_task:
@@ -778,11 +788,11 @@ inventory_changes:
 
 ```yaml
 token_economics:
-  model: "claude-opus"
+  model: 'claude-opus'
   pricing:
-    input_per_1m: 15.00   # $15/1M tokens
-    output_per_1m: 75.00  # $75/1M tokens
-    avg_ratio: "80% input / 20% output"
+    input_per_1m: 15.00 # $15/1M tokens
+    output_per_1m: 75.00 # $75/1M tokens
+    avg_ratio: '80% input / 20% output'
     blended_per_1m: 27.00 # ~$0.027/1K tokens
 
   estimate_tokens:
@@ -791,20 +801,20 @@ token_economics:
     # Raciocínio do Agent ≈ 500-1500 tokens output
 
     before_agent:
-      input: "task_lines × 15 + context_overhead(500)"
-      output: "reasoning(800) + commands(300)"
-      total_per_exec: "(input × 0.015) + (output × 0.075)"
+      input: 'task_lines × 15 + context_overhead(500)'
+      output: 'reasoning(800) + commands(300)'
+      total_per_exec: '(input × 0.015) + (output × 0.075)'
 
     after_worker:
-      input: "invocation_tokens(100) + result_parse(200)"
-      output: "summary(150)"
-      total_per_exec: "(300 × 0.015) + (150 × 0.075)"
+      input: 'invocation_tokens(100) + result_parse(200)'
+      output: 'summary(150)'
+      total_per_exec: '(300 × 0.015) + (150 × 0.075)'
 
     after_hybrid:
       # Worker executa + Agent valida resultado
-      input: "invocation(100) + result(500) + validation_context(300)"
-      output: "validation_reasoning(400)"
-      total_per_exec: "(900 × 0.015) + (400 × 0.075)"
+      input: 'invocation(100) + result(500) + validation_context(300)'
+      output: 'validation_reasoning(400)'
+      total_per_exec: '(900 × 0.015) + (400 × 0.075)'
 ```
 
 ### Step 5.3: Generate Economy Report
@@ -881,15 +891,15 @@ report_template: |
 ```yaml
 script_breakdown:
   for_each_script:
-    script_name: "{name}"
+    script_name: '{name}'
     tasks_covered:
-      - "{task_1}"
-      - "{task_2}"
+      - '{task_1}'
+      - '{task_2}'
 
     metrics:
-      script_lines: "{wc -l}"
-      tasks_lines_total: "{sum of task lines}"
-      tokens_saved_per_exec: "{calculation}"
+      script_lines: '{wc -l}'
+      tasks_lines_total: '{sum of task lines}'
+      tokens_saved_per_exec: '{calculation}'
 
     output: |
       ### {script_name}
@@ -949,12 +959,12 @@ comparison_table:
 ```yaml
 auto_trigger:
   after_script_creation:
-    message: "Script criado. Executando *optimize --post..."
+    message: 'Script criado. Executando *optimize --post...'
     auto_run: true
 
   after_batch_refactor:
-    condition: "3+ tasks modificadas"
-    message: "Refatoração detectada. Gerando análise de economia..."
+    condition: '3+ tasks modificadas'
+    message: 'Refatoração detectada. Gerando análise de economia...'
     auto_run: true
 ```
 
@@ -968,14 +978,13 @@ These mistakes WILL result in wrong analysis:
 
 ```yaml
 WRONG:
-  input: "*optimize design"
+  input: '*optimize design'
   output: "thumbnail-design.md → Agent because 'design' suggests creativity"
   why_wrong: "Didn't read the task file, assumed from name"
 
 CORRECT:
-  input: "*optimize design"
-  action:
-    1. Read squads/design/tasks/thumbnail-design.md completely
+  input: '*optimize design'
+  action: 1. Read squads/design/tasks/thumbnail-design.md completely
     2. Decompose into individual actions
     3. Apply Q1-Q6 to EACH action
     4. Show table with all columns
@@ -986,11 +995,10 @@ CORRECT:
 ```yaml
 WRONG:
   process: "I'll analyze the tasks based on my understanding..."
-  why_wrong: "Framework not loaded, criteria not standardized"
+  why_wrong: 'Framework not loaded, criteria not standardized'
 
 CORRECT:
-  process:
-    1. READ squads/squad-creator/data/executor-decision-tree.md
+  process: 1. READ squads/squad-creator/data/executor-decision-tree.md
     2. THEN analyze tasks using the exact Q1-Q6 flow
 ```
 
@@ -1014,21 +1022,21 @@ CORRECT:
 
 ```yaml
 WRONG:
-  analysis: "db-health-check is a complex task that involves database analysis → Agent"
-  why_wrong: "Treated task as monolithic instead of decomposing"
+  analysis: 'db-health-check is a complex task that involves database analysis → Agent'
+  why_wrong: 'Treated task as monolithic instead of decomposing'
 
 CORRECT:
   analysis:
-    1. Decompose: "Connect, Query, Check, Analyze"
-    2. Analyze each: "Connect=Worker, Query=Worker, Check=Worker, Analyze=Agent"
-    3. Conclude: "3/4 Worker + 1/4 Agent = Hybrid approach"
+    1. Decompose: 'Connect, Query, Check, Analyze'
+    2. Analyze each: 'Connect=Worker, Query=Worker, Check=Worker, Analyze=Agent'
+    3. Conclude: '3/4 Worker + 1/4 Agent = Hybrid approach'
 ```
 
 ### ❌ Anti-Pattern 5: Using intuition instead of Q1-Q6 flow
 
 ```yaml
 WRONG:
-  reasoning: "This feels like it needs AI judgment"
+  reasoning: 'This feels like it needs AI judgment'
 
 CORRECT:
   reasoning: |

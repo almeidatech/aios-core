@@ -2,8 +2,9 @@
 
 **Task ID:** squad-fusion
 **Version:** 2.0.0
+**Execution Type:** Agent
 **Purpose:** Fundir múltiplos squads similares em um único squad otimizado
-**Orchestrator:** @squad-architect
+**Orchestrator:** @squad-chief
 **Mode:** Interactive
 **Workflow:** `workflows/wf-squad-fusion.yaml`
 
@@ -11,17 +12,17 @@
 
 ## Task Anatomy
 
-| Field | Value |
-|-------|-------|
-| **task_name** | Squad Fusion |
-| **status** | `active` |
-| **responsible_executor** | Hybrid (Worker + Agent + Human) |
-| **execution_type** | Multi-phase workflow |
-| **input** | Lista de squads fonte + nome do target |
-| **output** | Squad fusionado em `squads/{target_name}/` |
-| **acceptance_criteria** | Zero perda de componentes, zero duplicatas, quality score >= 8.0 |
-| **quality_gate** | SC_FUS_001 |
-| **estimated_duration** | YOLO: 15-30 min, QUALITY: 45-90 min |
+| Field                    | Value                                                            |
+| ------------------------ | ---------------------------------------------------------------- |
+| **task_name**            | Squad Fusion                                                     |
+| **status**               | `active`                                                         |
+| **responsible_executor** | Hybrid (Worker + Agent + Human)                                  |
+| **execution_type**       | Multi-phase workflow                                             |
+| **input**                | Lista de squads fonte + nome do target                           |
+| **output**               | Squad fusionado em `squads/{target_name}/`                       |
+| **acceptance_criteria**  | Zero perda de componentes, zero duplicatas, quality score >= 8.0 |
+| **quality_gate**         | SC_FUS_001                                                       |
+| **estimated_duration**   | YOLO: 15-30 min, QUALITY: 45-90 min                              |
 
 ---
 
@@ -86,18 +87,18 @@ A Fusão de Squads combina múltiplos squads com domínios similares em um únic
 ```yaml
 elicit:
   id: step_1_sources
-  question: "Quais squads deseja fundir?"
+  question: 'Quais squads deseja fundir?'
   type: multi_select
   options:
-    source: "Listar squads disponíveis em squads/"
-    display: "nome (agents: N, tasks: N)"
+    source: 'Listar squads disponíveis em squads/'
+    display: 'nome (agents: N, tasks: N)'
   validation:
     min: 2
     max: 10
-    error_if_less: "Fusão requer pelo menos 2 squads"
+    error_if_less: 'Fusão requer pelo menos 2 squads'
   hints:
-    - "Selecione squads com domínios similares para melhor resultado"
-    - "Squads muito diferentes podem resultar em fusão inconsistente"
+    - 'Selecione squads com domínios similares para melhor resultado'
+    - 'Squads muito diferentes podem resultar em fusão inconsistente'
 ```
 
 ### Step 2: Definir Target
@@ -105,12 +106,12 @@ elicit:
 ```yaml
 elicit:
   id: step_2_target
-  question: "Nome do squad resultante?"
+  question: 'Nome do squad resultante?'
   type: text
-  default: "Sugerir baseado nos fontes (ex: traffic-masters)"
+  default: 'Sugerir baseado nos fontes (ex: traffic-masters)'
   validation:
-    pattern: "^[a-z][a-z0-9-]*$"
-    error: "Nome deve ser kebab-case"
+    pattern: '^[a-z][a-z0-9-]*$'
+    error: 'Nome deve ser kebab-case'
   auto_suggest:
     - Analisar nomes dos fontes
     - Identificar domínio comum
@@ -122,24 +123,24 @@ elicit:
 ```yaml
 elicit:
   id: step_3_scope
-  question: "Qual o escopo/domínio do squad fusionado?"
+  question: 'Qual o escopo/domínio do squad fusionado?'
   type: select
   options:
-    - label: "Full Merge - Manter todos os componentes"
+    - label: 'Full Merge - Manter todos os componentes'
       value: full
-      description: "Combina tudo, ideal para squads complementares"
-    - label: "Domain Filter - Filtrar por keywords"
+      description: 'Combina tudo, ideal para squads complementares'
+    - label: 'Domain Filter - Filtrar por keywords'
       value: filtered
-      description: "Apenas componentes que matcham keywords"
-    - label: "Cherry Pick - Selecionar manualmente"
+      description: 'Apenas componentes que matcham keywords'
+    - label: 'Cherry Pick - Selecionar manualmente'
       value: manual
-      description: "Você escolhe cada componente"
+      description: 'Você escolhe cada componente'
   follow_up:
     if: filtered
     then:
-      question: "Quais keywords definir o escopo?"
+      question: 'Quais keywords definir o escopo?'
       type: text_array
-      example: ["paid traffic", "meta ads", "google ads"]
+      example: ['paid traffic', 'meta ads', 'google ads']
 ```
 
 ### Step 4: Definir Modo de Execução
@@ -147,17 +148,17 @@ elicit:
 ```yaml
 elicit:
   id: step_4_mode
-  question: "Modo de execução?"
+  question: 'Modo de execução?'
   type: select
   options:
-    - label: "🚀 YOLO (automático, ~15-30 min)"
+    - label: '🚀 YOLO (automático, ~15-30 min)'
       value: yolo
       description: |
         - Decisões automáticas para conflitos
         - Prefer newer version em duplicatas
         - Merge automático de configs
         - Checkpoint apenas no final
-    - label: "💎 QUALITY (checkpoints, ~45-90 min)"
+    - label: '💎 QUALITY (checkpoints, ~45-90 min)'
       value: quality
       description: |
         - Checkpoint em cada fase
@@ -171,7 +172,7 @@ elicit:
 ```yaml
 elicit:
   id: step_5_confirm
-  question: "Confirmar configuração?"
+  question: 'Confirmar configuração?'
   type: confirm
   display: |
     ═══════════════════════════════════════════════════
@@ -190,9 +191,9 @@ elicit:
 
     ═══════════════════════════════════════════════════
   options:
-    - "✅ Confirmar e executar"
-    - "✏️ Modificar configuração"
-    - "❌ Cancelar"
+    - '✅ Confirmar e executar'
+    - '✏️ Modificar configuração'
+    - '❌ Cancelar'
 ```
 
 ---
@@ -206,24 +207,24 @@ elicit:
 
 ```yaml
 phase_1_discovery:
-  name: "Discovery"
+  name: 'Discovery'
   executor: Worker
   actions:
     - scan_source_squads:
-        for_each: "{sources}"
+        for_each: '{sources}'
         collect:
-          - agents: "agents/*.md"
-          - tasks: "tasks/*.md"
-          - workflows: "workflows/*.{md,yaml}"
-          - templates: "templates/*.{md,yaml}"
-          - checklists: "checklists/*.md"
-          - data: "data/*.{md,yaml}"
-          - scripts: "scripts/*"
-          - config: "config.yaml"
-          - readme: "README.md"
+          - agents: 'agents/*.md'
+          - tasks: 'tasks/*.md'
+          - workflows: 'workflows/*.{md,yaml}'
+          - templates: 'templates/*.{md,yaml}'
+          - checklists: 'checklists/*.md'
+          - data: 'data/*.{md,yaml}'
+          - scripts: 'scripts/*'
+          - config: 'config.yaml'
+          - readme: 'README.md'
 
     - generate_inventory:
-        output: "inventory.yaml"
+        output: 'inventory.yaml'
         contents:
           - total_components_by_type
           - total_lines_by_type
@@ -232,10 +233,10 @@ phase_1_discovery:
   checkpoint:
     type: automatic
     validate:
-      - "All source squads exist"
-      - "All source squads readable"
-      - "Inventory generated successfully"
-    on_fail: "ABORT with clear error message"
+      - 'All source squads exist'
+      - 'All source squads readable'
+      - 'Inventory generated successfully'
+    on_fail: 'ABORT with clear error message'
 ```
 
 ### Phase 2: Analysis
@@ -245,34 +246,34 @@ phase_1_discovery:
 
 ```yaml
 phase_2_analysis:
-  name: "Analysis"
+  name: 'Analysis'
   executor: Hybrid
   actions:
     - detect_duplicates:
-        method: "multi-criteria"
+        method: 'multi-criteria'
         criteria:
-          - name_similarity: 0.8  # Threshold
+          - name_similarity: 0.8 # Threshold
           - content_similarity: 0.7
           - purpose_match: true
-        output: "duplicates.yaml"
+        output: 'duplicates.yaml'
 
     - detect_conflicts:
         types:
-          - name_collision: "Same filename in different squads"
-          - config_conflict: "Different values for same key"
-          - dependency_conflict: "Incompatible dependencies"
-        output: "conflicts.yaml"
+          - name_collision: 'Same filename in different squads'
+          - config_conflict: 'Different values for same key'
+          - dependency_conflict: 'Incompatible dependencies'
+        output: 'conflicts.yaml'
 
     - identify_gaps:
         check:
-          - "Missing orchestrator agent"
-          - "Missing config.yaml"
-          - "Missing README.md"
-          - "Orphan dependencies"
-        output: "gaps.yaml"
+          - 'Missing orchestrator agent'
+          - 'Missing config.yaml'
+          - 'Missing README.md'
+          - 'Orphan dependencies'
+        output: 'gaps.yaml'
 
     - generate_merge_plan:
-        output: "merge-plan.yaml"
+        output: 'merge-plan.yaml'
         contents:
           - components_to_keep
           - components_to_merge
@@ -305,9 +306,9 @@ phase_2_analysis:
 
       ═══════════════════════════════════════════════════
     validate:
-      - "Merge plan generated"
-      - "All duplicates categorized"
-      - "All conflicts have resolution options"
+      - 'Merge plan generated'
+      - 'All duplicates categorized'
+      - 'All conflicts have resolution options'
 ```
 
 ### Phase 3: Resolution
@@ -317,7 +318,7 @@ phase_2_analysis:
 
 ```yaml
 phase_3_resolution:
-  name: "Conflict Resolution"
+  name: 'Conflict Resolution'
   executor: "{mode == 'quality' ? 'Human' : 'Agent'}"
 
   actions:
@@ -325,7 +326,7 @@ phase_3_resolution:
         strategy:
           yolo:
             - prefer_newer: true
-            - prefer_longer: true  # More content = more complete
+            - prefer_longer: true # More content = more complete
             - merge_if_complementary: true
           quality:
             - present_options_to_human
@@ -333,16 +334,16 @@ phase_3_resolution:
             - document_rationale
 
     - resolve_conflicts:
-        for_each: "{conflicts}"
+        for_each: '{conflicts}'
         strategies:
           name_collision:
-            - rename_with_prefix: "{source_squad}-{original_name}"
+            - rename_with_prefix: '{source_squad}-{original_name}'
             - keep_one_discard_other
             - merge_into_new
           config_conflict:
-            - deep_merge: "Combine both configs"
+            - deep_merge: 'Combine both configs'
             - prefer_source: "Use specific source's config"
-            - manual_edit: "Human edits merged config"
+            - manual_edit: 'Human edits merged config'
           dependency_conflict:
             - update_to_latest
             - keep_both_with_alias
@@ -361,10 +362,10 @@ phase_3_resolution:
   checkpoint:
     type: "{mode == 'quality' ? 'human' : 'automatic'}"
     validate:
-      - "All duplicates resolved"
-      - "All conflicts resolved"
-      - "All gaps filled"
-      - "Resolution log complete"
+      - 'All duplicates resolved'
+      - 'All conflicts resolved'
+      - 'All gaps filled'
+      - 'Resolution log complete'
 ```
 
 ### Phase 4: Execution
@@ -374,12 +375,12 @@ phase_3_resolution:
 
 ```yaml
 phase_4_execution:
-  name: "Merge Execution"
+  name: 'Merge Execution'
   executor: Worker
 
   actions:
     - create_target_structure:
-        path: "squads/{target_name}/"
+        path: 'squads/{target_name}/'
         structure:
           - agents/
           - tasks/
@@ -392,44 +393,44 @@ phase_4_execution:
           - docs/
 
     - copy_components:
-        for_each: "{merge_plan.components_to_keep}"
-        action: "Copy to target with resolved names"
-        log: "copy_log.yaml"
+        for_each: '{merge_plan.components_to_keep}'
+        action: 'Copy to target with resolved names'
+        log: 'copy_log.yaml'
 
     - merge_components:
-        for_each: "{merge_plan.components_to_merge}"
-        action: "Merge content intelligently"
+        for_each: '{merge_plan.components_to_merge}'
+        action: 'Merge content intelligently'
         preserve:
-          - "All output_examples"
-          - "All objection_algorithms"
-          - "Unique vocabulary items"
-        log: "merge_log.yaml"
+          - 'All output_examples'
+          - 'All objection_algorithms'
+          - 'Unique vocabulary items'
+        log: 'merge_log.yaml'
 
     - generate_config:
-        template: "config-tmpl.yaml"
+        template: 'config-tmpl.yaml'
         values:
-          name: "{target_name}"
-          version: "1.0.0"
+          name: '{target_name}'
+          version: '1.0.0'
           description: "Fusão de {sources.join(', ')}"
-          components: "{merged_components_summary}"
+          components: '{merged_components_summary}'
 
     - generate_readme:
-        template: "readme-tmpl.md"
+        template: 'readme-tmpl.md'
         sections:
-          - "Overview (generated)"
-          - "Merged from (sources)"
-          - "Component inventory"
-          - "Usage"
-          - "Changelog"
+          - 'Overview (generated)'
+          - 'Merged from (sources)'
+          - 'Component inventory'
+          - 'Usage'
+          - 'Changelog'
 
   checkpoint:
     type: automatic
     validate:
-      - "Target directory created"
-      - "All components copied/merged"
-      - "config.yaml valid"
-      - "README.md generated"
-    on_fail: "ROLLBACK and report"
+      - 'Target directory created'
+      - 'All components copied/merged'
+      - 'config.yaml valid'
+      - 'README.md generated'
+    on_fail: 'ROLLBACK and report'
 ```
 
 ### Phase 5: Validation
@@ -439,53 +440,53 @@ phase_4_execution:
 
 ```yaml
 phase_5_validation:
-  name: "Quality Validation"
+  name: 'Quality Validation'
   executor: Hybrid
 
   actions:
     - run_quality_gates:
         gates:
           - id: SC_FUS_001
-            name: "Fusion Completeness"
+            name: 'Fusion Completeness'
             checks:
-              - "No components lost (source_count == target_count + discarded)"
-              - "No duplicate files in target"
-              - "All dependencies resolvable"
+              - 'No components lost (source_count == target_count + discarded)'
+              - 'No duplicate files in target'
+              - 'All dependencies resolvable'
             type: blocking
 
           - id: SC_FUS_002
-            name: "Config Validity"
+            name: 'Config Validity'
             checks:
-              - "config.yaml is valid YAML"
-              - "All required fields present"
-              - "Version is semantic"
+              - 'config.yaml is valid YAML'
+              - 'All required fields present'
+              - 'Version is semantic'
             type: blocking
 
           - id: SC_FUS_003
-            name: "Documentation"
+            name: 'Documentation'
             checks:
-              - "README.md exists and > 100 lines"
-              - "All components documented"
+              - 'README.md exists and > 100 lines'
+              - 'All components documented'
             type: recommended
 
     - validate_agents:
-        for_each: "agents/*.md"
-        gate: "SC_AGT_001"
+        for_each: 'agents/*.md'
+        gate: 'SC_AGT_001'
         min_score: 7.0
 
     - run_smoke_tests:
         tests:
-          - name: "Agent Activation"
-            action: "Simulate activating each agent"
-            expect: "Greeting displayed without errors"
+          - name: 'Agent Activation'
+            action: 'Simulate activating each agent'
+            expect: 'Greeting displayed without errors'
 
-          - name: "Command Recognition"
-            action: "Test *help command on orchestrator"
-            expect: "Commands listed"
+          - name: 'Command Recognition'
+            action: 'Test *help command on orchestrator'
+            expect: 'Commands listed'
 
-          - name: "Dependency Resolution"
-            action: "Verify all task references resolve"
-            expect: "No broken links"
+          - name: 'Dependency Resolution'
+            action: 'Verify all task references resolve'
+            expect: 'No broken links'
 
     - calculate_quality_score:
         weights:
@@ -526,10 +527,10 @@ phase_5_validation:
       ═══════════════════════════════════════════════════
 
     veto_conditions:
-      - condition: "quality_score < 7.0"
-        action: "FAIL - Fusion quality too low"
-      - condition: "blocking_gates_failed > 0"
-        action: "FAIL - Blocking gate failed"
+      - condition: 'quality_score < 7.0'
+        action: 'FAIL - Fusion quality too low'
+      - condition: 'blocking_gates_failed > 0'
+        action: 'FAIL - Blocking gate failed'
 ```
 
 ### Phase 6: Cleanup (Optional)
@@ -539,35 +540,35 @@ phase_5_validation:
 
 ```yaml
 phase_6_cleanup:
-  name: "Cleanup"
+  name: 'Cleanup'
   executor: Human
-  skip_if: "--keep-sources"
+  skip_if: '--keep-sources'
 
   elicit:
-    question: "O que fazer com os squads fonte?"
+    question: 'O que fazer com os squads fonte?'
     type: select
     options:
-      - label: "📦 Arquivar (mover para squads/_archived/)"
+      - label: '📦 Arquivar (mover para squads/_archived/)'
         value: archive
-      - label: "🗑️ Deletar permanentemente"
+      - label: '🗑️ Deletar permanentemente'
         value: delete
-        warning: "IRREVERSÍVEL!"
-      - label: "📁 Manter (não fazer nada)"
+        warning: 'IRREVERSÍVEL!'
+      - label: '📁 Manter (não fazer nada)'
         value: keep
 
   actions:
     archive:
-      - create_dir: "squads/_archived/"
-      - move: "{source} → squads/_archived/{source}_{timestamp}/"
-      - log: "Archived {source}"
+      - create_dir: 'squads/_archived/'
+      - move: '{source} → squads/_archived/{source}_{timestamp}/'
+      - log: 'Archived {source}'
 
     delete:
-      - confirm: "Tem certeza? Esta ação é IRREVERSÍVEL!"
-      - rm_rf: "squads/{source}/"
-      - log: "Deleted {source}"
+      - confirm: 'Tem certeza? Esta ação é IRREVERSÍVEL!'
+      - rm_rf: 'squads/{source}/'
+      - log: 'Deleted {source}'
 
     keep:
-      - log: "Kept {source} unchanged"
+      - log: 'Kept {source} unchanged'
 ```
 
 ---
@@ -604,27 +605,27 @@ squads/{target_name}/
 
 ### Duplicate Agents
 
-| Scenario | YOLO Strategy | QUALITY Strategy |
-|----------|---------------|------------------|
-| Same name, different content | Keep longer one | Human chooses |
-| Same purpose, different approach | Merge best parts | Human reviews merge |
-| Complementary specialties | Keep both, rename | Human confirms |
+| Scenario                         | YOLO Strategy     | QUALITY Strategy    |
+| -------------------------------- | ----------------- | ------------------- |
+| Same name, different content     | Keep longer one   | Human chooses       |
+| Same purpose, different approach | Merge best parts  | Human reviews merge |
+| Complementary specialties        | Keep both, rename | Human confirms      |
 
 ### Config Conflicts
 
-| Conflict Type | Resolution |
-|---------------|------------|
-| Different versions | Use higher version |
-| Different descriptions | Concatenate |
-| Different settings | Deep merge, prefer source A for conflicts |
+| Conflict Type          | Resolution                                |
+| ---------------------- | ----------------------------------------- |
+| Different versions     | Use higher version                        |
+| Different descriptions | Concatenate                               |
+| Different settings     | Deep merge, prefer source A for conflicts |
 
 ### Dependency Conflicts
 
-| Conflict Type | Resolution |
-|---------------|------------|
-| Same dependency, different versions | Use latest |
-| Circular dependencies | Break cycle, warn user |
-| Missing dependencies | Add to target, warn user |
+| Conflict Type                       | Resolution               |
+| ----------------------------------- | ------------------------ |
+| Same dependency, different versions | Use latest               |
+| Circular dependencies               | Break cycle, warn user   |
+| Missing dependencies                | Add to target, warn user |
 
 ---
 
@@ -635,15 +636,15 @@ squads/{target_name}/
 ```yaml
 gate:
   id: SC_FUS_001
-  name: "Fusion Completeness"
+  name: 'Fusion Completeness'
   type: blocking
   checks:
-    - name: "No Component Loss"
-      formula: "target_components >= source_components - intentional_discards"
-    - name: "No Duplicates in Target"
-      formula: "unique(target_files) == count(target_files)"
-    - name: "Dependencies Resolvable"
-      formula: "broken_dependencies == 0"
+    - name: 'No Component Loss'
+      formula: 'target_components >= source_components - intentional_discards'
+    - name: 'No Duplicates in Target'
+      formula: 'unique(target_files) == count(target_files)'
+    - name: 'Dependencies Resolvable'
+      formula: 'broken_dependencies == 0'
 ```
 
 ### SC_FUS_002: Config Validity
@@ -651,14 +652,14 @@ gate:
 ```yaml
 gate:
   id: SC_FUS_002
-  name: "Config Validity"
+  name: 'Config Validity'
   type: blocking
   checks:
-    - name: "Valid YAML"
-      validation: "yamllint passes"
-    - name: "Required Fields"
-      required: ["name", "version", "description"]
-    - name: "Semantic Version"
+    - name: 'Valid YAML'
+      validation: 'yamllint passes'
+    - name: 'Required Fields'
+      required: ['name', 'version', 'description']
+    - name: 'Semantic Version'
       pattern: "^\\d+\\.\\d+\\.\\d+$"
 ```
 
@@ -667,15 +668,15 @@ gate:
 ```yaml
 gate:
   id: SC_FUS_003
-  name: "Documentation Quality"
+  name: 'Documentation Quality'
   type: recommended
   checks:
-    - name: "README Exists"
-      validation: "README.md exists"
-    - name: "README Adequate"
-      validation: "README.md > 100 lines"
-    - name: "Components Documented"
-      validation: "All agents have descriptions"
+    - name: 'README Exists'
+      validation: 'README.md exists'
+    - name: 'README Adequate'
+      validation: 'README.md > 100 lines'
+    - name: 'Components Documented'
+      validation: 'All agents have descriptions'
 ```
 
 ---
@@ -686,22 +687,22 @@ If fusion fails at any phase:
 
 ```yaml
 rollback:
-  trigger: "Any blocking gate fails OR user cancels"
+  trigger: 'Any blocking gate fails OR user cancels'
   actions:
     - step: 1
-      action: "Delete target directory if created"
-      command: "rm -rf squads/{target_name}/"
+      action: 'Delete target directory if created'
+      command: 'rm -rf squads/{target_name}/'
 
     - step: 2
-      action: "Restore source squads if modified"
-      command: "git checkout -- squads/{sources}/"
+      action: 'Restore source squads if modified'
+      command: 'git checkout -- squads/{sources}/'
 
     - step: 3
-      action: "Log rollback reason"
-      output: "fusion-rollback-{timestamp}.log"
+      action: 'Log rollback reason'
+      output: 'fusion-rollback-{timestamp}.log'
 
     - step: 4
-      action: "Notify user"
+      action: 'Notify user'
       message: |
         ❌ Fusion rolled back.
         Reason: {rollback_reason}
@@ -769,17 +770,17 @@ rollback:
 
 ```yaml
 handoff_to:
-  - agent: "@qa"
-    when: "Fusion complete, needs deep validation"
-    context: "Run *validate-squad {target_name}"
+  - agent: '@qa'
+    when: 'Fusion complete, needs deep validation'
+    context: 'Run *validate-squad {target_name}'
 
-  - agent: "@dev"
-    when: "Fusion needs custom scripts merged"
-    context: "Review scripts/ directory conflicts"
+  - agent: '@dev'
+    when: 'Fusion needs custom scripts merged'
+    context: 'Review scripts/ directory conflicts'
 
-  - agent: "@squad-architect"
-    when: "Fused squad needs enhancement"
-    context: "Run *analyze-squad {target_name}"
+  - agent: '@squad-chief'
+    when: 'Fused squad needs enhancement'
+    context: 'Run *analyze-squad {target_name}'
 ```
 
 ---
@@ -797,6 +798,7 @@ handoff_to:
 ## Changelog
 
 ### v2.0.0 (2026-02-05)
+
 - Added 6-phase execution flow with checkpoints
 - Added quality gates (SC_FUS_001, SC_FUS_002, SC_FUS_003)
 - Added rollback procedure
@@ -807,6 +809,7 @@ handoff_to:
 - Expanded documentation
 
 ### v1.0.0 (2026-02-01)
+
 - Initial release with basic fusion capability
 
 ---
@@ -814,4 +817,4 @@ handoff_to:
 _Task Version: 2.0.0_
 _Created: 2026-02-01_
 _Updated: 2026-02-05_
-_Author: squad-architect_
+_Author: squad-chief_

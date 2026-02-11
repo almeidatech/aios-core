@@ -32,23 +32,25 @@ Um **squad** é um time de agentes de IA especializados que trabalham juntos em 
 É uma pessoa real, reconhecida em sua área, que tem **frameworks documentados**. Não são influencers genéricos - são experts com livros, cursos, metodologias próprias e resultados comprovados.
 
 **Exemplos de domínios:**
+
 - Copywriting: experts em redação persuasiva
 - Marketing: estrategistas de marketing
 - Negócios: pensadores de gestão e estratégia
 
 ### Qual a diferença entre Mind e Agent?
 
-| | Mind | Agent |
-|--|------|-------|
-| **O que é** | Pessoa real | Clone digital |
-| **Existe onde** | Mundo real | Sistema |
-| **Exemplo** | Expert real | {expert-slug}.md |
+|                 | Mind        | Agent            |
+| --------------- | ----------- | ---------------- |
+| **O que é**     | Pessoa real | Clone digital    |
+| **Existe onde** | Mundo real  | Sistema          |
+| **Exemplo**     | Expert real | {expert-slug}.md |
 
 O **mind** é a pessoa. O **agent** é o clone digital dela no sistema.
 
 ### Preciso saber programar?
 
 **Não.** O Squad Creator é conversacional. Você só precisa:
+
 1. Saber ativar: `@squad-creator`
 2. Dizer o que quer: "Quero um squad de copywriting"
 3. Responder perguntas simples
@@ -56,11 +58,11 @@ O **mind** é a pessoa. O **agent** é o clone digital dela no sistema.
 
 ### Quanto tempo demora criar um squad?
 
-| Modo | Tempo | Interações |
-|------|-------|------------|
-| YOLO | 15-30 min | 2-3 |
-| QUALITY | 30-60 min | 5-8 |
-| HYBRID | 20-45 min | 3-6 |
+| Modo    | Tempo     | Interações |
+| ------- | --------- | ---------- |
+| YOLO    | 15-30 min | 2-3        |
+| QUALITY | 30-60 min | 5-8        |
+| HYBRID  | 20-45 min | 3-6        |
 
 O tempo varia com o número de experts (geralmente 3-6 por squad).
 
@@ -75,6 +77,7 @@ O Squad Creator em si não tem custo. Mas ele usa o Claude, então consome token
 ### Como instalo o Squad Creator?
 
 Se você tem o Squad Creator na pasta `squads/squad-creator`, já está instalado. Basta ativar:
+
 ```
 @squad-creator
 ```
@@ -82,6 +85,7 @@ Se você tem o Squad Creator na pasta `squads/squad-creator`, já está instalad
 ### Preciso de alguma conta especial?
 
 Você precisa de:
+
 - Projeto AIOS configurado
 - Claude Code funcionando
 
@@ -100,10 +104,12 @@ O Squad Creator foi feito para o ecossistema AIOS. Funciona em qualquer projeto 
 ### O que preciso ter pronto antes de começar?
 
 **Mínimo:**
+
 - Claude Code funcionando
 - Saber o domínio do squad que quer criar
 
 **Ideal (para modo QUALITY):**
+
 - PDFs/livros dos experts
 - Transcrições de cursos
 - Links de entrevistas
@@ -115,6 +121,7 @@ O Squad Creator foi feito para o ecossistema AIOS. Funciona em qualquer projeto 
 ### Posso criar agent de qualquer pessoa?
 
 Tecnicamente sim, mas funciona melhor com pessoas que têm **frameworks documentados**:
+
 - Livros publicados
 - Metodologias com nome
 - Entrevistas explicando seu processo
@@ -130,6 +137,7 @@ Tecnicamente sim, mas funciona melhor com pessoas que têm **frameworks document
 ### E se o expert não for famoso?
 
 Experts menos conhecidos geralmente têm menos material disponível. Isso significa:
+
 - YOLO mode terá baixa fidelidade
 - Você precisará fornecer materiais (modo QUALITY)
 - Pode não encontrar fontes suficientes
@@ -137,6 +145,7 @@ Experts menos conhecidos geralmente têm menos material disponível. Isso signif
 ### Posso misturar experts de áreas diferentes no mesmo squad?
 
 **Não recomendado.** Cada squad deve ter um domínio coeso:
+
 - ✅ Domínio único: experts relacionados trabalhando juntos
 - ❌ Misto: experts de áreas completamente diferentes
 
@@ -144,16 +153,17 @@ Para áreas diferentes, crie squads separados.
 
 ### Quantos experts por squad?
 
-| Quantidade | Recomendação |
-|------------|--------------|
-| 1-2 | Muito pouco - falta diversidade |
-| 3-5 | Ideal - cobertura boa |
-| 6-8 | Bom - se o domínio for amplo |
-| 9+ | Demais - difícil de gerenciar |
+| Quantidade | Recomendação                    |
+| ---------- | ------------------------------- |
+| 1-2        | Muito pouco - falta diversidade |
+| 3-5        | Ideal - cobertura boa           |
+| 6-8        | Bom - se o domínio for amplo    |
+| 9+         | Demais - difícil de gerenciar   |
 
 ### E se dois experts se contradizem?
 
 Contradições são **normais e autênticas**. O sistema:
+
 1. Documenta a contradição
 2. Mantém ambas as visões
 3. O orchestrator escolhe qual usar por contexto
@@ -163,6 +173,7 @@ Exemplo: Kennedy é mais agressivo, Ogilvy mais elegante. Ambos válidos.
 ### Posso sugerir experts específicos?
 
 **Sim!** Quando o sistema mostrar os experts encontrados, você pode:
+
 - Adicionar: "Inclua também X"
 - Remover: "Retire Y"
 - Substituir: "Troque Z por W"
@@ -178,6 +189,7 @@ Na maioria dos domínios conhecidos, sim. Mas se você trabalha em nicho muito e
 ### Que tipo de material funciona melhor?
 
 **Ranking de qualidade:**
+
 1. 🥇 Livros completos (PDF/ebook)
 2. 🥈 Cursos com transcrição
 3. 🥉 Entrevistas longas (1h+)
@@ -188,11 +200,13 @@ Na maioria dos domínios conhecidos, sim. Mas se você trabalha em nicho muito e
 ### Quanto material preciso?
 
 **Mínimo recomendado por expert:**
+
 - 1 livro OU
 - 5 horas de áudio/vídeo OU
 - 50 páginas de conteúdo escrito
 
 **Ideal:**
+
 - 2-3 livros
 - 5-10 entrevistas
 - Newsletters/artigos diversos
@@ -200,6 +214,7 @@ Na maioria dos domínios conhecidos, sim. Mas se você trabalha em nicho muito e
 ### Posso usar vídeos do YouTube?
 
 **Sim!** O sistema pode:
+
 - Extrair transcrições de vídeos públicos
 - No modo YOLO, faz isso automaticamente
 - No modo QUALITY, você pode indicar links específicos
@@ -211,6 +226,7 @@ Na maioria dos domínios conhecidos, sim. Mas se você trabalha em nicho muito e
 ### E se o material for em outro idioma?
 
 Funciona normalmente. Exemplo:
+
 - Livro em inglês ✓
 - Curso em espanhol ✓
 - Entrevista em francês ✓
@@ -238,6 +254,7 @@ cp entrevista.txt materials/{expert-name}/
 ### Preciso organizar os materiais de alguma forma?
 
 **Não.** O sistema processa qualquer estrutura. Mas ajuda se:
+
 - Arquivos tiverem nomes descritivos
 - PDFs estiverem legíveis (não escaneados mal)
 - Transcrições estiverem limpas
@@ -277,6 +294,7 @@ Tenho materiais dos experts?
 ### Quando usar HYBRID?
 
 Quando você tem materiais de **alguns** experts, mas não de todos:
+
 - Expert A: tenho 3 livros → QUALITY
 - Expert B: não tenho nada → YOLO
 - Expert C: tenho 1 curso → QUALITY
@@ -284,12 +302,14 @@ Quando você tem materiais de **alguns** experts, mas não de todos:
 ### Posso mudar de modo no meio?
 
 **Não diretamente.** Mas você pode:
+
 1. Cancelar o squad atual
 2. Recomeçar com outro modo
 
 ### Posso começar com YOLO e melhorar depois?
 
 **Sim!** Essa é uma estratégia recomendada:
+
 1. Crie com YOLO (rápido, 70% fidelidade)
 2. Teste se funciona para seu caso
 3. Use `*update-mind` para adicionar materiais
@@ -303,11 +323,11 @@ Quando você tem materiais de **alguns** experts, mas não de todos:
 
 São 3 testes automáticos que validam se o agent realmente se comporta como o expert:
 
-| Teste | O que valida |
-|-------|--------------|
-| **Conhecimento** | Sabe explicar os frameworks? |
-| **Decisão** | Aplica as heurísticas? |
-| **Objeção** | Mantém convicção quando desafiado? |
+| Teste            | O que valida                       |
+| ---------------- | ---------------------------------- |
+| **Conhecimento** | Sabe explicar os frameworks?       |
+| **Decisão**      | Aplica as heurísticas?             |
+| **Objeção**      | Mantém convicção quando desafiado? |
 
 ### O que é Tier 0, Tier 1, etc?
 
@@ -331,12 +351,12 @@ São 3 testes automáticos que validam se o agent realmente se comporta como o e
 
 Checkpoints que validam qualidade em cada fase:
 
-| Gate | O que valida | Blocking? |
-|------|--------------|-----------|
-| SOURCE_QUALITY | 10+ fontes | Sim |
-| VOICE_QUALITY | Vocabulário extraído | Não |
-| THINKING_QUALITY | Frameworks extraídos | Não |
-| SMOKE_TEST | Agent funciona | Sim |
+| Gate             | O que valida         | Blocking? |
+| ---------------- | -------------------- | --------- |
+| SOURCE_QUALITY   | 10+ fontes           | Sim       |
+| VOICE_QUALITY    | Vocabulário extraído | Não       |
+| THINKING_QUALITY | Frameworks extraídos | Não       |
+| SMOKE_TEST       | Agent funciona       | Sim       |
 
 **Blocking = para tudo se falhar**
 
@@ -366,12 +386,12 @@ O processo para. Quando voltar, você precisará recomeçar. Os arquivos parciai
 
 É o quanto o agent se comporta como o expert real.
 
-| Fidelidade | Significa |
-|------------|-----------|
-| 50% | Genérico com alguns termos do expert |
-| 70% | Usa vocabulário e frameworks principais |
-| 85% | Difícil distinguir do expert real |
-| 95% | Praticamente idêntico |
+| Fidelidade | Significa                               |
+| ---------- | --------------------------------------- |
+| 50%        | Genérico com alguns termos do expert    |
+| 70%        | Usa vocabulário e frameworks principais |
+| 85%        | Difícil distinguir do expert real       |
+| 95%        | Praticamente idêntico                   |
 
 ### Como a fidelidade é calculada?
 
@@ -380,6 +400,7 @@ Fidelidade = (tier1_ratio × 0.4) + (voice_score × 0.3) + (thinking_score × 0.
 ```
 
 Simplificando:
+
 - Mais fontes de qualidade = maior fidelidade
 - Voice DNA completo = maior fidelidade
 - Thinking DNA completo = maior fidelidade
@@ -399,18 +420,19 @@ Simplificando:
 ### Posso comparar o agent com o expert real?
 
 **Sim!** Boa prática de validação:
+
 1. Pegue uma pergunta que o expert respondeu publicamente
 2. Faça a mesma pergunta ao agent
 3. Compare as respostas
 
 ### Qual fidelidade mínima aceitável?
 
-| Uso | Fidelidade mínima |
-|-----|-------------------|
-| Teste/POC | 50% |
-| Uso interno | 65% |
-| Produção | 75% |
-| Cliente final | 85% |
+| Uso           | Fidelidade mínima |
+| ------------- | ----------------- |
+| Teste/POC     | 50%               |
+| Uso interno   | 65%               |
+| Produção      | 75%               |
+| Cliente final | 85%               |
 
 ---
 
@@ -443,6 +465,7 @@ squads/{nome-do-squad}/
 ### Posso usar comercialmente?
 
 O squad em si é seu. Mas cuidado com:
+
 - Direitos de imagem (não diga "é o Gary Halbert")
 - Conteúdo gerado pode ter viés dos materiais originais
 
@@ -453,6 +476,7 @@ O squad em si é seu. Mas cuidado com:
 ### Posso exportar só um agent?
 
 **Sim.** Copie o arquivo `.md` do agent:
+
 ```bash
 cp squads/{squad-name}/agents/{agent-name}.md ~/meus-agents/
 ```
@@ -478,6 +502,7 @@ cp squads/{squad-name}/agents/{agent-name}.md ~/meus-agents/
 ### Posso adicionar um expert a um squad existente?
 
 **Sim:**
+
 ```bash
 # Clonar novo expert
 *clone-mind "Todd Brown" --domain copywriting
@@ -489,6 +514,7 @@ cp squads/{squad-name}/agents/{agent-name}.md ~/meus-agents/
 ### Posso remover um expert de um squad?
 
 **Sim.** Delete o arquivo do agent:
+
 ```bash
 rm squads/{squad-name}/agents/{agent-name}.md
 ```
@@ -498,6 +524,7 @@ E atualize o config.yaml se necessário.
 ### Posso deletar um squad inteiro?
 
 **Sim:**
+
 ```bash
 rm -rf squads/meu-squad/
 ```
@@ -525,6 +552,7 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 **Significa:** Não encontrou fontes suficientes.
 
 **Soluções:**
+
 1. Forneça materiais próprios
 2. Escolha expert mais conhecido
 3. Aceite fidelidade menor
@@ -534,6 +562,7 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 **Significa:** Não passou na validação.
 
 **Soluções:**
+
 1. Sistema tenta corrigir automaticamente
 2. Se persistir, forneça mais materiais
 3. Verifique se expert tem frameworks claros
@@ -543,6 +572,7 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 **Significa:** Voice DNA não foi bem aplicado.
 
 **Soluções:**
+
 1. `*validate-squad {nome}`
 2. Adicione mais output_examples
 3. Forneça mais entrevistas do expert
@@ -552,6 +582,7 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 **Significa:** Agent não se comporta como deveria.
 
 **Soluções:**
+
 1. Sistema re-trabalha automaticamente
 2. Revise o DNA extraído
 3. Adicione mais materiais
@@ -561,6 +592,7 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 **Significa:** Menos de 5 fontes encontradas.
 
 **Soluções:**
+
 1. Forneça materiais próprios
 2. Escolha expert mais documentado
 3. Aceite qualidade reduzida (não recomendado)
@@ -568,6 +600,7 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 ### O processo travou sem mensagem
 
 **Soluções:**
+
 1. Digite `*show-context` para ver onde parou
 2. Verifique se não está esperando input seu
 3. Se necessário, `*exit` e recomece
@@ -575,6 +608,7 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 ### Não sei qual expert escolher
 
 **Critérios para bons experts:**
+
 - [ ] 3+ livros publicados
 - [ ] Frameworks com nome próprio
 - [ ] 10+ entrevistas públicas
@@ -589,20 +623,22 @@ zip -r {squad-name}-backup.zip squads/{squad-name}/
 
 São agents especializados DENTRO do Squad Creator que têm expertise profunda em áreas específicas:
 
-| Especialista | Domínio | Ativação |
-|--------------|---------|----------|
-| `@oalanicolas` | Mind cloning, DNA extraction | `/squad-creator @oalanicolas` |
+| Especialista     | Domínio                      | Ativação                        |
+| ---------------- | ---------------------------- | ------------------------------- |
+| `@oalanicolas`   | Mind cloning, DNA extraction | `/squad-creator @oalanicolas`   |
 | `@pedro-valerio` | Processes, tasks, checklists | `/squad-creator @pedro-valerio` |
 
 ### Quando usar @oalanicolas?
 
 Use para tudo relacionado a **minds e DNA**:
+
 - "Preciso extrair o DNA de voz desse expert"
 - "As fontes que tenho são suficientes?"
 - "O clone não está soando autêntico"
 - "Quero validar a fidelidade do agent"
 
 **Comandos exclusivos:**
+
 - `*extract-dna` - Extrai Voice + Thinking DNA
 - `*assess-sources` - Avalia qualidade das fontes
 - `*validate-clone` - Valida fidelidade
@@ -610,12 +646,14 @@ Use para tudo relacionado a **minds e DNA**:
 ### Quando usar @pedro-valerio?
 
 Use para tudo relacionado a **processos e validação**:
+
 - "Preciso criar um workflow multi-fase"
 - "Quero definir veto conditions"
 - "A task está completa?"
 - "Onde posso automatizar?"
 
 **Comandos exclusivos:**
+
 - `*audit` - Audita workflows/tasks
 - `*design-heuristic` - Cria heurísticas de decisão
 - `*veto-check` - Define condições de veto
@@ -623,13 +661,14 @@ Use para tudo relacionado a **processos e validação**:
 ### Posso usar os dois juntos?
 
 **Sim!** Eles se complementam:
+
 1. `@oalanicolas` extrai DNA do expert
 2. `@pedro-valerio` valida o processo de extração
-3. `@squad-architect` orquestra tudo
+3. `@squad-chief` orquestra tudo
 
 ### E se não souber qual usar?
 
-Use `@squad-architect` (default). Ele sabe quando delegar para os especialistas.
+Use `@squad-chief` (default). Ele sabe quando delegar para os especialistas.
 
 ---
 
@@ -638,6 +677,7 @@ Use `@squad-architect` (default). Ele sabe quando delegar para os especialistas.
 ### Posso editar os arquivos manualmente?
 
 **Sim**, se souber o que está fazendo:
+
 - `agents/*.md` - Definição dos agents
 - `config.yaml` - Configuração do squad
 - Depois rode `*validate-squad` para verificar
@@ -649,6 +689,7 @@ Não há logs persistentes. Use `*show-context` durante a execução.
 ### Posso criar agent sem usar Squad Creator?
 
 **Sim.** Crie manualmente seguindo o template:
+
 ```
 squads/squad-creator/templates/agent-tmpl.md
 ```
@@ -664,6 +705,7 @@ Mas perderá o processo de extração de DNA.
 ### Posso customizar o processo de criação?
 
 Os workflows são configuráveis em:
+
 ```
 squads/squad-creator/workflows/
 ```
@@ -685,36 +727,36 @@ Mas requer conhecimento do sistema AIOS.
 
 ### Termos em 1 frase
 
-| Termo | Definição |
-|-------|-----------|
-| **Squad** | Time de agents especializados em um domínio |
-| **Mind** | Pessoa real cujo conhecimento vamos capturar |
-| **Agent** | Clone digital do mind |
-| **Voice DNA** | Como o expert fala/escreve |
-| **Thinking DNA** | Como o expert pensa/decide |
-| **Tier** | Nível de função do agent |
-| **Fidelity** | % de similaridade com expert real |
-| **Quality Gate** | Checkpoint de validação |
-| **Smoke Test** | Teste de comportamento do agent |
-| **YOLO Mode** | Execução automática sem materiais |
-| **QUALITY Mode** | Execução com materiais do usuário |
-| **HYBRID Mode** | Mistura de YOLO e QUALITY por expert |
-| **Orchestrator** | Agent que coordena os outros |
-| **Handoff** | Passagem de contexto entre agents |
-| **Triangulação** | Confirmar claim com 3+ fontes |
+| Termo            | Definição                                    |
+| ---------------- | -------------------------------------------- |
+| **Squad**        | Time de agents especializados em um domínio  |
+| **Mind**         | Pessoa real cujo conhecimento vamos capturar |
+| **Agent**        | Clone digital do mind                        |
+| **Voice DNA**    | Como o expert fala/escreve                   |
+| **Thinking DNA** | Como o expert pensa/decide                   |
+| **Tier**         | Nível de função do agent                     |
+| **Fidelity**     | % de similaridade com expert real            |
+| **Quality Gate** | Checkpoint de validação                      |
+| **Smoke Test**   | Teste de comportamento do agent              |
+| **YOLO Mode**    | Execução automática sem materiais            |
+| **QUALITY Mode** | Execução com materiais do usuário            |
+| **HYBRID Mode**  | Mistura de YOLO e QUALITY por expert         |
+| **Orchestrator** | Agent que coordena os outros                 |
+| **Handoff**      | Passagem de contexto entre agents            |
+| **Triangulação** | Confirmar claim com 3+ fontes                |
 
 ### Comandos principais
 
-| Comando | O que faz |
-|---------|-----------|
-| `@squad-creator` | Ativa o Squad Creator |
-| `*create-squad` | Cria novo squad |
-| `*clone-mind {name}` | Clona expert específico |
-| `*validate-squad {name}` | Valida squad existente |
-| `*update-mind {slug}` | Atualiza DNA existente |
-| `*quality-dashboard` | Mostra métricas |
-| `*help` | Lista todos os comandos |
-| `*exit` | Desativa o agent |
+| Comando                  | O que faz               |
+| ------------------------ | ----------------------- |
+| `@squad-creator`         | Ativa o Squad Creator   |
+| `*create-squad`          | Cria novo squad         |
+| `*clone-mind {name}`     | Clona expert específico |
+| `*validate-squad {name}` | Valida squad existente  |
+| `*update-mind {slug}`    | Atualiza DNA existente  |
+| `*quality-dashboard`     | Mostra métricas         |
+| `*help`                  | Lista todos os comandos |
+| `*exit`                  | Desativa o agent        |
 
 ---
 
@@ -728,4 +770,4 @@ Mas requer conhecimento do sistema AIOS.
 ---
 
 **Squad Creator | FAQ v2.0**
-*"Sem pergunta boba, só respostas úteis."*
+_"Sem pergunta boba, só respostas úteis."_

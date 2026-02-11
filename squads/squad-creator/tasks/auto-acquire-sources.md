@@ -2,6 +2,7 @@
 task-id: auto-acquire-sources
 name: Automated Source Acquisition
 version: 2.0.0
+execution_type: Hybrid
 estimated-time: 15-30 min
 complexity: low
 
@@ -13,23 +14,23 @@ workflow_reference: wf-auto-acquire-sources.yaml
 
 inputs:
   required:
-    - mind_name: "Nome do expert"
-    - domain: "Área de expertise"
+    - mind_name: 'Nome do expert'
+    - domain: 'Área de expertise'
   optional:
-    - target_count: "Número alvo de fontes (default: 15)"
+    - target_count: 'Número alvo de fontes (default: 15)'
 
 outputs:
   primary:
-    - acquired_sources: "Lista de fontes adquiridas automaticamente"
-    - sources_inventory.yaml: "Inventário estruturado"
+    - acquired_sources: 'Lista de fontes adquiridas automaticamente'
+    - sources_inventory.yaml: 'Inventário estruturado'
 
 tools:
   installed:
-    - exa: "Web search"
+    - exa: 'Web search'
   recommended:
-    - mcp-youtube-transcript: "YouTube transcripts"
-    - firecrawl-mcp: "Web scraping"
-  see_also: "docs/TOOL-RECOMMENDATIONS.md"
+    - mcp-youtube-transcript: 'YouTube transcripts'
+    - firecrawl-mcp: 'Web scraping'
+  see_also: 'docs/TOOL-RECOMMENDATIONS.md'
 
 elicit: false
 ---
@@ -60,6 +61,7 @@ Execute estas buscas no YouTube:
 ### 1.2 Critérios de Seleção
 
 Priorizar vídeos que:
+
 - Têm 10+ minutos (conteúdo substancial)
 - Expert é o entrevistado principal
 - Legenda/transcrição disponível
@@ -69,17 +71,18 @@ Priorizar vídeos que:
 
 ```yaml
 youtube_sources:
-  - id: "YT01"
-    title: ""
-    channel: ""
-    duration: ""
-    url: ""
-    transcript_status: "available|extracted|unavailable"
-    tier: 1  # Primário - expert falando
+  - id: 'YT01'
+    title: ''
+    channel: ''
+    duration: ''
+    url: ''
+    transcript_status: 'available|extracted|unavailable'
+    tier: 1 # Primário - expert falando
     key_topics: []
 ```
 
 **Ferramentas:**
+
 - YouTube Data API (search)
 - youtube-transcript-api (Python)
 - Whisper (se transcrição indisponível)
@@ -109,24 +112,24 @@ Para cada livro encontrado, buscar:
 
 ### 2.3 Fontes de Resumos
 
-| Fonte | Tier | Confiança |
-|-------|------|-----------|
-| Blinkist | 2 | Média (condensado) |
-| Shortform | 2 | Alta (detalhado) |
-| Four Minute Books | 3 | Baixa (muito condensado) |
-| Blog reviews | 2-3 | Varia |
+| Fonte             | Tier | Confiança                |
+| ----------------- | ---- | ------------------------ |
+| Blinkist          | 2    | Média (condensado)       |
+| Shortform         | 2    | Alta (detalhado)         |
+| Four Minute Books | 3    | Baixa (muito condensado) |
+| Blog reviews      | 2-3  | Varia                    |
 
 ```yaml
 book_sources:
-  - id: "BK01"
-    title: ""
-    year: ""
+  - id: 'BK01'
+    title: ''
+    year: ''
     full_book_available: true|false
     summary_sources:
-      - source: ""
-        url: ""
-        depth: "detailed|condensed|highlights"
-    tier: 2  # Secundário até ter livro completo
+      - source: ''
+        url: ''
+        depth: 'detailed|condensed|highlights'
+    tier: 2 # Secundário até ter livro completo
 ```
 
 ---
@@ -147,14 +150,14 @@ site:podcasts.apple.com "{mind_name}"
 
 ```yaml
 podcast_sources:
-  - id: "PD01"
-    show_name: ""
-    episode_title: ""
-    host: ""
-    duration: ""
-    url: ""
+  - id: 'PD01'
+    show_name: ''
+    episode_title: ''
+    host: ''
+    duration: ''
+    url: ''
     transcript_available: true|false
-    tier: 1  # Primário - expert falando
+    tier: 1 # Primário - expert falando
 ```
 
 ---
@@ -182,12 +185,12 @@ site:linkedin.com/pulse "{mind_name}"
 
 ```yaml
 article_sources:
-  - id: "AR01"
-    title: ""
-    author: ""  # É o expert ou sobre o expert?
-    source: ""
-    url: ""
-    tier: 1|2  # 1 se autor é o expert, 2 se sobre
+  - id: 'AR01'
+    title: ''
+    author: '' # É o expert ou sobre o expert?
+    source: ''
+    url: ''
+    tier: 1|2 # 1 se autor é o expert, 2 se sobre
 ```
 
 ---
@@ -219,19 +222,19 @@ acquisition_summary:
 ```yaml
 download_queue:
   priority_1_immediate:
-    - source_id: ""
-      type: ""
-      action: "download_transcript|download_pdf|save_url"
+    - source_id: ''
+      type: ''
+      action: 'download_transcript|download_pdf|save_url'
 
   priority_2_if_time:
-    - source_id: ""
-      type: ""
-      action: ""
+    - source_id: ''
+      type: ''
+      action: ''
 
   priority_3_backup:
-    - source_id: ""
-      type: ""
-      action: ""
+    - source_id: ''
+      type: ''
+      action: ''
 ```
 
 ---
@@ -247,9 +250,9 @@ download_queue:
 
 acquired_sources:
   metadata:
-    mind_name: ""
-    domain: ""
-    acquisition_date: ""
+    mind_name: ''
+    domain: ''
+    acquisition_date: ''
     total_found: 0
     auto_acquired: true
 
@@ -259,11 +262,11 @@ acquired_sources:
   youtube:
     count: 0
     items:
-      - id: "YT01"
-        title: ""
-        url: ""
-        duration: ""
-        transcript_path: ""
+      - id: 'YT01'
+        title: ''
+        url: ''
+        duration: ''
+        transcript_path: ''
         tier: 1
 
   # ─────────────────────────────────────────────────────────────
@@ -272,11 +275,11 @@ acquired_sources:
   books:
     count: 0
     items:
-      - id: "BK01"
-        title: ""
-        year: ""
-        summary_source: ""
-        summary_path: ""
+      - id: 'BK01'
+        title: ''
+        year: ''
+        summary_source: ''
+        summary_path: ''
         full_book_available: false
         tier: 2
 
@@ -286,11 +289,11 @@ acquired_sources:
   podcasts:
     count: 0
     items:
-      - id: "PD01"
-        show: ""
-        episode: ""
-        url: ""
-        transcript_path: ""
+      - id: 'PD01'
+        show: ''
+        episode: ''
+        url: ''
+        transcript_path: ''
         tier: 1
 
   # ─────────────────────────────────────────────────────────────
@@ -299,10 +302,10 @@ acquired_sources:
   articles:
     count: 0
     items:
-      - id: "AR01"
-        title: ""
-        url: ""
-        content_path: ""
+      - id: 'AR01'
+        title: ''
+        url: ''
+        content_path: ''
         tier: 1|2
 
 # ═══════════════════════════════════════════════════════════════
@@ -316,20 +319,20 @@ Este task roda ANTES ou DURANTE collect-sources.md:
 
 ```yaml
 workflow_integration:
-  trigger: "collect-sources.md FASE 1"
-  mode: "parallel"
-  merge_point: "collect-sources.md FASE 2"
+  trigger: 'collect-sources.md FASE 1'
+  mode: 'parallel'
+  merge_point: 'collect-sources.md FASE 2'
 
   decision_tree:
     if_yolo_mode:
-      - "Rodar auto-acquire PRIMEIRO"
-      - "Merge resultados em sources_by_tier"
-      - "Prosseguir para validação"
+      - 'Rodar auto-acquire PRIMEIRO'
+      - 'Merge resultados em sources_by_tier'
+      - 'Prosseguir para validação'
 
     if_quality_mode:
-      - "Rodar auto-acquire como COMPLEMENTO"
-      - "Priorizar materiais do usuário"
-      - "Auto-acquired = backup/triangulação"
+      - 'Rodar auto-acquire como COMPLEMENTO'
+      - 'Priorizar materiais do usuário'
+      - 'Auto-acquired = backup/triangulação'
 ```
 
 ---
@@ -346,4 +349,4 @@ workflow_integration:
 ---
 
 **Squad Architect | Auto-Acquire v1.0**
-*"More sources = higher fidelity. Automate the obvious."*
+_"More sources = higher fidelity. Automate the obvious."_

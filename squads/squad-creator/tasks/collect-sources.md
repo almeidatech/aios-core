@@ -2,11 +2,12 @@
 task-id: collect-sources
 name: Collect & Validate Sources for Mind Cloning
 version: 2.2.0
-note: "Exemplos usam copywriting. Substitua pelo seu domínio."
+execution_type: Hybrid
+note: 'Exemplos usam copywriting. Substitua pelo seu domínio.'
 estimated-time: 30-60 min
 complexity: medium
 
-specialist: "@oalanicolas"
+specialist: '@oalanicolas'
 specialist_guidance: |
   Use DNA Mental™ source curation methodology:
   - Classify sources as OURO (gold) vs BRONZE quality
@@ -17,14 +18,14 @@ specialist_guidance: |
 
 inputs:
   required:
-    - mind_name: "Nome do expert a clonar"
-    - domain: "Área de expertise"
+    - mind_name: 'Nome do expert a clonar'
+    - domain: 'Área de expertise'
   optional:
-    - user_materials_path: "Caminho para materiais do usuário (Tier 0)"
+    - user_materials_path: 'Caminho para materiais do usuário (Tier 0)'
 
 outputs:
   primary:
-    - sources_inventory: "Lista validada de fontes com classificação"
+    - sources_inventory: 'Lista validada de fontes com classificação'
 
 elicit: true
 ---
@@ -78,32 +79,32 @@ elicit: true
 ```yaml
 fallback_chain:
   step_1_user_materials:
-    check: "user_materials_path provided?"
+    check: 'user_materials_path provided?'
     if_yes:
-      action: "Index as Tier 0"
+      action: 'Index as Tier 0'
       continue: true
     if_no:
-      action: "Skip to step 2"
+      action: 'Skip to step 2'
 
   step_2_auto_acquire:
-    execute: "auto-acquire-sources.md"
-    check: "total_sources >= 10?"
+    execute: 'auto-acquire-sources.md'
+    check: 'total_sources >= 10?'
     if_yes:
-      action: "Proceed to validation"
+      action: 'Proceed to validation'
     if_no:
-      action: "Continue to step 3"
+      action: 'Continue to step 3'
 
   step_3_manual_search:
-    execute: "FASE 1 queries below"
-    check: "total_sources >= 10?"
+    execute: 'FASE 1 queries below'
+    check: 'total_sources >= 10?'
     if_yes:
-      action: "Proceed to validation"
+      action: 'Proceed to validation'
     if_no:
-      action: "Continue to step 4"
+      action: 'Continue to step 4'
 
   step_4_fail:
-    condition: "total_sources < 5"
-    action: "STOP - Expert too obscure"
+    condition: 'total_sources < 5'
+    action: 'STOP - Expert too obscure'
     message: |
       ❌ FONTES INSUFICIENTES
 
@@ -145,32 +146,32 @@ Execute TODAS estas buscas:
 ```yaml
 discovered_sources:
   books:
-    - title: ""
-      year: ""
-      relevance: "alta|média"
-      status: "disponível|indisponível"
+    - title: ''
+      year: ''
+      relevance: 'alta|média'
+      status: 'disponível|indisponível'
 
   interviews_podcasts:
-    - title: ""
-      host: ""
-      duration: ""
-      url: ""
+    - title: ''
+      host: ''
+      duration: ''
+      url: ''
 
   articles_posts:
-    - title: ""
-      source: ""
-      url: ""
+    - title: ''
+      source: ''
+      url: ''
 
   videos_talks:
-    - title: ""
-      event: ""
-      duration: ""
-      url: ""
+    - title: ''
+      event: ''
+      duration: ''
+      url: ''
 
   courses_workshops:
-    - title: ""
-      platform: ""
-      url: ""
+    - title: ''
+      platform: ''
+      url: ''
 ```
 
 ---
@@ -179,11 +180,11 @@ discovered_sources:
 
 ### 2.1 Sistema de Tiers
 
-| Tier | Tipo | Confiança | Exemplos |
-|------|------|-----------|----------|
-| **Tier 1** | Primário (do expert) | ALTA | Livros próprios, entrevistas diretas |
-| **Tier 2** | Secundário (sobre expert) | MÉDIA | Biografias, case studies |
-| **Tier 3** | Terciário (agregado) | BAIXA | Wikipedia, resumos |
+| Tier       | Tipo                      | Confiança | Exemplos                             |
+| ---------- | ------------------------- | --------- | ------------------------------------ |
+| **Tier 1** | Primário (do expert)      | ALTA      | Livros próprios, entrevistas diretas |
+| **Tier 2** | Secundário (sobre expert) | MÉDIA     | Biografias, case studies             |
+| **Tier 3** | Terciário (agregado)      | BAIXA     | Wikipedia, resumos                   |
 
 ### 2.2 Classificar Fontes Descobertas
 
@@ -192,21 +193,21 @@ sources_by_tier:
   tier_1_primary:
     count: 0
     items:
-      - source: ""
-        type: ""
-        estimated_content: "X horas / Y páginas"
+      - source: ''
+        type: ''
+        estimated_content: 'X horas / Y páginas'
 
   tier_2_secondary:
     count: 0
     items:
-      - source: ""
-        type: ""
+      - source: ''
+        type: ''
 
   tier_3_tertiary:
     count: 0
     items:
-      - source: ""
-        type: ""
+      - source: ''
+        type: ''
 ```
 
 ---
@@ -221,39 +222,39 @@ minimum_requirements:
   total_sources:
     required: 10
     actual: 0
-    status: "✅|❌"
+    status: '✅|❌'
 
   tier_1_sources:
     required: 5
     actual: 0
-    status: "✅|❌"
+    status: '✅|❌'
 
   # Diversidade de Tipos
   source_types:
-    required: 3  # diferentes tipos
+    required: 3 # diferentes tipos
     actual: 0
     types_found: []
-    status: "✅|❌"
+    status: '✅|❌'
 
   # Volume de Conteúdo
   content_volume:
     audio_video_hours:
       required: 5
       actual: 0
-      status: "✅|❌"
+      status: '✅|❌'
 
     text_pages:
       required: 200
       actual: 0
-      status: "✅|❌"
+      status: '✅|❌'
 
   # Cobertura Temporal
   temporal_coverage:
-    periods_covered: []  # ex: "2010-2015", "2020-present"
+    periods_covered: [] # ex: "2010-2015", "2020-present"
     has_multiple_periods:
       required: true
       actual: false
-      status: "✅|❌"
+      status: '✅|❌'
 ```
 
 ### 3.2 Validação de Triangulação
@@ -263,22 +264,22 @@ Para claims importantes, precisamos de 3+ fontes independentes.
 ```yaml
 triangulation_check:
   main_framework:
-    claim: "O framework principal do expert"
+    claim: 'O framework principal do expert'
     sources_confirming: []
     count: 0
-    status: "✅ (3+) | ⚠️ (2) | ❌ (1)"
+    status: '✅ (3+) | ⚠️ (2) | ❌ (1)'
 
   core_principles:
-    claim: "Princípios fundamentais"
+    claim: 'Princípios fundamentais'
     sources_confirming: []
     count: 0
-    status: ""
+    status: ''
 
   signature_methodology:
-    claim: "Metodologia distintiva"
+    claim: 'Metodologia distintiva'
     sources_confirming: []
     count: 0
-    status: ""
+    status: ''
 ```
 
 ---
@@ -290,19 +291,19 @@ triangulation_check:
 ```yaml
 gaps_identified:
   missing_types:
-    - type: ""
-      importance: "crítico|importante|desejável"
-      action: ""
+    - type: ''
+      importance: 'crítico|importante|desejável'
+      action: ''
 
   temporal_gaps:
-    - period: ""
-      why_matters: ""
-      action: ""
+    - period: ''
+      why_matters: ''
+      action: ''
 
   depth_gaps:
-    - area: ""
-      current_coverage: ""
-      needed: ""
+    - area: ''
+      current_coverage: ''
+      needed: ''
 ```
 
 ### 4.2 Plano de Aquisição
@@ -310,16 +311,16 @@ gaps_identified:
 ```yaml
 acquisition_plan:
   priority_1_critical:
-    - source: ""
-      how_to_get: ""
-      estimated_time: ""
+    - source: ''
+      how_to_get: ''
+      estimated_time: ''
 
   priority_2_important:
-    - source: ""
-      how_to_get: ""
+    - source: ''
+      how_to_get: ''
 
   priority_3_nice_to_have:
-    - source: ""
+    - source: ''
 ```
 
 ---
@@ -331,32 +332,32 @@ acquisition_plan:
 ```yaml
 go_no_go_checklist:
   # Quantidade (BLOCKING)
-  - check: "10+ fontes totais"
-    status: "✅|❌"
+  - check: '10+ fontes totais'
+    status: '✅|❌'
     blocking: true
 
-  - check: "5+ fontes Tier 1 (primárias)"
-    status: "✅|❌"
+  - check: '5+ fontes Tier 1 (primárias)'
+    status: '✅|❌'
     blocking: true
 
   # Diversidade (BLOCKING)
-  - check: "3+ tipos diferentes de fonte"
-    status: "✅|❌"
+  - check: '3+ tipos diferentes de fonte'
+    status: '✅|❌'
     blocking: true
 
   # Volume (BLOCKING)
-  - check: "5+ horas de áudio/vídeo OU 200+ páginas"
-    status: "✅|❌"
+  - check: '5+ horas de áudio/vídeo OU 200+ páginas'
+    status: '✅|❌'
     blocking: true
 
   # Triangulação (BLOCKING)
-  - check: "Framework principal confirmado em 3+ fontes"
-    status: "✅|❌"
+  - check: 'Framework principal confirmado em 3+ fontes'
+    status: '✅|❌'
     blocking: true
 
   # Temporal (WARNING)
-  - check: "Cobertura de 2+ períodos temporais"
-    status: "✅|⚠️"
+  - check: 'Cobertura de 2+ períodos temporais'
+    status: '✅|⚠️'
     blocking: false
 ```
 
@@ -366,16 +367,16 @@ go_no_go_checklist:
 decision:
   blocking_checks_passed: 0/5
 
-  status: "GO|CONDITIONAL|NO-GO"
+  status: 'GO|CONDITIONAL|NO-GO'
 
   # GO: Todos blocking checks ✅
   # CONDITIONAL: 4/5 blocking, com plano para preencher
   # NO-GO: <4/5 blocking - precisa mais pesquisa
 
   conditions_if_conditional:
-    - ""
+    - ''
 
-  next_action: ""
+  next_action: ''
 ```
 
 ---
@@ -391,38 +392,38 @@ decision:
 
 sources_inventory:
   metadata:
-    mind_name: ""
-    domain: ""
-    collection_date: ""
+    mind_name: ''
+    domain: ''
+    collection_date: ''
     total_sources: 0
     tier_1_count: 0
-    quality_status: "GO|CONDITIONAL|NO-GO"
+    quality_status: 'GO|CONDITIONAL|NO-GO'
 
   # ─────────────────────────────────────────────────────────────
   # FONTES POR TIER
   # ─────────────────────────────────────────────────────────────
 
   tier_1_primary:
-    - id: "S01"
-      title: ""
-      type: "book|interview|article|video|course"
-      year: ""
-      url: ""
-      estimated_volume: ""
+    - id: 'S01'
+      title: ''
+      type: 'book|interview|article|video|course'
+      year: ''
+      url: ''
+      estimated_volume: ''
       key_topics: []
-      triangulates: ["framework", "principles", "methodology"]
+      triangulates: ['framework', 'principles', 'methodology']
 
   tier_2_secondary:
-    - id: "S06"
-      title: ""
-      type: ""
-      url: ""
+    - id: 'S06'
+      title: ''
+      type: ''
+      url: ''
 
   tier_3_tertiary:
-    - id: "S10"
-      title: ""
-      type: ""
-      url: ""
+    - id: 'S10'
+      title: ''
+      type: ''
+      url: ''
 
   # ─────────────────────────────────────────────────────────────
   # VALIDAÇÃO
@@ -436,24 +437,24 @@ sources_inventory:
       hours: 0
       pages: 0
     temporal_periods: []
-    triangulation_score: "X/3 claims validated"
+    triangulation_score: 'X/3 claims validated'
 
   # ─────────────────────────────────────────────────────────────
   # GAPS & RISKS
   # ─────────────────────────────────────────────────────────────
 
   gaps:
-    - gap: ""
-      risk: "alto|médio|baixo"
-      mitigation: ""
+    - gap: ''
+      risk: 'alto|médio|baixo'
+      mitigation: ''
 
   # ─────────────────────────────────────────────────────────────
   # DECISÃO
   # ─────────────────────────────────────────────────────────────
 
   decision:
-    status: "GO|CONDITIONAL|NO-GO"
-    blocking_passed: "X/5"
+    status: 'GO|CONDITIONAL|NO-GO'
+    blocking_passed: 'X/5'
     ready_for_extraction: true|false
     conditions: []
 
@@ -480,54 +481,54 @@ sources_inventory:
 ```yaml
 sources_inventory:
   metadata:
-    mind_name: "Dan Kennedy"
-    domain: "Direct Response Marketing"
-    collection_date: "2024-01-15"
+    mind_name: 'Dan Kennedy'
+    domain: 'Direct Response Marketing'
+    collection_date: '2024-01-15'
     total_sources: 14
     tier_1_count: 8
-    quality_status: "GO"
+    quality_status: 'GO'
 
   tier_1_primary:
-    - id: "S01"
-      title: "The Ultimate Sales Letter"
-      type: "book"
-      year: "2011"
-      estimated_volume: "200 pages"
-      key_topics: ["sales letters", "direct response", "copywriting"]
-      triangulates: ["framework", "methodology"]
+    - id: 'S01'
+      title: 'The Ultimate Sales Letter'
+      type: 'book'
+      year: '2011'
+      estimated_volume: '200 pages'
+      key_topics: ['sales letters', 'direct response', 'copywriting']
+      triangulates: ['framework', 'methodology']
 
-    - id: "S02"
-      title: "No B.S. Direct Marketing"
-      type: "book"
-      year: "2013"
-      estimated_volume: "250 pages"
-      triangulates: ["framework", "principles"]
+    - id: 'S02'
+      title: 'No B.S. Direct Marketing'
+      type: 'book'
+      year: '2013'
+      estimated_volume: '250 pages'
+      triangulates: ['framework', 'principles']
 
-    - id: "S03"
-      title: "Interview with Dan Kennedy - Marketing Secrets"
-      type: "interview"
-      year: "2020"
-      url: "..."
-      estimated_volume: "2 hours"
-      triangulates: ["principles", "methodology"]
+    - id: 'S03'
+      title: 'Interview with Dan Kennedy - Marketing Secrets'
+      type: 'interview'
+      year: '2020'
+      url: '...'
+      estimated_volume: '2 hours'
+      triangulates: ['principles', 'methodology']
 
   validation:
     total_sources: 14
     tier_1_count: 8
-    type_diversity: 4  # books, interviews, articles, courses
+    type_diversity: 4 # books, interviews, articles, courses
     content_volume:
       hours: 12
       pages: 800
-    temporal_periods: ["1990s", "2000s", "2010s", "2020s"]
-    triangulation_score: "3/3 claims validated"
+    temporal_periods: ['1990s', '2000s', '2010s', '2020s']
+    triangulation_score: '3/3 claims validated'
 
   decision:
-    status: "GO"
-    blocking_passed: "5/5"
+    status: 'GO'
+    blocking_passed: '5/5'
     ready_for_extraction: true
 ```
 
 ---
 
 **Squad Architect | Source Collector v2.0**
-*"Three sources make a pattern. One source is just a guess."*
+_"Three sources make a pattern. One source is just a guess."_

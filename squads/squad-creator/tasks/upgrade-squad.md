@@ -2,11 +2,13 @@
 
 **Task ID:** upgrade-squad
 **Version:** 1.0.0
+**Execution Type:** Worker
 **Purpose:** Upgrade existing squads to current AIOS standards with gap analysis and automated improvements
-**Orchestrator:** @squad-architect
+**Orchestrator:** @squad-chief
 **Mode:** Audit → Plan → Execute (with dry-run option)
 
 **Core Philosophy:**
+
 ```
 Squads evolve. Standards improve. Old squads need upgrades.
 This task brings legacy squads up to current quality standards
@@ -14,6 +16,7 @@ without breaking what already works.
 ```
 
 **Frameworks Used:**
+
 - `checklists/agent-quality-gate.md` → Agent validation (800+ lines, 6 levels)
 - `checklists/task-anatomy-checklist.md` → Task validation (8 fields)
 - `checklists/squad-checklist.md` → Squad-level validation
@@ -59,21 +62,21 @@ OUTPUT: Upgrade Report + Updated Components
 
 ## Inputs
 
-| Parameter | Type | Required | Description | Example |
-|-----------|------|----------|-------------|---------|
-| `squad_name` | string | Yes | Name of squad to upgrade | `"copy"`, `"legal"` |
-| `mode` | enum | No | Execution mode | `audit`, `plan`, `execute`, `auto` |
-| `focus` | enum | No | Focus area | `agents`, `tasks`, `workflows`, `all` |
-| `dry_run` | bool | No | Preview changes without applying | `true`, `false` |
+| Parameter    | Type   | Required | Description                      | Example                               |
+| ------------ | ------ | -------- | -------------------------------- | ------------------------------------- |
+| `squad_name` | string | Yes      | Name of squad to upgrade         | `"copy"`, `"legal"`                   |
+| `mode`       | enum   | No       | Execution mode                   | `audit`, `plan`, `execute`, `auto`    |
+| `focus`      | enum   | No       | Focus area                       | `agents`, `tasks`, `workflows`, `all` |
+| `dry_run`    | bool   | No       | Preview changes without applying | `true`, `false`                       |
 
 ### Mode Descriptions
 
-| Mode | Description | User Interaction |
-|------|-------------|------------------|
-| `audit` | Only generate gap report, no changes | None (read-only) |
-| `plan` | Generate report + upgrade plan | Review plan |
-| `execute` | Execute plan with confirmations | Confirm each change |
-| `auto` | Execute all upgrades automatically | Minimal |
+| Mode      | Description                          | User Interaction    |
+| --------- | ------------------------------------ | ------------------- |
+| `audit`   | Only generate gap report, no changes | None (read-only)    |
+| `plan`    | Generate report + upgrade plan       | Review plan         |
+| `execute` | Execute plan with confirmations      | Confirm each change |
+| `auto`    | Execute all upgrades automatically   | Minimal             |
 
 ---
 
@@ -87,27 +90,27 @@ OUTPUT: Upgrade Report + Updated Components
 ```yaml
 inventory_scan:
   actions:
-    - "List all files in squads/{squad_name}/"
-    - "Categorize by type: agents/, tasks/, workflows/, templates/, checklists/, data/"
-    - "Count lines per file"
-    - "Extract version from config.yaml"
+    - 'List all files in squads/{squad_name}/'
+    - 'Categorize by type: agents/, tasks/, workflows/, templates/, checklists/, data/'
+    - 'Count lines per file'
+    - 'Extract version from config.yaml'
 
   output_format:
-    squad_name: "{name}"
-    squad_version: "{version}"
-    last_modified: "{date}"
+    squad_name: '{name}'
+    squad_version: '{version}'
+    last_modified: '{date}'
     components:
       agents:
         count: N
         files:
-          - name: "agent-name.md"
+          - name: 'agent-name.md'
             lines: N
             has_voice_dna: true/false
             has_output_examples: true/false
       tasks:
         count: N
         files:
-          - name: "task-name.md"
+          - name: 'task-name.md'
             lines: N
             has_8_fields: true/false
       workflows:
@@ -131,39 +134,40 @@ For each component, extract key metadata:
 ```yaml
 agent_metadata:
   required_sections:
-    - "agent:"
-    - "persona:"
-    - "core_principles:"
-    - "commands:"
-    - "voice_dna:"
-    - "output_examples:"
-    - "anti_patterns:"
-    - "completion_criteria:"
-    - "handoff_to:"
+    - 'agent:'
+    - 'persona:'
+    - 'core_principles:'
+    - 'commands:'
+    - 'voice_dna:'
+    - 'output_examples:'
+    - 'anti_patterns:'
+    - 'completion_criteria:'
+    - 'handoff_to:'
 
 task_metadata:
   required_fields:
-    - "task_name"
-    - "status"
-    - "responsible_executor"
-    - "execution_type"
-    - "input"
-    - "output"
-    - "action_items"
-    - "acceptance_criteria"
+    - 'task_name'
+    - 'status'
+    - 'responsible_executor'
+    - 'execution_type'
+    - 'input'
+    - 'output'
+    - 'action_items'
+    - 'acceptance_criteria'
 
 workflow_metadata:
   required_sections:
-    - "phases:"
-    - "checkpoints:"
-    - "outputs:"
+    - 'phases:'
+    - 'checkpoints:'
+    - 'outputs:'
 ```
 
 **Phase 0 Output:**
+
 ```yaml
 inventory:
-  squad: "copy"
-  version: "2.1.0"
+  squad: 'copy'
+  version: '2.1.0'
   totals:
     agents: 25
     tasks: 45
@@ -189,101 +193,101 @@ For each agent, check against `agent-quality-gate.md`:
 agent_gaps:
   checks:
     # Level 0: Loader Configuration (NEW)
-    - id: "L0-001"
-      check: "Has ACTIVATION-NOTICE"
+    - id: 'L0-001'
+      check: 'Has ACTIVATION-NOTICE'
       current_standard: true
       weight: blocking
 
-    - id: "L0-002"
-      check: "Has IDE-FILE-RESOLUTION"
+    - id: 'L0-002'
+      check: 'Has IDE-FILE-RESOLUTION'
       current_standard: true
       weight: blocking
 
-    - id: "L0-003"
-      check: "Has command_loader section"
+    - id: 'L0-003'
+      check: 'Has command_loader section'
       current_standard: true
       weight: blocking
 
     # Level 1: Identity
-    - id: "L1-001"
-      check: "agent.tier defined (1, 2, or 3)"
+    - id: 'L1-001'
+      check: 'agent.tier defined (1, 2, or 3)'
       current_standard: true
       weight: blocking
 
-    - id: "L1-002"
-      check: "agent.whenToUse descriptive (20+ chars)"
+    - id: 'L1-002'
+      check: 'agent.whenToUse descriptive (20+ chars)'
       current_standard: true
       weight: blocking
 
     # Level 2: Operational
-    - id: "L2-001"
-      check: "core_principles has 5-9 items"
+    - id: 'L2-001'
+      check: 'core_principles has 5-9 items'
       current_standard: true
       weight: blocking
 
-    - id: "L2-002"
-      check: "operational_frameworks has 1+ framework with steps"
+    - id: 'L2-002'
+      check: 'operational_frameworks has 1+ framework with steps'
       current_standard: true
       weight: recommended
 
     # Level 3: Voice DNA
-    - id: "L3-001"
-      check: "voice_dna.vocabulary.always_use has 5+ terms"
+    - id: 'L3-001'
+      check: 'voice_dna.vocabulary.always_use has 5+ terms'
       current_standard: true
       weight: blocking
 
-    - id: "L3-002"
-      check: "voice_dna.vocabulary.never_use has 3+ terms"
+    - id: 'L3-002'
+      check: 'voice_dna.vocabulary.never_use has 3+ terms'
       current_standard: true
       weight: blocking
 
-    - id: "L3-003"
-      check: "voice_dna.sentence_starters has 5+ patterns"
+    - id: 'L3-003'
+      check: 'voice_dna.sentence_starters has 5+ patterns'
       current_standard: true
       weight: recommended
 
-    - id: "L3-004"
-      check: "voice_dna.metaphors has 3+ metaphors"
+    - id: 'L3-004'
+      check: 'voice_dna.metaphors has 3+ metaphors'
       current_standard: true
       weight: recommended
 
     # Level 4: Quality
-    - id: "L4-001"
-      check: "output_examples has 3+ complete examples"
+    - id: 'L4-001'
+      check: 'output_examples has 3+ complete examples'
       current_standard: true
       weight: blocking
 
-    - id: "L4-002"
-      check: "anti_patterns.never_do has 5+ items"
+    - id: 'L4-002'
+      check: 'anti_patterns.never_do has 5+ items'
       current_standard: true
       weight: blocking
 
-    - id: "L4-003"
-      check: "objection_algorithms has 3+ objections"
+    - id: 'L4-003'
+      check: 'objection_algorithms has 3+ objections'
       current_standard: true
       weight: recommended
 
     # Level 5: Integration
-    - id: "L5-001"
-      check: "handoff_to has 1+ handoffs"
+    - id: 'L5-001'
+      check: 'handoff_to has 1+ handoffs'
       current_standard: true
       weight: blocking
 
-    - id: "L5-002"
-      check: "activation.greeting defined (50+ chars)"
+    - id: 'L5-002'
+      check: 'activation.greeting defined (50+ chars)'
       current_standard: true
       weight: blocking
 
     # Line Count
-    - id: "LC-001"
-      check: "Agent has 800+ lines"
+    - id: 'LC-001'
+      check: 'Agent has 800+ lines'
       current_standard: 800
       weight: recommended
 
   scoring:
-    pass: "All blocking checks pass"
-    needs_upgrade: "1-3 blocking checks fail"
-    critical: ">3 blocking checks fail"
+    pass: 'All blocking checks pass'
+    needs_upgrade: '1-3 blocking checks fail'
+    critical: '>3 blocking checks fail'
 ```
 
 ### Step 1.2: Task Gap Analysis
@@ -293,45 +297,55 @@ For each task, check against `task-anatomy-checklist.md`:
 ```yaml
 task_gaps:
   checks:
-    - id: "T-001"
-      check: "Has all 8 required fields"
-      fields: ["task_name", "status", "responsible_executor", "execution_type", "input", "output", "action_items", "acceptance_criteria"]
+    - id: 'T-001'
+      check: 'Has all 8 required fields'
+      fields:
+        [
+          'task_name',
+          'status',
+          'responsible_executor',
+          'execution_type',
+          'input',
+          'output',
+          'action_items',
+          'acceptance_criteria',
+        ]
       weight: blocking
 
-    - id: "T-002"
-      check: "task_name follows Verb + Object format"
-      pattern: "^[A-Z][a-z]+ [A-Z]"
+    - id: 'T-002'
+      check: 'task_name follows Verb + Object format'
+      pattern: '^[A-Z][a-z]+ [A-Z]'
       weight: blocking
 
-    - id: "T-003"
-      check: "execution_type is valid enum"
-      valid: ["Human", "Agent", "Hybrid", "Worker"]
+    - id: 'T-003'
+      check: 'execution_type is valid enum'
+      valid: ['Human', 'Agent', 'Hybrid', 'Worker']
       weight: blocking
 
-    - id: "T-004"
-      check: "input is array with 1+ items"
+    - id: 'T-004'
+      check: 'input is array with 1+ items'
       weight: blocking
 
-    - id: "T-005"
-      check: "output is array with 1+ items"
+    - id: 'T-005'
+      check: 'output is array with 1+ items'
       weight: blocking
 
-    - id: "T-006"
-      check: "action_items has 3+ concrete steps"
+    - id: 'T-006'
+      check: 'action_items has 3+ concrete steps'
       weight: recommended
 
-    - id: "T-007"
-      check: "acceptance_criteria has 2+ testable criteria"
+    - id: 'T-007'
+      check: 'acceptance_criteria has 2+ testable criteria'
       weight: recommended
 
-    - id: "T-008"
-      check: "Complex tasks (500+ lines) have checklist reference"
+    - id: 'T-008'
+      check: 'Complex tasks (500+ lines) have checklist reference'
       weight: recommended
 
   scoring:
-    pass: "All blocking checks pass"
-    needs_upgrade: "1-2 blocking checks fail"
-    critical: ">2 blocking checks fail"
+    pass: 'All blocking checks pass'
+    needs_upgrade: '1-2 blocking checks fail'
+    critical: '>2 blocking checks fail'
 ```
 
 ### Step 1.3: Workflow Gap Analysis
@@ -339,30 +353,30 @@ task_gaps:
 ```yaml
 workflow_gaps:
   checks:
-    - id: "W-001"
-      check: "Has 3+ phases"
+    - id: 'W-001'
+      check: 'Has 3+ phases'
       weight: blocking
 
-    - id: "W-002"
-      check: "Each phase has checkpoint"
+    - id: 'W-002'
+      check: 'Each phase has checkpoint'
       weight: blocking
 
-    - id: "W-003"
-      check: "Outputs flow between phases"
+    - id: 'W-003'
+      check: 'Outputs flow between phases'
       weight: blocking
 
-    - id: "W-004"
-      check: "Quality gate before final output"
+    - id: 'W-004'
+      check: 'Quality gate before final output'
       weight: blocking
 
-    - id: "W-005"
-      check: "Has automation script (if 8+ phases)"
+    - id: 'W-005'
+      check: 'Has automation script (if 8+ phases)'
       weight: recommended
 
   scoring:
-    pass: "All blocking checks pass"
-    needs_upgrade: "1-2 blocking checks fail"
-    critical: ">2 blocking checks fail"
+    pass: 'All blocking checks pass'
+    needs_upgrade: '1-2 blocking checks fail'
+    critical: '>2 blocking checks fail'
 ```
 
 ### Step 1.4: Generate Gap Report
@@ -370,9 +384,9 @@ workflow_gaps:
 ```yaml
 gap_report_format:
   summary:
-    squad: "{name}"
-    overall_score: "X.X/10"
-    status: "PASS | NEEDS_UPGRADE | CRITICAL"
+    squad: '{name}'
+    overall_score: 'X.X/10'
+    status: 'PASS | NEEDS_UPGRADE | CRITICAL'
     components_analyzed: N
     components_passing: N
     components_needing_upgrade: N
@@ -385,15 +399,15 @@ gap_report_format:
       needing_upgrade: N
       critical: N
       details:
-        - name: "agent-name.md"
-          score: "X/10"
-          status: "PASS | NEEDS_UPGRADE | CRITICAL"
+        - name: 'agent-name.md'
+          score: 'X/10'
+          status: 'PASS | NEEDS_UPGRADE | CRITICAL'
           gaps:
             blocking:
-              - "Missing voice_dna.vocabulary.always_use"
-              - "No output_examples"
+              - 'Missing voice_dna.vocabulary.always_use'
+              - 'No output_examples'
             recommended:
-              - "Could add more metaphors"
+              - 'Could add more metaphors'
 
     tasks:
       total: N
@@ -411,24 +425,25 @@ gap_report_format:
 
   priority_list:
     critical:
-      - component: "agents/old-agent.md"
+      - component: 'agents/old-agent.md'
         gaps: 5
-        effort: "2-3h"
+        effort: '2-3h'
     high:
-      - component: "tasks/incomplete-task.md"
+      - component: 'tasks/incomplete-task.md'
         gaps: 3
-        effort: "1h"
+        effort: '1h'
     medium:
-      - component: "agents/needs-polish.md"
+      - component: 'agents/needs-polish.md'
         gaps: 2
-        effort: "30m"
+        effort: '30m'
     low:
-      - component: "templates/minor-update.md"
+      - component: 'templates/minor-update.md'
         gaps: 1
-        effort: "15m"
+        effort: '15m'
 ```
 
 **Phase 1 Output:**
+
 ```
 📊 GAP ANALYSIS REPORT: copy
 
@@ -463,77 +478,77 @@ Estimated Total Effort: 12-15h
 prioritization_rules:
   critical:
     criteria:
-      - "Blocking checks failing"
-      - "Component unusable without fix"
-    action: "Must fix before squad is production-ready"
+      - 'Blocking checks failing'
+      - 'Component unusable without fix'
+    action: 'Must fix before squad is production-ready'
 
   high:
     criteria:
-      - "Missing required sections"
-      - "Below minimum line count"
-    action: "Should fix in this upgrade cycle"
+      - 'Missing required sections'
+      - 'Below minimum line count'
+    action: 'Should fix in this upgrade cycle'
 
   medium:
     criteria:
-      - "Recommended checks failing"
-      - "Quality score below 7.0"
-    action: "Fix if time permits"
+      - 'Recommended checks failing'
+      - 'Quality score below 7.0'
+    action: 'Fix if time permits'
 
   low:
     criteria:
-      - "Minor improvements"
-      - "Style/consistency issues"
-    action: "Optional polish"
+      - 'Minor improvements'
+      - 'Style/consistency issues'
+    action: 'Optional polish'
 ```
 
 ### Step 2.2: Generate Upgrade Plan
 
 ```yaml
 upgrade_plan:
-  squad: "{name}"
-  generated: "{timestamp}"
+  squad: '{name}'
+  generated: '{timestamp}'
   total_components: N
   components_to_upgrade: N
-  estimated_effort: "X-Yh"
+  estimated_effort: 'X-Yh'
 
   phases:
     - phase: 1
-      name: "Critical Fixes"
-      components:  # Example - replace with your squad components
-        - file: "agents/{agent-1}.md"
+      name: 'Critical Fixes'
+      components: # Example - replace with your squad components
+        - file: 'agents/{agent-1}.md'
           upgrades:
-            - "Add ACTIVATION-NOTICE at top"
-            - "Add IDE-FILE-RESOLUTION section"
-            - "Add command_loader section"
-            - "Add CRITICAL_LOADER_RULE"
-          effort: "45m"
+            - 'Add ACTIVATION-NOTICE at top'
+            - 'Add IDE-FILE-RESOLUTION section'
+            - 'Add command_loader section'
+            - 'Add CRITICAL_LOADER_RULE'
+          effort: '45m'
           auto_applicable: true
 
-        - file: "tasks/{task-1}.md"
+        - file: 'tasks/{task-1}.md'
           upgrades:
-            - "Add missing fields: execution_type, acceptance_criteria"
-            - "Convert input/output to arrays"
-          effort: "20m"
+            - 'Add missing fields: execution_type, acceptance_criteria'
+            - 'Convert input/output to arrays'
+          effort: '20m'
           auto_applicable: true
 
     - phase: 2
-      name: "Required Sections"
-      components:  # Example - replace with your squad components
-        - file: "agents/{agent-2}.md"
+      name: 'Required Sections'
+      components: # Example - replace with your squad components
+        - file: 'agents/{agent-2}.md'
           upgrades:
-            - "Add output_examples section (3+ examples)"
-            - "Expand voice_dna.vocabulary"
-          effort: "1h"
-          auto_applicable: false  # Needs research
+            - 'Add output_examples section (3+ examples)'
+            - 'Expand voice_dna.vocabulary'
+          effort: '1h'
+          auto_applicable: false # Needs research
 
     - phase: 3
-      name: "Quality Polish"
-      components:  # Example - replace with your squad components
-        - file: "agents/{agent-3}.md"
+      name: 'Quality Polish'
+      components: # Example - replace with your squad components
+        - file: 'agents/{agent-3}.md'
           upgrades:
-            - "Add metaphors to voice_dna"
-            - "Add objection_algorithms"
-          effort: "30m"
+            - 'Add metaphors to voice_dna'
+            - 'Add objection_algorithms'
+          effort: '30m'
           auto_applicable: false
 ```
 
@@ -582,14 +597,14 @@ Upgrades that can be safely automated:
 auto_upgrades:
   # Structural additions (safe to add)
   add_activation_notice:
-    when: "ACTIVATION-NOTICE missing"
+    when: 'ACTIVATION-NOTICE missing'
     action: |
       Insert at top of file:
       "ACTIVATION-NOTICE: This file contains your full agent operating guidelines..."
     safe: true
 
   add_ide_file_resolution:
-    when: "IDE-FILE-RESOLUTION missing"
+    when: 'IDE-FILE-RESOLUTION missing'
     action: |
       Insert IDE-FILE-RESOLUTION block with:
       - base_path: "squads/{squad_name}"
@@ -597,7 +612,7 @@ auto_upgrades:
     safe: true
 
   add_command_loader:
-    when: "command_loader missing"
+    when: 'command_loader missing'
     action: |
       Generate command_loader based on existing commands:
       - Parse commands section
@@ -605,14 +620,14 @@ auto_upgrades:
     safe: true
 
   add_critical_loader_rule:
-    when: "CRITICAL_LOADER_RULE missing"
+    when: 'CRITICAL_LOADER_RULE missing'
     action: |
       Insert standard CRITICAL_LOADER_RULE block
     safe: true
 
   # Field additions (safe)
   add_missing_task_fields:
-    when: "Task missing required fields"
+    when: 'Task missing required fields'
     action: |
       Add missing fields with sensible defaults:
       - status: "pending"
@@ -622,16 +637,16 @@ auto_upgrades:
       - action_items: [] (empty array)
       - acceptance_criteria: [] (empty array)
     safe: true
-    requires_review: true  # User should fill in values
+    requires_review: true # User should fill in values
 
   convert_to_array:
-    when: "input/output is string instead of array"
+    when: 'input/output is string instead of array'
     action: |
       Convert: "Single item" → ["Single item"]
     safe: true
 
   add_empty_sections:
-    when: "Required section missing"
+    when: 'Required section missing'
     action: |
       Add empty section with TODO comment:
       voice_dna:
@@ -650,7 +665,7 @@ Upgrades requiring human input or research:
 ```yaml
 manual_upgrades:
   add_output_examples:
-    when: "output_examples missing or <3"
+    when: 'output_examples missing or <3'
     action: |
       PAUSE and request:
       "Agent {name} needs 3+ output_examples.
@@ -659,10 +674,10 @@ manual_upgrades:
        1. I'll generate examples based on agent's domain
        2. Skip for now (mark as TODO)
        3. You provide examples"
-    requires: "Domain knowledge or research"
+    requires: 'Domain knowledge or research'
 
   expand_voice_dna:
-    when: "voice_dna incomplete"
+    when: 'voice_dna incomplete'
     action: |
       PAUSE and request:
       "Agent {name} needs expanded voice_dna.
@@ -671,10 +686,10 @@ manual_upgrades:
        1. Research and generate (uses *extract-voice-dna)
        2. Skip for now (mark as TODO)
        3. You provide content"
-    requires: "Source material or research"
+    requires: 'Source material or research'
 
   add_objection_algorithms:
-    when: "objection_algorithms missing"
+    when: 'objection_algorithms missing'
     action: |
       PAUSE and request:
       "Agent {name} needs objection_algorithms.
@@ -683,7 +698,7 @@ manual_upgrades:
        1. Generate based on domain patterns
        2. Skip for now
        3. You provide objections"
-    requires: "Domain expertise"
+    requires: 'Domain expertise'
 ```
 
 ### Step 3.3: Apply Upgrades
@@ -691,16 +706,16 @@ manual_upgrades:
 ```yaml
 upgrade_execution:
   for_each_upgrade:
-    - step: "Backup original file"
-      action: "Copy to .backup/{filename}.{timestamp}.bak"
+    - step: 'Backup original file'
+      action: 'Copy to .backup/{filename}.{timestamp}.bak'
 
-    - step: "Apply upgrade"
-      action: "Modify file according to upgrade spec"
+    - step: 'Apply upgrade'
+      action: 'Modify file according to upgrade spec'
 
-    - step: "Validate change"
-      action: "Re-run relevant checks on modified section"
+    - step: 'Validate change'
+      action: 'Re-run relevant checks on modified section'
 
-    - step: "Log change"
+    - step: 'Log change'
       action: |
         Add to upgrade_log:
           file: "{filename}"
@@ -710,10 +725,11 @@ upgrade_execution:
           notes: "{any issues}"
 
   on_failure:
-    action: "Restore from backup, log failure, continue"
+    action: 'Restore from backup, log failure, continue'
 ```
 
 **Phase 3 Output:**
+
 ```
 ✅ UPGRADES APPLIED
 
@@ -742,11 +758,11 @@ Backups Created: 6
 
 ```yaml
 verification:
-  action: "Run *validate-squad {squad_name}"
+  action: 'Run *validate-squad {squad_name}'
   compare:
-    - "Before score vs After score"
-    - "Before gaps vs After gaps"
-    - "Blocking issues resolved?"
+    - 'Before score vs After score'
+    - 'Before gaps vs After gaps'
+    - 'Blocking issues resolved?'
 ```
 
 ### Step 4.2: Generate Upgrade Report
@@ -754,15 +770,15 @@ verification:
 ```yaml
 upgrade_report:
   header:
-    squad: "{name}"
-    upgrade_date: "{date}"
-    upgraded_by: "Squad Architect"
+    squad: '{name}'
+    upgrade_date: '{date}'
+    upgraded_by: 'Squad Architect'
 
   summary:
-    before_score: "6.8/10"
-    after_score: "8.5/10"
-    improvement: "+1.7 points"
-    status: "PASS | NEEDS_MORE_WORK"
+    before_score: '6.8/10'
+    after_score: '8.5/10'
+    improvement: '+1.7 points'
+    status: 'PASS | NEEDS_MORE_WORK'
 
   changes_made:
     total: N
@@ -776,41 +792,41 @@ upgrade_report:
       medium: N
       low: N
 
-  components_upgraded:  # Example - your results will vary
-    - file: "agents/{agent-1}.md"
-      before: "5.2/10"
-      after: "8.0/10"
+  components_upgraded: # Example - your results will vary
+    - file: 'agents/{agent-1}.md'
+      before: '5.2/10'
+      after: '8.0/10'
       changes:
-        - "Added Hybrid Loader structure"
-        - "Added command_loader"
+        - 'Added Hybrid Loader structure'
+        - 'Added command_loader'
 
-  remaining_todos:  # Example - your results will vary
-    - file: "agents/{agent-2}.md"
-      todo: "Add output_examples (marked with TODO)"
-    - file: "agents/old-agent.md"
-      todo: "Needs complete rewrite"
+  remaining_todos: # Example - your results will vary
+    - file: 'agents/{agent-2}.md'
+      todo: 'Add output_examples (marked with TODO)'
+    - file: 'agents/old-agent.md'
+      todo: 'Needs complete rewrite'
 
   recommendations:
-    - "Run *extract-voice-dna on 3 agents that need output_examples"
-    - "Consider deprecating agents/old-agent.md"
-    - "Schedule follow-up upgrade in 2 weeks"
+    - 'Run *extract-voice-dna on 3 agents that need output_examples'
+    - 'Consider deprecating agents/old-agent.md'
+    - 'Schedule follow-up upgrade in 2 weeks'
 
   backups:
-    location: "squads/{squad}/.backup/"
+    location: 'squads/{squad}/.backup/'
     files: N
-    restore_command: "cp .backup/{file}.bak {file}"
+    restore_command: 'cp .backup/{file}.bak {file}'
 ```
 
 ---
 
 ## Outputs
 
-| Output | Location | Description |
-|--------|----------|-------------|
-| Gap Report | Console + `{squad}/docs/gap-report-{date}.md` | Full gap analysis |
-| Upgrade Plan | Console | Prioritized upgrade plan |
-| Upgrade Report | `{squad}/docs/upgrade-report-{date}.md` | Post-upgrade summary |
-| Backups | `{squad}/.backup/` | Original files before upgrade |
+| Output         | Location                                      | Description                   |
+| -------------- | --------------------------------------------- | ----------------------------- |
+| Gap Report     | Console + `{squad}/docs/gap-report-{date}.md` | Full gap analysis             |
+| Upgrade Plan   | Console                                       | Prioritized upgrade plan      |
+| Upgrade Report | `{squad}/docs/upgrade-report-{date}.md`       | Post-upgrade summary          |
+| Backups        | `{squad}/.backup/`                            | Original files before upgrade |
 
 ---
 
@@ -818,7 +834,7 @@ upgrade_report:
 
 ```bash
 # Audit only (no changes)
-@squad-architect
+@squad-chief
 *upgrade-squad copy --mode=audit
 
 # Generate plan
@@ -864,41 +880,41 @@ upgrade_report:
 
 ```yaml
 upgrade_complete_when:
-  - "All critical gaps resolved (or documented as exceptions)"
-  - "After score >= Before score + 1.0 (meaningful improvement)"
-  - "No blocking checks failing"
-  - "Upgrade report generated"
-  - "Backups verified"
+  - 'All critical gaps resolved (or documented as exceptions)'
+  - 'After score >= Before score + 1.0 (meaningful improvement)'
+  - 'No blocking checks failing'
+  - 'Upgrade report generated'
+  - 'Backups verified'
 
 handoff_to:
-  - agent: "@squad-architect"
-    when: "Upgrade complete, user wants to validate"
-    command: "*validate-squad {name}"
+  - agent: '@squad-chief'
+    when: 'Upgrade complete, user wants to validate'
+    command: '*validate-squad {name}'
 
-  - agent: "@oalanicolas"
-    when: "Agent needs voice_dna research"
-    command: "*extract-voice-dna {agent}"
+  - agent: '@oalanicolas'
+    when: 'Agent needs voice_dna research'
+    command: '*extract-voice-dna {agent}'
 
-  - agent: "User"
-    when: "Manual TODOs remain"
-    context: "Review TODO markers in upgraded files"
+  - agent: 'User'
+    when: 'Manual TODOs remain'
+    context: 'Review TODO markers in upgraded files'
 ```
 
 ---
 
 ## Related
 
-| Command | Purpose |
-|---------|---------|
-| `*validate-squad {name}` | Full validation (run after upgrade) |
-| `*extract-voice-dna {name}` | Research voice DNA for agent |
-| `*refresh-registry` | Update registry after upgrades |
+| Command                     | Purpose                             |
+| --------------------------- | ----------------------------------- |
+| `*validate-squad {name}`    | Full validation (run after upgrade) |
+| `*extract-voice-dna {name}` | Research voice DNA for agent        |
+| `*refresh-registry`         | Update registry after upgrades      |
 
-| Reference | File |
-|-----------|------|
-| Agent Quality Gate | `checklists/agent-quality-gate.md` |
-| Task Anatomy | `checklists/task-anatomy-checklist.md` |
-| Squad Checklist | `checklists/squad-checklist.md` |
+| Reference          | File                                   |
+| ------------------ | -------------------------------------- |
+| Agent Quality Gate | `checklists/agent-quality-gate.md`     |
+| Task Anatomy       | `checklists/task-anatomy-checklist.md` |
+| Squad Checklist    | `checklists/squad-checklist.md`        |
 
 ---
 

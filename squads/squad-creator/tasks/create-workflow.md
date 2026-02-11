@@ -2,12 +2,14 @@
 
 **Task ID:** create-workflow
 **Version:** 2.0
+**Execution Type:** Worker
 **Purpose:** Create multi-phase workflows that orchestrate complex operations across agents
-**Orchestrator:** @squad-architect
+**Orchestrator:** @squad-chief
 **Mode:** Elicitation-based (interactive)
 **Quality Standard:** AIOS Level (500+ lines, 3+ phases, checkpoints)
 
 **Frameworks Used:**
+
 - `data/tier-system-framework.md` → Phase tier classification (Phase 2)
 - `data/executor-matrix-framework.md` → Agent assignment (Phase 3)
 - `data/decision-heuristics-framework.md` → Checkpoint logic (Phase 4)
@@ -21,6 +23,7 @@ This task guides the creation of multi-phase workflows that orchestrate complex 
 **CRITICAL:** Prefer workflows over standalone tasks when the operation has 3+ phases, multiple agents, or needs intermediate validation.
 
 **v2.0 Changes:**
+
 - PHASE-based structure with checkpoints
 - Framework integration at every phase
 - Quality gate SC_WFL_001 must pass
@@ -77,28 +80,28 @@ workflow_criteria:
     - no_intermediate_checkpoints: true
 
   decision:
-    if_any_workflow_criteria: "Create WORKFLOW"
-    if_none_match: "Create TASK instead"
+    if_any_workflow_criteria: 'Create WORKFLOW'
+    if_none_match: 'Create TASK instead'
 ```
 
 ---
 
 ## Inputs
 
-| Parameter | Type | Required | Description | Example |
-|-----------|------|----------|-------------|---------|
-| `workflow_name` | string | Yes | Human-readable name | `"High-Ticket Sales Pipeline"` |
-| `workflow_id` | string | Yes | kebab-case identifier | `"high-ticket-sales"` |
-| `pack_name` | string | Yes | Target squad | `"copy"` |
-| `duration` | string | Yes | Expected duration | `"7-10 days"` |
-| `phase_count` | int | Yes | Number of phases (min 3) | `5` |
+| Parameter       | Type   | Required | Description              | Example                        |
+| --------------- | ------ | -------- | ------------------------ | ------------------------------ |
+| `workflow_name` | string | Yes      | Human-readable name      | `"High-Ticket Sales Pipeline"` |
+| `workflow_id`   | string | Yes      | kebab-case identifier    | `"high-ticket-sales"`          |
+| `pack_name`     | string | Yes      | Target squad             | `"copy"`                       |
+| `duration`      | string | Yes      | Expected duration        | `"7-10 days"`                  |
+| `phase_count`   | int    | Yes      | Number of phases (min 3) | `5`                            |
 
 ---
 
 ## Preconditions
 
 - [ ] Target pack exists at `squads/{pack_name}/`
-- [ ] squad-architect agent is active
+- [ ] squad-chief agent is active
 - [ ] Agents for the workflow exist (or will be created)
 - [ ] Write permissions for `squads/{pack_name}/workflows/`
 - [ ] Workflow criteria validated (not a task)
@@ -114,82 +117,87 @@ workflow_criteria:
 ### Step 0.1: Validate Workflow Criteria
 
 **Actions:**
+
 ```yaml
 validate_criteria:
   check_each:
-    - has_3plus_phases: "How many distinct phases?"
-    - multiple_agents: "How many agents involved?"
-    - spans_multiple_days: "Expected duration?"
-    - needs_checkpoints: "Validation points between phases?"
-    - output_feeds_next: "Does phase output feed next phase?"
+    - has_3plus_phases: 'How many distinct phases?'
+    - multiple_agents: 'How many agents involved?'
+    - spans_multiple_days: 'Expected duration?'
+    - needs_checkpoints: 'Validation points between phases?'
+    - output_feeds_next: 'Does phase output feed next phase?'
 
   decision:
-    if_any_true: "Workflow is appropriate"
-    if_all_false: "Redirect to *create-task"
+    if_any_true: 'Workflow is appropriate'
+    if_all_false: 'Redirect to *create-task'
 ```
 
 **Elicitation:**
+
 ```yaml
 elicit_validation:
   questions:
-    - "Does this operation have 3+ distinct phases?"
-    - "Are multiple agents involved?"
-    - "Will it span multiple days or sessions?"
-    - "Do you need validation checkpoints between phases?"
+    - 'Does this operation have 3+ distinct phases?'
+    - 'Are multiple agents involved?'
+    - 'Will it span multiple days or sessions?'
+    - 'Do you need validation checkpoints between phases?'
 
   if_all_no:
-    action: "This should be a TASK, not a workflow."
-    redirect: "*create-task"
+    action: 'This should be a TASK, not a workflow.'
+    redirect: '*create-task'
 ```
 
 ### Step 0.2: Define Workflow Identity
 
 **Elicitation:**
+
 ```yaml
 elicit_identity:
   workflow_name:
-    question: "What is the workflow name? (human-readable)"
-    example: "High-Ticket Sales Pipeline"
+    question: 'What is the workflow name? (human-readable)'
+    example: 'High-Ticket Sales Pipeline'
 
   workflow_id:
-    question: "What is the workflow ID? (kebab-case)"
-    example: "high-ticket-sales"
-    validation: "Must be unique within pack"
+    question: 'What is the workflow ID? (kebab-case)'
+    example: 'high-ticket-sales'
+    validation: 'Must be unique within pack'
 
   duration:
-    question: "What is the expected duration?"
-    example: "7-10 days"
+    question: 'What is the expected duration?'
+    example: '7-10 days'
 
   description:
-    question: "What does this workflow accomplish?"
-    example: "Orchestrates the complete sales pipeline from lead capture to close"
+    question: 'What does this workflow accomplish?'
+    example: 'Orchestrates the complete sales pipeline from lead capture to close'
 ```
 
 ### Step 0.3: Define Scope
 
 **Elicitation:**
+
 ```yaml
 elicit_scope:
   primary_goal:
-    question: "What is the primary goal of this workflow?"
+    question: 'What is the primary goal of this workflow?'
 
   target_user:
-    question: "Who will execute this workflow?"
+    question: 'Who will execute this workflow?'
 
   use_cases:
-    question: "What are 3-5 specific use cases for this workflow?"
+    question: 'What are 3-5 specific use cases for this workflow?'
 
   decision_criteria:
-    question: "When should someone choose this workflow over alternatives?"
+    question: 'When should someone choose this workflow over alternatives?'
 ```
 
 **Output (PHASE 0):**
+
 ```yaml
 phase_0_output:
-  workflow_name: "High-Ticket Sales Pipeline"
-  workflow_id: "high-ticket-sales"
-  duration: "7-10 days"
-  pack_name: "copy"
+  workflow_name: 'High-Ticket Sales Pipeline'
+  workflow_id: 'high-ticket-sales'
+  duration: '7-10 days'
+  pack_name: 'copy'
   phase_count: 5
   criteria_validated: true
 ```
@@ -207,26 +215,28 @@ phase_0_output:
 **Apply: tier-system-framework.md**
 
 **Actions:**
+
 ```yaml
 design_phases:
   tier_definitions:
-    tier_0: "Foundation - Must complete before anything else"
-    tier_1: "Core - Main execution phase"
-    tier_2: "Advanced - Enhancement and optimization"
-    tier_3: "Polish - Final quality assurance"
+    tier_0: 'Foundation - Must complete before anything else'
+    tier_1: 'Core - Main execution phase'
+    tier_2: 'Advanced - Enhancement and optimization'
+    tier_3: 'Polish - Final quality assurance'
 
   for_each_phase:
-    - phase_number: "Sequential number (1, 2, 3...)"
-    - phase_name: "Human-readable name"
+    - phase_number: 'Sequential number (1, 2, 3...)'
+    - phase_name: 'Human-readable name'
     - phase_days: "Duration (e.g., 'Days 1-2')"
-    - phase_tier: "0, 1, 2, or 3"
-    - phase_description: "What this phase accomplishes"
-    - phase_tasks: "List of tasks in this phase"
+    - phase_tier: '0, 1, 2, or 3'
+    - phase_description: 'What this phase accomplishes'
+    - phase_tasks: 'List of tasks in this phase'
 ```
 
 ### Step 1.2: Define Each Phase
 
 **Template for each phase:**
+
 ```yaml
 phase_template:
   structure: |
@@ -253,33 +263,35 @@ phase_template:
 ```
 
 **Elicitation per phase:**
+
 ```yaml
 elicit_phase:
   phase_identity:
-    - "What is the name of Phase {N}?"
-    - "What days does it span?"
-    - "What tier is it? (0=foundation, 1=core, 2=advanced, 3=polish)"
+    - 'What is the name of Phase {N}?'
+    - 'What days does it span?'
+    - 'What tier is it? (0=foundation, 1=core, 2=advanced, 3=polish)'
 
   phase_content:
-    - "What tasks belong to this phase?"
-    - "Which agent executes each task?"
-    - "What does this phase produce?"
+    - 'What tasks belong to this phase?'
+    - 'Which agent executes each task?'
+    - 'What does this phase produce?'
 
   phase_checkpoint:
-    - "What must be true to complete this phase?"
-    - "Does it need human review?"
+    - 'What must be true to complete this phase?'
+    - 'Does it need human review?'
 ```
 
 ### Step 1.3: Add Inline Structures (If Needed)
 
 **When to add inline structures:**
+
 ```yaml
 inline_structure_criteria:
   add_when:
-    - "Phase produces complex multi-part output"
-    - "Detailed step-by-step guidance is needed"
-    - "Timing/duration specifications are important"
-    - "Domain-specific formatting required"
+    - 'Phase produces complex multi-part output'
+    - 'Detailed step-by-step guidance is needed'
+    - 'Timing/duration specifications are important'
+    - 'Domain-specific formatting required'
 
   examples:
     email_sequence:
@@ -315,6 +327,7 @@ inline_structure_criteria:
 ```
 
 **Output (PHASE 1):**
+
 ```yaml
 phase_1_output:
   phases_defined: 5
@@ -324,15 +337,16 @@ phase_1_output:
 ```
 
 **Checkpoint SC_PHS_001:**
+
 ```yaml
 heuristic_id: SC_PHS_001
-name: "Phases Defined"
+name: 'Phases Defined'
 blocking: true
 criteria:
   - phases_count >= 3
   - all_phases_have_tier
   - all_phases_have_tasks
-  - tier_0_exists  # Foundation phase required
+  - tier_0_exists # Foundation phase required
 ```
 
 ---
@@ -346,12 +360,13 @@ criteria:
 ### Step 2.1: Define Checkpoints Per Phase
 
 **Actions:**
+
 ```yaml
 checkpoint_design:
   every_phase_must_have:
-    - criteria: "List of specific validation items"
-    - human_review: "true for important decisions"
-    - message: "Context for the reviewer"
+    - criteria: 'List of specific validation items'
+    - human_review: 'true for important decisions'
+    - message: 'Context for the reviewer'
 
   checkpoint_template: |
     checkpoint:
@@ -364,13 +379,14 @@ checkpoint_design:
 ```
 
 **Elicitation:**
+
 ```yaml
 elicit_checkpoint:
   for_each_phase:
-    - "What must be true to complete Phase {N}?"
-    - "List 2-4 specific criteria"
-    - "Does this checkpoint need human review?"
-    - "What context should the reviewer have?"
+    - 'What must be true to complete Phase {N}?'
+    - 'List 2-4 specific criteria'
+    - 'Does this checkpoint need human review?'
+    - 'What context should the reviewer have?'
 ```
 
 ### Step 2.2: Set Veto Conditions
@@ -378,9 +394,10 @@ elicit_checkpoint:
 **Apply: decision-heuristics-framework.md**
 
 **Actions:**
+
 ```yaml
 veto_conditions:
-  purpose: "Define conditions that BLOCK progress"
+  purpose: 'Define conditions that BLOCK progress'
 
   template: |
     checkpoint_config:
@@ -390,16 +407,17 @@ veto_conditions:
         veto_condition: "{veto_condition}"
 
   examples:
-    - veto: "Vision unclear (<0.7 clarity score)"
-    - veto: "Missing required outputs"
-    - veto: "Quality score below 7.0"
-    - veto: "Security validation failed"
-    - veto: "Human review rejected"
+    - veto: 'Vision unclear (<0.7 clarity score)'
+    - veto: 'Missing required outputs'
+    - veto: 'Quality score below 7.0'
+    - veto: 'Security validation failed'
+    - veto: 'Human review rejected'
 ```
 
 ### Step 2.3: Design Error Handling
 
 **Actions:**
+
 ```yaml
 error_handling:
   template: |
@@ -422,11 +440,12 @@ error_handling:
 ```
 
 **Output (PHASE 2):**
+
 ```yaml
 phase_2_output:
   checkpoints_defined: 5
   veto_conditions: 8
-  error_handling: "complete"
+  error_handling: 'complete'
 ```
 
 ---
@@ -442,6 +461,7 @@ phase_2_output:
 **Apply: executor-matrix-framework.md**
 
 **Actions:**
+
 ```yaml
 agent_assignment:
   template: |
@@ -454,22 +474,24 @@ agent_assignment:
           - "{secondary_agent_1}"
 
   criteria:
-    primary_agent: "Main executor for the phase"
-    secondary_agent: "Supports or validates primary"
+    primary_agent: 'Main executor for the phase'
+    secondary_agent: 'Supports or validates primary'
 ```
 
 **Elicitation:**
+
 ```yaml
 elicit_agents:
   for_each_phase:
-    - "Which agent is PRIMARY for Phase {N}?"
-    - "Which agents SUPPORT this phase?"
-    - "Are these agents defined in the pack?"
+    - 'Which agent is PRIMARY for Phase {N}?'
+    - 'Which agents SUPPORT this phase?'
+    - 'Are these agents defined in the pack?'
 ```
 
 ### Step 3.2: Define Handoff Points
 
 **Actions:**
+
 ```yaml
 handoff_points:
   template: |
@@ -484,27 +506,29 @@ handoff_points:
         validation: "{handoff_validation}"
 
   criteria:
-    - "Clear sender and receiver"
-    - "Context preserved"
-    - "Validation at handoff"
+    - 'Clear sender and receiver'
+    - 'Context preserved'
+    - 'Validation at handoff'
 ```
 
 ### Step 3.3: Map Synergies and Conflicts
 
 **Actions:**
+
 ```yaml
 synergies_conflicts:
   synergies:
-    - agents: ["{agent_1}", "{agent_2}"]
-      pattern: "How they work well together"
+    - agents: ['{agent_1}', '{agent_2}']
+      pattern: 'How they work well together'
 
   conflicts:
-    - agents: ["{agent_3}", "{agent_4}"]
+    - agents: ['{agent_3}', '{agent_4}']
       reason: "Why they shouldn't be combined"
-      resolution: "How to handle if both needed"
+      resolution: 'How to handle if both needed'
 ```
 
 **Output (PHASE 3):**
+
 ```yaml
 phase_3_output:
   agents_assigned: 8
@@ -524,27 +548,29 @@ phase_3_output:
 ### Step 4.1: Compile Workflow File
 
 **Actions:**
+
 ```yaml
 compile_workflow:
   sections:
-    - header: "id, name, duration, description"
-    - best_for: "Use cases"
-    - decision_matrix_fit: "When to use"
-    - clone_combinations: "Agent combinations"
-    - phases: "All phases with tasks and checkpoints"
-    - error_handling: "Error procedures"
-    - signals: "completion, checkpoint, blocked"
-    - outputs: "All artifacts"
-    - agents_by_phase: "Agent assignments"
-    - quality_checklist: "Per-phase criteria"
-    - metadata: "Version, created, etc."
+    - header: 'id, name, duration, description'
+    - best_for: 'Use cases'
+    - decision_matrix_fit: 'When to use'
+    - clone_combinations: 'Agent combinations'
+    - phases: 'All phases with tasks and checkpoints'
+    - error_handling: 'Error procedures'
+    - signals: 'completion, checkpoint, blocked'
+    - outputs: 'All artifacts'
+    - agents_by_phase: 'Agent assignments'
+    - quality_checklist: 'Per-phase criteria'
+    - metadata: 'Version, created, etc.'
 
-  output_location: "squads/{pack_name}/workflows/wf-{workflow_id}.yaml"
+  output_location: 'squads/{pack_name}/workflows/wf-{workflow_id}.yaml'
 ```
 
 ### Step 4.2: Run Quality Gate SC_WFL_001
 
 **Actions:**
+
 ```yaml
 run_quality_gate:
   heuristic_id: SC_WFL_001
@@ -589,9 +615,10 @@ run_quality_gate:
 ### Step 4.3: Save Workflow File
 
 **Actions:**
+
 ```yaml
 save_workflow:
-  path: "squads/{pack_name}/workflows/wf-{workflow_id}.yaml"
+  path: 'squads/{pack_name}/workflows/wf-{workflow_id}.yaml'
 
   post_save:
     - verify_yaml_valid
@@ -601,13 +628,14 @@ save_workflow:
 ```
 
 **Output (PHASE 4):**
+
 ```yaml
 phase_4_output:
   quality_score: 8.5/10
-  blocking_requirements: "ALL PASS"
-  workflow_file: "squads/{squad-name}/workflows/{workflow-name}.yaml"  # Example
+  blocking_requirements: 'ALL PASS'
+  workflow_file: 'squads/{squad-name}/workflows/{workflow-name}.yaml' # Example
   lines: 650
-  status: "PASS"
+  status: 'PASS'
 ```
 
 ---
@@ -620,12 +648,13 @@ phase_4_output:
 ### Step 5.1: Present Workflow Summary
 
 **Actions:**
+
 ```yaml
 present_summary:
   workflow_created:
-    name: "High-Ticket Sales Pipeline"
-    id: "wf-high-ticket-sales"
-    file: "squads/{squad-name}/workflows/{workflow-name}.yaml"  # Example
+    name: 'High-Ticket Sales Pipeline'
+    id: 'wf-high-ticket-sales'
+    file: 'squads/{squad-name}/workflows/{workflow-name}.yaml' # Example
     lines: 650
 
   structure:
@@ -636,35 +665,38 @@ present_summary:
 
   quality:
     score: 8.5/10
-    status: "PASS"
+    status: 'PASS'
 ```
 
 ---
 
 ## Outputs
 
-| Output | Location | Description |
-|--------|----------|-------------|
-| Workflow File | `squads/{pack_name}/workflows/wf-{workflow_id}.yaml` | Complete workflow |
-| Updated README | `squads/{pack_name}/README.md` | Workflow added |
-| Updated Config | `squads/{pack_name}/config.yaml` | Workflow registered |
+| Output         | Location                                             | Description         |
+| -------------- | ---------------------------------------------------- | ------------------- |
+| Workflow File  | `squads/{pack_name}/workflows/wf-{workflow_id}.yaml` | Complete workflow   |
+| Updated README | `squads/{pack_name}/README.md`                       | Workflow added      |
+| Updated Config | `squads/{pack_name}/config.yaml`                     | Workflow registered |
 
 ---
 
 ## Validation Criteria (All Must Pass)
 
 ### Structure
+
 - [ ] Workflow file is valid YAML
 - [ ] Has 3+ phases
 - [ ] Has tier 0 (foundation) phase
 
 ### Content
+
 - [ ] Each phase has id, name, days, tier, description
 - [ ] Each phase has at least 1 task
 - [ ] Each phase has checkpoint with criteria
 - [ ] Agents assigned to all phases
 
 ### Quality
+
 - [ ] Lines >= 500
 - [ ] SC_WFL_001 score >= 7.0
 - [ ] Error handling defined
@@ -674,13 +706,13 @@ present_summary:
 
 ## Heuristics Reference
 
-| Heuristic ID | Name | Where Applied | Blocking |
-|--------------|------|---------------|----------|
-| SC_WFL_PRE | Workflow Pre-Check | Phase 0 | Yes |
-| SC_PHS_001 | Phases Defined | Phase 1 | Yes |
-| SC_CKP_001 | Checkpoints Complete | Phase 2 | Yes |
-| SC_AGN_001 | Agents Assigned | Phase 3 | Yes |
-| SC_WFL_001 | Workflow Quality Gate | Phase 4 | Yes |
+| Heuristic ID | Name                  | Where Applied | Blocking |
+| ------------ | --------------------- | ------------- | -------- |
+| SC_WFL_PRE   | Workflow Pre-Check    | Phase 0       | Yes      |
+| SC_PHS_001   | Phases Defined        | Phase 1       | Yes      |
+| SC_CKP_001   | Checkpoints Complete  | Phase 2       | Yes      |
+| SC_AGN_001   | Agents Assigned       | Phase 3       | Yes      |
+| SC_WFL_001   | Workflow Quality Gate | Phase 4       | Yes      |
 
 ---
 
@@ -689,16 +721,16 @@ present_summary:
 ```yaml
 error_handling:
   should_be_task:
-    - "User trying to create simple operation as workflow"
-    - action: "Redirect to *create-task"
+    - 'User trying to create simple operation as workflow'
+    - action: 'Redirect to *create-task'
 
   insufficient_phases:
-    - "User defined < 3 phases"
-    - action: "Suggest combining with related operations OR use task"
+    - 'User defined < 3 phases'
+    - action: 'Suggest combining with related operations OR use task'
 
   validation_fails:
     - "Workflow doesn't meet quality gate"
-    - action: "Identify failures, fix, re-validate"
+    - action: 'Identify failures, fix, re-validate'
 ```
 
 ---
@@ -706,6 +738,7 @@ error_handling:
 ## Integration with AIOS
 
 This task creates workflows that:
+
 - Follow AIOS workflow standards (YAML format)
 - Have 3+ phases with tier classification
 - Include checkpoints with veto conditions

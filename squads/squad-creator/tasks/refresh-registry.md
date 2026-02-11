@@ -3,12 +3,13 @@
 **Task ID:** refresh-registry
 **Version:** 2.0.0
 **Purpose:** Scan all squads in the ecosystem and update squad-registry.yaml
-**Orchestrator:** @squad-architect
+**Orchestrator:** @squad-chief
 **Mode:** Hybrid (Script + LLM)
 **Execution Type:** `Hybrid` (Worker script + Agent enrichment)
 **Worker Script:** `scripts/refresh-registry.py`
 
 **Architecture:**
+
 ```
 DETERMINISTIC (Python Script)          LLM (Semantic Understanding)
 ├── Count agents, tasks, etc.          ├── Infer domain category
@@ -25,6 +26,7 @@ DETERMINISTIC (Python Script)          LLM (Semantic Understanding)
 ## Overview
 
 This task uses a hybrid approach:
+
 1. **Python script** handles all deterministic operations (counts, file reads)
 2. **LLM** handles semantic understanding (keywords, domain inference)
 
@@ -60,27 +62,31 @@ OUTPUT: Updated squad-registry.yaml
 ## Triggers (Hooks)
 
 ### 1. Manual Command
+
 ```bash
 *refresh-registry
 ```
 
 ### 2. On Squad-Creator Activation (Optional)
+
 ```yaml
-# In squad-architect.md activation-instructions
+# In squad-chief.md activation-instructions
 auto_refresh:
-  enabled: false  # Set to true for auto-refresh
-  condition: "registry older than 24 hours"
+  enabled: false # Set to true for auto-refresh
+  condition: 'registry older than 24 hours'
 ```
 
 ### 3. After Creating New Squad
+
 ```yaml
 # Automatic trigger after *create-squad completes
 post_create_hook:
-  action: "refresh-registry"
-  when: "squad creation successful"
+  action: 'refresh-registry'
+  when: 'squad creation successful'
 ```
 
 ### 4. Pre-Commit Hook (Recommended)
+
 ```bash
 # .claude/hooks/refresh-registry.sh
 # Trigger: Changes to squads/*/config.yaml
@@ -96,11 +102,11 @@ fi
 
 ## Inputs
 
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `squads_path` | string | No | `squads/` | Base path to scan |
-| `preserve_manual` | boolean | No | `true` | Keep manual highlights, quality_reference |
-| `update_gaps` | boolean | No | `false` | Re-analyze gaps (slower) |
+| Parameter         | Type    | Required | Default   | Description                               |
+| ----------------- | ------- | -------- | --------- | ----------------------------------------- |
+| `squads_path`     | string  | No       | `squads/` | Base path to scan                         |
+| `preserve_manual` | boolean | No       | `true`    | Keep manual highlights, quality_reference |
+| `update_gaps`     | boolean | No       | `false`   | Re-analyze gaps (slower)                  |
 
 ---
 
@@ -114,6 +120,7 @@ python3 squads/squad-creator/scripts/refresh-registry.py --output json --registr
 ```
 
 **Script Output:**
+
 ```json
 {
   "metadata": {
@@ -149,6 +156,7 @@ python3 squads/squad-creator/scripts/refresh-registry.py --output json --registr
 ```
 
 **What Script Does (Deterministic):**
+
 - Scans `squads/` directory
 - Reads each `config.yaml`
 - Counts files in each subdirectory
@@ -157,6 +165,7 @@ python3 squads/squad-creator/scripts/refresh-registry.py --output json --registr
 - Validates YAML syntax
 
 **What Script Does NOT Do:**
+
 - Infer domain category
 - Extract keywords
 - Generate highlights
@@ -170,39 +179,39 @@ For each squad in script output, LLM analyzes:
 llm_enrichment:
   for_each_squad:
     # Read README.md for context
-    read: "squads/{name}/README.md"
+    read: 'squads/{name}/README.md'
 
     infer_domain:
-      from: "description + README overview"
+      from: 'description + README overview'
       categories:
         - content_marketing
         - technical
         - business_ops
         - people_psychology
         - meta_frameworks
-      output: "Single category that best fits"
+      output: 'Single category that best fits'
 
     extract_keywords:
-      from: "README.md + agent_names + description"
+      from: 'README.md + agent_names + description'
       method: |
         1. Extract nouns and key phrases
         2. Include agent names as keywords
         3. Add domain-specific terms
         4. Deduplicate and lowercase
-      output: "List of 5-15 keywords"
+      output: 'List of 5-15 keywords'
 
     generate_highlights:
-      from: "README.md + counts + agent_names"
+      from: 'README.md + counts + agent_names'
       method: |
         1. What makes this squad unique?
         2. Key features or capabilities
         3. Notable agents or frameworks
-      output: "List of 2-4 bullet points"
+      output: 'List of 2-4 bullet points'
 
     generate_example_use:
-      from: "purpose + keywords"
-      method: "Create realistic usage example"
-      output: "Single sentence starting with verb"
+      from: 'purpose + keywords'
+      method: 'Create realistic usage example'
+      output: 'Single sentence starting with verb'
 ```
 
 ### Step 3: Build Registry Entry
@@ -224,9 +233,9 @@ build_entry:
       example_use: "{generated_example}"
 
   preserve_if_exists:
-    - highlights  # Keep manual annotations
+    - highlights # Keep manual annotations
     - quality_reference
-    - example_use  # Keep if manually set
+    - example_use # Keep if manually set
 ```
 
 ### Step 4: Update Domain Index
@@ -239,7 +248,7 @@ update_domain_index:
 
   handle_conflicts:
     # If keyword maps to multiple squads
-    action: "keep both, note in comments"
+    action: 'keep both, note in comments'
     example: |
       analytics: ["data", "monitor"]  # Multiple squads cover this
 ```
@@ -259,34 +268,34 @@ update_gaps:
     - real_estate
 
   for_each_gap:
-    check: "Is there now a squad covering this?"
-    if_covered: "Remove from gaps"
-    if_not_covered: "Keep in gaps"
+    check: 'Is there now a squad covering this?'
+    if_covered: 'Remove from gaps'
+    if_not_covered: 'Keep in gaps'
 ```
 
 ### Step 6: Write Updated Registry
 
 ```yaml
 write_registry:
-  file: "squads/squad-creator/data/squad-registry.yaml"
+  file: 'squads/squad-creator/data/squad-registry.yaml'
 
   structure:
     metadata:
-      version: "1.0.0"
-      last_updated: "{current_date}"
-      total_squads: "{count}"
-      maintainer: "squad-creator"
+      version: '1.0.0'
+      last_updated: '{current_date}'
+      total_squads: '{count}'
+      maintainer: 'squad-creator'
 
-    squads: "{all_squad_entries}"
-    domain_index: "{all_mappings}"
-    gaps: "{remaining_gaps}"
-    quality_references: "{preserved_from_original}"
-    conventions: "{preserved_from_original}"
+    squads: '{all_squad_entries}'
+    domain_index: '{all_mappings}'
+    gaps: '{remaining_gaps}'
+    quality_references: '{preserved_from_original}'
+    conventions: '{preserved_from_original}'
 
   validate:
-    - "YAML syntax valid"
-    - "No duplicate squad names"
-    - "All paths exist"
+    - 'YAML syntax valid'
+    - 'No duplicate squad names'
+    - 'All paths exist'
 ```
 
 ---
@@ -295,7 +304,7 @@ write_registry:
 
 ```yaml
 output:
-  file: "squads/squad-creator/data/squad-registry.yaml"
+  file: 'squads/squad-creator/data/squad-registry.yaml'
   console: |
     Registry updated successfully!
 
@@ -347,14 +356,14 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-### Add to squad-architect.md
+### Add to squad-chief.md
 
 ```yaml
 post_command_hooks:
-  "*create-squad":
+  '*create-squad':
     on_success:
-      - task: "refresh-registry"
-        silent: true  # Don't show output unless error
+      - task: 'refresh-registry'
+        silent: true # Don't show output unless error
 ```
 
 ---
@@ -362,17 +371,20 @@ post_command_hooks:
 ## Usage Examples
 
 ### Manual Refresh
+
 ```bash
-@squad-architect
+@squad-chief
 *refresh-registry
 ```
 
 ### Refresh with Gap Analysis
+
 ```bash
 *refresh-registry --update-gaps
 ```
 
 ### Check Registry Status
+
 ```bash
 *show-registry
 # Shows current registry contents

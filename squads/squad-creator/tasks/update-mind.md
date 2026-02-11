@@ -2,21 +2,22 @@
 task-id: update-mind
 name: Update Existing Mind DNA (Brownfield)
 version: 1.0.0
+execution_type: Human
 estimated-time: 1-2 hours
 complexity: medium
 
 inputs:
   required:
-    - mind_slug: "Slug do mind existente (snake_case)"
+    - mind_slug: 'Slug do mind existente (snake_case)'
   optional:
-    - new_sources_path: "Caminho para novas fontes"
-    - focus: "voice|thinking|both (default: both)"
-    - mode: "merge|replace|selective"
+    - new_sources_path: 'Caminho para novas fontes'
+    - focus: 'voice|thinking|both (default: both)'
+    - mode: 'merge|replace|selective'
 
 outputs:
   primary:
-    - updated_dna: "mind_dna_complete.yaml atualizado"
-    - diff_report: "Relatório do que mudou"
+    - updated_dna: 'mind_dna_complete.yaml atualizado'
+    - diff_report: 'Relatório do que mudou'
 
 elicit: true
 ---
@@ -35,11 +36,11 @@ elicit: true
 
 ```yaml
 existing_files:
-  mind_dna: "outputs/minds/{mind_slug}/mind_dna_complete.yaml"
-  voice_dna: "outputs/minds/{mind_slug}/voice_dna.yaml"
-  thinking_dna: "outputs/minds/{mind_slug}/thinking_dna.yaml"
-  sources_inventory: "outputs/minds/{mind_slug}/sources_inventory.yaml"
-  agent_file: "squads/{squad}/agents/{mind_slug}.md"  # Se já tem agente
+  mind_dna: 'outputs/minds/{mind_slug}/mind_dna_complete.yaml'
+  voice_dna: 'outputs/minds/{mind_slug}/voice_dna.yaml'
+  thinking_dna: 'outputs/minds/{mind_slug}/thinking_dna.yaml'
+  sources_inventory: 'outputs/minds/{mind_slug}/sources_inventory.yaml'
+  agent_file: 'squads/{squad}/agents/{mind_slug}.md' # Se já tem agente
 ```
 
 ### 0.2 Snapshot Before
@@ -62,9 +63,9 @@ snapshot_before:
     tier_1: 0
 
   quality_scores:
-    voice: "X/10"
-    thinking: "X/9"
-    fidelity_estimate: "X%"
+    voice: 'X/10'
+    thinking: 'X/9'
+    fidelity_estimate: 'X%'
 ```
 
 ---
@@ -88,17 +89,17 @@ new_sources_validation:
 ```yaml
 gap_analysis:
   voice_gaps_before:
-    - "Faltavam anedotas pessoais"
-    - "Tom em situação X não documentado"
+    - 'Faltavam anedotas pessoais'
+    - 'Tom em situação X não documentado'
 
   thinking_gaps_before:
-    - "Heurística de priorização incompleta"
-    - "Objection handling não tinha exemplos"
+    - 'Heurística de priorização incompleta'
+    - 'Objection handling não tinha exemplos'
 
   gaps_filled_by_new_sources:
-    - gap: ""
-      source: ""
-      confidence: "alta|média|baixa"
+    - gap: ''
+      source: ''
+      confidence: 'alta|média|baixa'
 ```
 
 ---
@@ -118,14 +119,14 @@ voice_delta:
   new_contradictions: []
 
   confirms_existing:
-    - element: ""
-      source_count: "+1"
+    - element: ''
+      source_count: '+1'
 
   contradicts_existing:
-    - element: ""
-      existing: ""
-      new_finding: ""
-      resolution: "keep_existing|use_new|flag_for_review"
+    - element: ''
+      existing: ''
+      new_finding: ''
+      resolution: 'keep_existing|use_new|flag_for_review'
 ```
 
 ### 2.2 Thinking DNA Delta
@@ -140,15 +141,15 @@ thinking_delta:
   new_handoff_triggers: []
 
   framework_updates:
-    - framework: ""
-      change_type: "new_step|clarification|example"
-      detail: ""
+    - framework: ''
+      change_type: 'new_step|clarification|example'
+      detail: ''
 
   contradicts_existing:
-    - element: ""
-      existing: ""
-      new_finding: ""
-      resolution: ""
+    - element: ''
+      existing: ''
+      new_finding: ''
+      resolution: ''
 ```
 
 ---
@@ -157,11 +158,11 @@ thinking_delta:
 
 ### 3.1 Merge Modes
 
-| Mode | Comportamento |
-|------|---------------|
-| **merge** | Adiciona novos elementos, preserva existentes |
-| **replace** | Substitui seções onde novo é significativamente melhor |
-| **selective** | Checkpoint por seção, usuário decide |
+| Mode          | Comportamento                                          |
+| ------------- | ------------------------------------------------------ |
+| **merge**     | Adiciona novos elementos, preserva existentes          |
+| **replace**   | Substitui seções onde novo é significativamente melhor |
+| **selective** | Checkpoint por seção, usuário decide                   |
 
 ### 3.2 Merge Rules
 
@@ -177,7 +178,7 @@ merge_rules:
 
   # NUNCA substituir sem validação
   protected:
-    - primary_framework  # Core identity
+    - primary_framework # Core identity
     - identity_statement
     - veto_heuristics
 
@@ -219,19 +220,19 @@ conflicts:
 ```yaml
 updated_files:
   mind_dna_complete:
-    path: "outputs/minds/{mind_slug}/mind_dna_complete.yaml"
-    backup: "outputs/minds/{mind_slug}/backups/mind_dna_{timestamp}.yaml"
+    path: 'outputs/minds/{mind_slug}/mind_dna_complete.yaml'
+    backup: 'outputs/minds/{mind_slug}/backups/mind_dna_{timestamp}.yaml'
 
   voice_dna:
-    path: "outputs/minds/{mind_slug}/voice_dna.yaml"
+    path: 'outputs/minds/{mind_slug}/voice_dna.yaml'
     sections_updated: []
 
   thinking_dna:
-    path: "outputs/minds/{mind_slug}/thinking_dna.yaml"
+    path: 'outputs/minds/{mind_slug}/thinking_dna.yaml'
     sections_updated: []
 
   sources_inventory:
-    path: "outputs/minds/{mind_slug}/sources_inventory.yaml"
+    path: 'outputs/minds/{mind_slug}/sources_inventory.yaml'
     new_sources_added: 0
 ```
 
@@ -240,16 +241,16 @@ updated_files:
 ```yaml
 agent_update:
   agent_exists: true|false
-  agent_path: ""
+  agent_path: ''
 
   sections_to_regenerate:
-    - "voice_dna block"
-    - "thinking_dna block"
+    - 'voice_dna block'
+    - 'thinking_dna block'
 
   preserve:
-    - "Custom instructions"
-    - "Squad-specific config"
-    - "Handoff rules"
+    - 'Custom instructions'
+    - 'Squad-specific config'
+    - 'Handoff rules'
 ```
 
 ---
@@ -267,34 +268,34 @@ diff_report:
     conflicts_resolved: 0
 
   voice_changes:
-    - section: "power_words"
+    - section: 'power_words'
       before_count: 10
       after_count: 15
-      delta: "+5"
+      delta: '+5'
 
-    - section: "stories"
+    - section: 'stories'
       before_count: 3
       after_count: 5
-      delta: "+2"
+      delta: '+2'
 
   thinking_changes:
-    - section: "heuristics"
+    - section: 'heuristics'
       before_count: 5
       after_count: 8
-      delta: "+3"
+      delta: '+3'
 
   quality_impact:
     voice_score:
-      before: "7/10"
-      after: "9/10"
+      before: '7/10'
+      after: '9/10'
 
     thinking_score:
-      before: "6/9"
-      after: "8/9"
+      before: '6/9'
+      after: '8/9'
 
     fidelity_estimate:
-      before: "70%"
-      after: "85%"
+      before: '70%'
+      after: '85%'
 ```
 
 ### 5.2 Snapshot After
@@ -330,10 +331,10 @@ snapshot_after:
 
 update_report:
   metadata:
-    mind_name: ""
-    mind_slug: ""
-    update_date: ""
-    mode: ""
+    mind_name: ''
+    mind_slug: ''
+    update_date: ''
+    mode: ''
     new_sources_processed: 0
 
   # ─────────────────────────────────────────────────────────────
@@ -357,16 +358,16 @@ update_report:
 
   quality:
     before:
-      voice_score: ""
-      thinking_score: ""
-      fidelity: ""
+      voice_score: ''
+      thinking_score: ''
+      fidelity: ''
 
     after:
-      voice_score: ""
-      thinking_score: ""
-      fidelity: ""
+      voice_score: ''
+      thinking_score: ''
+      fidelity: ''
 
-    improvement: "+X%"
+    improvement: '+X%'
 
   # ─────────────────────────────────────────────────────────────
   # FILES MODIFIED
@@ -374,21 +375,21 @@ update_report:
 
   files:
     updated:
-      - path: ""
-        changes: ""
+      - path: ''
+        changes: ''
 
     backed_up:
-      - original: ""
-        backup: ""
+      - original: ''
+        backup: ''
 
   # ─────────────────────────────────────────────────────────────
   # NEXT STEPS
   # ─────────────────────────────────────────────────────────────
 
   next_steps:
-    - "Regenerar agent.md se qualidade aumentou significativamente"
-    - "Rodar smoke tests para validar mudanças"
-    - "Atualizar squad config se necessário"
+    - 'Regenerar agent.md se qualidade aumentou significativamente'
+    - 'Rodar smoke tests para validar mudanças'
+    - 'Atualizar squad config se necessário'
 
 # ═══════════════════════════════════════════════════════════════
 ```
@@ -425,4 +426,4 @@ update_report:
 ---
 
 **Squad Architect | Update Mind v1.0**
-*"Evolution beats revolution. Preserve what works, add what's missing."*
+_"Evolution beats revolution. Preserve what works, add what's missing."_

@@ -2,12 +2,14 @@
 
 **Task ID:** create-task
 **Version:** 2.0
+**Execution Type:** Hybrid
 **Purpose:** Create a single workflow task following Task Anatomy standard (8 fields)
-**Orchestrator:** @squad-architect
+**Orchestrator:** @squad-chief
 **Mode:** Elicitation-based (interactive)
 **Quality Standard:** AIOS Level (300+ lines simple, 500+ lines complex)
 
 **Frameworks Used:**
+
 - `data/executor-decision-tree.md` → Executor assignment (Phase 0, Step 0.3) **← PRIMARY**
 - `data/executor-matrix-framework.md` → Executor profiles reference
 - `data/decision-heuristics-framework.md` → Quality gate logic (Phase 4)
@@ -20,6 +22,7 @@
 This task creates a single workflow task for an AIOS squad. The key insight: **every task must follow the Task Anatomy standard (8 fields) for consistency and quality**.
 
 **v2.0 Changes:**
+
 - Mandatory Task Anatomy (8 fields)
 - PHASE-based structure with checkpoints
 - Executor assignment using executor-matrix-framework
@@ -115,19 +118,19 @@ task_anatomy:
 
 ## Inputs
 
-| Parameter | Type | Required | Description | Example |
-|-----------|------|----------|-------------|---------|
-| `task_purpose` | string | Yes | What the task should accomplish | `"Generate sales page copy"` |
-| `task_name` | string | Yes | Human-readable name | `"Generate Sales Page"` |
-| `pack_name` | string | Yes | Target squad | `"copy"` |
-| `complexity` | enum | No | `"simple"` or `"complex"` | `"complex"` |
+| Parameter      | Type   | Required | Description                     | Example                      |
+| -------------- | ------ | -------- | ------------------------------- | ---------------------------- |
+| `task_purpose` | string | Yes      | What the task should accomplish | `"Generate sales page copy"` |
+| `task_name`    | string | Yes      | Human-readable name             | `"Generate Sales Page"`      |
+| `pack_name`    | string | Yes      | Target squad                    | `"copy"`                     |
+| `complexity`   | enum   | No       | `"simple"` or `"complex"`       | `"complex"`                  |
 
 ---
 
 ## Preconditions
 
 - [ ] Target pack exists at `squads/{pack_name}/`
-- [ ] squad-architect agent is active
+- [ ] squad-chief agent is active
 - [ ] Agent that will execute this task exists (or will be created)
 - [ ] Write permissions for `squads/{pack_name}/tasks/`
 
@@ -144,6 +147,7 @@ task_anatomy:
 **Apply: quality_standards.workflow_vs_task_decision**
 
 **Actions:**
+
 ```yaml
 classification_criteria:
   create_WORKFLOW_when:
@@ -164,35 +168,37 @@ classification_criteria:
 ```
 
 **Elicitation:**
+
 ```yaml
 elicit_classification:
   question: "Let's classify this operation. Tell me about it:"
 
   sub_questions:
-    - "Does it have multiple distinct phases (3+)?"
-    - "Does it require multiple agents to work together?"
-    - "Will it span multiple work sessions?"
-    - "Does it need checkpoints between steps?"
+    - 'Does it have multiple distinct phases (3+)?'
+    - 'Does it require multiple agents to work together?'
+    - 'Will it span multiple work sessions?'
+    - 'Does it need checkpoints between steps?'
 
   decision:
-    if_workflow: "This should be a WORKFLOW. Use *create-workflow instead."
+    if_workflow: 'This should be a WORKFLOW. Use *create-workflow instead.'
     if_task: "This is correctly a TASK. Let's continue."
 ```
 
 ### Step 0.2: Identify Target Pack
 
 **Actions:**
+
 ```yaml
 identify_pack:
   validation:
-    - check_path: "squads/{pack_name}/"
+    - check_path: 'squads/{pack_name}/'
     - check_exists: true
-    - load_config: "config.yaml"
-    - identify_agents: "List agents that could execute this task"
+    - load_config: 'config.yaml'
+    - identify_agents: 'List agents that could execute this task'
 
   on_not_exists:
-    - suggest: "Create squad first with *create-squad"
-    - option: "Create task standalone (not recommended)"
+    - suggest: 'Create squad first with *create-squad'
+    - option: 'Create task standalone (not recommended)'
 ```
 
 ### Step 0.3: Assign Executor Type
@@ -216,11 +222,11 @@ executor_elicitation:
       - ❌ NÃO: Resumir texto, classificar sentimento, gerar copy
 
     options:
-      - "SIM - Output é 100% previsível"
-      - "NÃO - Output pode variar"
+      - 'SIM - Output é 100% previsível'
+      - 'NÃO - Output pode variar'
 
-    if_yes: "q2"
-    if_no: "q3"
+    if_yes: 'q2'
+    if_no: 'q3'
 
   # PERGUNTA 2: Função Pura
   q2:
@@ -233,11 +239,11 @@ executor_elicitation:
       - ❌ NÃO: Decisão que depende de contexto externo
 
     options:
-      - "SIM - Pode ser função pura"
-      - "NÃO - Há ambiguidade ou dependência externa"
+      - 'SIM - Pode ser função pura'
+      - 'NÃO - Há ambiguidade ou dependência externa'
 
-    if_yes: "q2a"
-    if_no: "q3"
+    if_yes: 'q2a'
+    if_no: 'q3'
 
   # PERGUNTA 2a: Existe Lib/API
   q2a:
@@ -250,13 +256,13 @@ executor_elicitation:
       - ❌ NÃO: Lógica de negócio específica
 
     options:
-      - "SIM - Existe código pronto"
-      - "NÃO - Precisa implementar"
+      - 'SIM - Existe código pronto'
+      - 'NÃO - Precisa implementar'
 
     if_yes:
-      result: "Worker"
-      rationale: "Operação determinística com implementação existente"
-    if_no: "q2b"
+      result: 'Worker'
+      rationale: 'Operação determinística com implementação existente'
+    if_no: 'q2b'
 
   # PERGUNTA 2b: ROI de Codificar
   q2b:
@@ -270,19 +276,19 @@ executor_elicitation:
       - > 50x → Worker (investimento se paga)
 
     options:
-      - "< 3 vezes - One-off ou raro"
-      - "3-50 vezes - Uso moderado"
-      - "> 50 vezes - Uso frequente"
+      - '< 3 vezes - One-off ou raro'
+      - '3-50 vezes - Uso moderado'
+      - '> 50 vezes - Uso frequente'
 
     if_less_than_3:
-      result: "Agent"
-      rationale: "Baixa frequência não justifica codificação"
+      result: 'Agent'
+      rationale: 'Baixa frequência não justifica codificação'
     if_moderate:
-      result: "Worker ou Agent"
-      rationale: "Avaliar complexidade de implementação vs benefício"
+      result: 'Worker ou Agent'
+      rationale: 'Avaliar complexidade de implementação vs benefício'
     if_frequent:
-      result: "Worker"
-      rationale: "Alta frequência justifica investimento em código"
+      result: 'Worker'
+      rationale: 'Alta frequência justifica investimento em código'
 
   # PERGUNTA 3: Linguagem Natural
   q3:
@@ -295,11 +301,11 @@ executor_elicitation:
       - ❌ NÃO: Calcular métricas, mover arquivos, chamar API
 
     options:
-      - "SIM - Envolve linguagem natural"
-      - "NÃO - Dados estruturados apenas"
+      - 'SIM - Envolve linguagem natural'
+      - 'NÃO - Dados estruturados apenas'
 
-    if_yes: "q4"
-    if_no: "q5"
+    if_yes: 'q4'
+    if_no: 'q5'
 
   # PERGUNTA 4: Impacto de Erro
   q4:
@@ -314,23 +320,23 @@ executor_elicitation:
       - CRÍTICO: Dados deletados, violação legal, dano irreversível
 
     options:
-      - "BAIXO - Facilmente corrigível"
-      - "MÉDIO - Retrabalho necessário"
-      - "ALTO - Dano financeiro/reputacional"
-      - "CRÍTICO - Irreversível/catastrófico"
+      - 'BAIXO - Facilmente corrigível'
+      - 'MÉDIO - Retrabalho necessário'
+      - 'ALTO - Dano financeiro/reputacional'
+      - 'CRÍTICO - Irreversível/catastrófico'
 
     if_low:
-      result: "Agent"
-      rationale: "Baixo impacto permite execução autônoma de LLM"
+      result: 'Agent'
+      rationale: 'Baixo impacto permite execução autônoma de LLM'
     if_medium:
-      result: "Hybrid"
-      rationale: "Impacto médio requer validação humana"
+      result: 'Hybrid'
+      rationale: 'Impacto médio requer validação humana'
     if_high:
-      result: "Hybrid"
-      rationale: "Alto impacto requer validação humana obrigatória"
+      result: 'Hybrid'
+      rationale: 'Alto impacto requer validação humana obrigatória'
     if_critical:
-      result: "Human"
-      rationale: "Impacto crítico requer decisão humana direta"
+      result: 'Human'
+      rationale: 'Impacto crítico requer decisão humana direta'
 
   # PERGUNTA 5: Julgamento Estratégico
   q5:
@@ -343,11 +349,11 @@ executor_elicitation:
       - ❌ NÃO: Gerar relatório, processar dados, classificar items
 
     options:
-      - "SIM - Requer julgamento humano"
-      - "NÃO - Pode ser automatizado"
+      - 'SIM - Requer julgamento humano'
+      - 'NÃO - Pode ser automatizado'
 
-    if_yes: "q6"
-    if_no: "q4"
+    if_yes: 'q6'
+    if_no: 'q4'
 
   # PERGUNTA 6: AI pode assistir
   q6:
@@ -360,15 +366,15 @@ executor_elicitation:
       - ❌ NÃO: Decisão depende de relacionamento/política interna
 
     options:
-      - "SIM - AI pode preparar/assistir"
-      - "NÃO - Decisão 100% humana"
+      - 'SIM - AI pode preparar/assistir'
+      - 'NÃO - Decisão 100% humana'
 
     if_yes:
-      result: "Hybrid"
-      rationale: "AI prepara, humano decide"
+      result: 'Hybrid'
+      rationale: 'AI prepara, humano decide'
     if_no:
-      result: "Human"
-      rationale: "Decisão requer contexto que AI não tem acesso"
+      result: 'Human'
+      rationale: 'Decisão requer contexto que AI não tem acesso'
 ```
 
 **Post-Elicitation Actions:**
@@ -378,28 +384,28 @@ post_elicitation:
   # Após determinar executor, definir guardrails
   guardrails_by_type:
     Worker:
-      - "Input validation obrigatório"
-      - "Error handling com retry"
-      - "Logging de execução"
-      - "Fallback para Hybrid se falhar"
+      - 'Input validation obrigatório'
+      - 'Error handling com retry'
+      - 'Logging de execução'
+      - 'Fallback para Hybrid se falhar'
 
     Agent:
-      - "Confidence threshold definido"
-      - "Output validation"
-      - "Fallback para Hybrid obrigatório"
-      - "Rate limiting"
+      - 'Confidence threshold definido'
+      - 'Output validation'
+      - 'Fallback para Hybrid obrigatório'
+      - 'Rate limiting'
 
     Hybrid:
-      - "Timeout para review humano"
-      - "Escalation path definido"
-      - "Feedback loop para melhoria"
-      - "Fallback para Human se urgente"
+      - 'Timeout para review humano'
+      - 'Escalation path definido'
+      - 'Feedback loop para melhoria'
+      - 'Fallback para Human se urgente'
 
     Human:
-      - "Critérios de decisão documentados"
-      - "Deadline definido"
-      - "Escalation path definido"
-      - "Documentação obrigatória"
+      - 'Critérios de decisão documentados'
+      - 'Deadline definido'
+      - 'Escalation path definido'
+      - 'Documentação obrigatória'
 ```
 
 **Output (PHASE 0):**
@@ -407,29 +413,29 @@ post_elicitation:
 ```yaml
 # Example output - values will vary based on your squad
 phase_0_output:
-  classification: "task"
-  pack_name: "{squad-name}"
-  pack_path: "squads/{squad-name}/"
-  task_id: "{task-name}"
+  classification: 'task'
+  pack_name: '{squad-name}'
+  pack_path: 'squads/{squad-name}/'
+  task_id: '{task-name}'
 
   executor:
-    type: "Hybrid"
-    pattern: "EXEC-HY-001"
-    rationale: "LLM gera draft (linguagem natural), humano valida (impacto médio em cliente)"
+    type: 'Hybrid'
+    pattern: 'EXEC-HY-001'
+    rationale: 'LLM gera draft (linguagem natural), humano valida (impacto médio em cliente)'
 
     elicitation_path:
-      q1: "NÃO - Output varia"
-      q3: "SIM - Envolve linguagem natural"
-      q4: "MÉDIO - Email/conteúdo para cliente"
+      q1: 'NÃO - Output varia'
+      q3: 'SIM - Envolve linguagem natural'
+      q4: 'MÉDIO - Email/conteúdo para cliente'
 
     guardrails:
-      - "Timeout de review: 4h"
-      - "Escalation: @{squad-chief}"  # e.g., @{squad-name}-chief
-      - "Feedback loop: ativo"
+      - 'Timeout de review: 4h'
+      - 'Escalation: @{squad-chief}' # e.g., @{squad-name}-chief
+      - 'Feedback loop: ativo'
 
     fallback:
-      type: "Human"
-      trigger: "Cliente VIP ou conteúdo sensível"
+      type: 'Human'
+      trigger: 'Cliente VIP ou conteúdo sensível'
 ```
 
 ---
@@ -443,21 +449,22 @@ phase_0_output:
 ### Step 1.1: Define Field 1-2 (ID & Purpose)
 
 **Elicitation:**
+
 ```yaml
 elicit_identity:
   field_1_id:
-    question: "What should be the task ID? (kebab-case)"
-    example: "generate-sales-page"
-    validation: "Must be unique within pack"
+    question: 'What should be the task ID? (kebab-case)'
+    example: 'generate-sales-page'
+    validation: 'Must be unique within pack'
 
   field_2_purpose:
-    question: "What is the purpose of this task?"
+    question: 'What is the purpose of this task?'
     prompt: "Complete: 'This task exists to...'"
-    example: "Generate high-converting sales page copy following proven copywriting frameworks"
+    example: 'Generate high-converting sales page copy following proven copywriting frameworks'
     requirements:
-      - "Clear goal statement"
-      - "Value proposition"
-      - "Measurable outcome if possible"
+      - 'Clear goal statement'
+      - 'Value proposition'
+      - 'Measurable outcome if possible'
 ```
 
 ### Step 1.2: Define Field 3 (Executor)
@@ -465,49 +472,51 @@ elicit_identity:
 **Use result from Phase 0, Step 0.3**
 
 **Elicitation (confirmation):**
+
 ```yaml
 elicit_executor:
-  present: "Based on analysis, I recommend: {executor}"
-  rationale: "{executor_rationale}"
-  question: "Does this executor assignment make sense?"
+  present: 'Based on analysis, I recommend: {executor}'
+  rationale: '{executor_rationale}'
+  question: 'Does this executor assignment make sense?'
 
   if_disagree:
     options:
-      - "Human - I need full human control"
-      - "Agent - Let AI handle it fully"
-      - "Hybrid - AI drafts, I review"
+      - 'Human - I need full human control'
+      - 'Agent - Let AI handle it fully'
+      - 'Hybrid - AI drafts, I review'
       - "Worker - It's purely mechanical"
 
   guardrails_prompt:
-    - "What guardrails should be in place for this executor?"
+    - 'What guardrails should be in place for this executor?'
 ```
 
 ### Step 1.3: Define Field 4 (Inputs)
 
 **Elicitation:**
+
 ```yaml
 elicit_inputs:
-  question: "What inputs does this task need?"
+  question: 'What inputs does this task need?'
 
   for_each_input:
-    - "What is the input name?"
-    - "What type is it? (string, file, object, list)"
-    - "Is it required or optional?"
-    - "Where does it come from? (user, previous task, database, API)"
-    - "How should it be validated?"
+    - 'What is the input name?'
+    - 'What type is it? (string, file, object, list)'
+    - 'Is it required or optional?'
+    - 'Where does it come from? (user, previous task, database, API)'
+    - 'How should it be validated?'
 
   examples:
-    - name: "product_description"
-      type: "string"
+    - name: 'product_description'
+      type: 'string'
       required: true
-      source: "user"
-      validation: "Min 50 characters"
+      source: 'user'
+      validation: 'Min 50 characters'
 
-    - name: "target_audience"
-      type: "object"
+    - name: 'target_audience'
+      type: 'object'
       required: true
-      source: "previous_task (avatar-research)"
-      validation: "Must have demographics, psychographics"
+      source: 'previous_task (avatar-research)'
+      validation: 'Must have demographics, psychographics'
 
   minimum_inputs: 1
   document_all: true
@@ -516,184 +525,189 @@ elicit_inputs:
 ### Step 1.4: Define Field 5 (Preconditions)
 
 **Elicitation:**
+
 ```yaml
 elicit_preconditions:
-  question: "What must be true before this task can start?"
+  question: 'What must be true before this task can start?'
 
   categories:
     data_prerequisites:
-      - "What data must exist?"
-      - "What research must be done?"
+      - 'What data must exist?'
+      - 'What research must be done?'
 
     system_prerequisites:
-      - "What tools or systems must be available?"
-      - "What permissions are needed?"
+      - 'What tools or systems must be available?'
+      - 'What permissions are needed?'
 
     sequence_prerequisites:
-      - "What tasks must complete first?"
-      - "What agent context is required?"
+      - 'What tasks must complete first?'
+      - 'What agent context is required?'
 
   format_as_checklist: true
 
   example:
-    - "[ ] Product description available (50+ chars)"
-    - "[ ] Target audience research complete"
-    - "[ ] Brand voice guide accessible"
-    - "[ ] Agent has copywriting framework loaded"
+    - '[ ] Product description available (50+ chars)'
+    - '[ ] Target audience research complete'
+    - '[ ] Brand voice guide accessible'
+    - '[ ] Agent has copywriting framework loaded'
 ```
 
 ### Step 1.5: Define Field 6 (Steps)
 
 **Elicitation:**
+
 ```yaml
 elicit_steps:
   question: "Let's break down the workflow. What are the main steps?"
 
   for_each_step:
-    - name: "Step name (action verb)"
-    - action: "What exactly should happen"
-    - elicit: "Does this step need user input? (true/false)"
-    - output: "What does this step produce"
-    - conditions: "Any conditional logic"
+    - name: 'Step name (action verb)'
+    - action: 'What exactly should happen'
+    - elicit: 'Does this step need user input? (true/false)'
+    - output: 'What does this step produce'
+    - conditions: 'Any conditional logic'
 
   structure_guidance:
     simple_task:
-      - "3-7 steps"
-      - "Linear flow"
-      - "Clear action per step"
+      - '3-7 steps'
+      - 'Linear flow'
+      - 'Clear action per step'
 
     complex_task:
-      - "7-15 steps"
-      - "May have branches"
-      - "Checkpoints between sections"
+      - '7-15 steps'
+      - 'May have branches'
+      - 'Checkpoints between sections'
 
   example_steps:
-    - name: "Analyze Product"
-      action: "Extract key features, benefits, USPs from product description"
+    - name: 'Analyze Product'
+      action: 'Extract key features, benefits, USPs from product description'
       elicit: false
-      output: "Product analysis document"
+      output: 'Product analysis document'
 
-    - name: "Select Framework"
-      action: "Choose copywriting framework based on product type"
+    - name: 'Select Framework'
+      action: 'Choose copywriting framework based on product type'
       elicit: true
       options:
-        - "AIDA (Attention-Interest-Desire-Action)"
-        - "PAS (Problem-Agitate-Solution)"
-        - "4Ps (Promise-Picture-Proof-Push)"
-      output: "Selected framework"
+        - 'AIDA (Attention-Interest-Desire-Action)'
+        - 'PAS (Problem-Agitate-Solution)'
+        - '4Ps (Promise-Picture-Proof-Push)'
+      output: 'Selected framework'
 
-    - name: "Generate Headline Options"
-      action: "Create 5 headline variations"
+    - name: 'Generate Headline Options'
+      action: 'Create 5 headline variations'
       elicit: false
-      output: "5 headlines with rationale"
+      output: '5 headlines with rationale'
 ```
 
 ### Step 1.6: Define Field 7 (Outputs)
 
 **Elicitation:**
+
 ```yaml
 elicit_outputs:
-  question: "What does this task produce?"
+  question: 'What does this task produce?'
 
   for_each_output:
-    - name: "Output name"
-    - format: "markdown | yaml | json | file"
-    - location: "Where to save (pattern allowed)"
-    - structure: "What sections/fields"
+    - name: 'Output name'
+    - format: 'markdown | yaml | json | file'
+    - location: 'Where to save (pattern allowed)'
+    - structure: 'What sections/fields'
 
   primary_output:
     required: true
     must_have:
-      - "Clear filename pattern"
-      - "Defined structure"
-      - "Quality criteria"
+      - 'Clear filename pattern'
+      - 'Defined structure'
+      - 'Quality criteria'
 
   secondary_outputs:
     optional: true
     examples:
-      - "Research artifacts"
-      - "Intermediate drafts"
-      - "Audit logs"
+      - 'Research artifacts'
+      - 'Intermediate drafts'
+      - 'Audit logs'
 
   example:
     primary:
-      name: "sales-page-draft"
-      format: "markdown"
-      location: "outputs/{project}/sales-page-v1.md"
+      name: 'sales-page-draft'
+      format: 'markdown'
+      location: 'outputs/{project}/sales-page-v1.md'
       structure:
-        - "Headline"
-        - "Subheadline"
-        - "Lead"
-        - "Body (problem, agitate, solution)"
-        - "Social proof"
-        - "Offer"
-        - "CTA"
-        - "PS"
+        - 'Headline'
+        - 'Subheadline'
+        - 'Lead'
+        - 'Body (problem, agitate, solution)'
+        - 'Social proof'
+        - 'Offer'
+        - 'CTA'
+        - 'PS'
 
     secondary:
-      name: "headline-options"
-      format: "yaml"
-      location: "outputs/{project}/headlines.yaml"
+      name: 'headline-options'
+      format: 'yaml'
+      location: 'outputs/{project}/headlines.yaml'
 ```
 
 ### Step 1.7: Define Field 8 (Validation)
 
 **Elicitation:**
+
 ```yaml
 elicit_validation:
-  question: "How do we know this task completed successfully?"
+  question: 'How do we know this task completed successfully?'
 
   categories:
     completeness:
-      - "Are all required sections present?"
-      - "Are minimum lengths met?"
+      - 'Are all required sections present?'
+      - 'Are minimum lengths met?'
 
     quality:
-      - "Does output meet quality standards?"
-      - "Does it follow the framework correctly?"
+      - 'Does output meet quality standards?'
+      - 'Does it follow the framework correctly?'
 
     domain_specific:
-      - "Does it include required elements for this domain?"
-      - "Does it avoid known anti-patterns?"
+      - 'Does it include required elements for this domain?'
+      - 'Does it avoid known anti-patterns?'
 
     format:
-      - "Is the structure correct?"
-      - "Is the file format valid?"
+      - 'Is the structure correct?'
+      - 'Is the file format valid?'
 
   blocking_vs_warning:
     blocking:
-      - "Failures that prevent task from completing"
-      - "Must be fixed before output is valid"
+      - 'Failures that prevent task from completing'
+      - 'Must be fixed before output is valid'
 
     warning:
       - "Issues that should be noted but don't block"
-      - "Recommendations for improvement"
+      - 'Recommendations for improvement'
 
   example_validation:
     blocking:
-      - "Headline present"
-      - "CTA present"
-      - "Min 500 words"
+      - 'Headline present'
+      - 'CTA present'
+      - 'Min 500 words'
 
     warning:
-      - "Social proof section recommended"
-      - "Consider adding PS"
+      - 'Social proof section recommended'
+      - 'Consider adding PS'
 ```
 
 **Checkpoint SC_ANA_001:**
+
 ```yaml
 heuristic_id: SC_ANA_001
-name: "Task Anatomy Complete"
+name: 'Task Anatomy Complete'
 blocking: true
 criteria:
-  - field_1_id: "defined and unique"
-  - field_2_purpose: "clear and specific"
-  - field_3_executor: "assigned with rationale"
-  - field_4_inputs: "at least 1 defined"
-  - field_5_preconditions: "checklist created"
-  - field_6_steps: "3+ steps defined"
-  - field_7_outputs: "primary output defined"
-  - field_8_validation: "criteria defined"
+  - field_1_id: 'defined and unique'
+  - field_2_purpose: 'clear and specific'
+  - field_3_executor: 'assigned with rationale'
+  - field_4_inputs: 'at least 1 defined'
+  - field_5_preconditions: 'checklist created'
+  - field_6_steps: '3+ steps defined'
+  - field_7_outputs: 'primary output defined'
+  - field_8_validation: 'criteria defined'
 ```
 
 ---
@@ -709,79 +723,82 @@ criteria:
 **Apply: executor-matrix-framework.md**
 
 **Actions:**
+
 ```yaml
 design_guardrails:
-  based_on_executor: "{executor}"
+  based_on_executor: '{executor}'
 
   guardrail_templates:
     Worker:
-      - input_validation: "Strict schema validation"
-      - error_handling: "Retry logic, fallback values"
-      - logging: "All operations logged"
-      - limits: "Rate limits, timeout"
+      - input_validation: 'Strict schema validation'
+      - error_handling: 'Retry logic, fallback values'
+      - logging: 'All operations logged'
+      - limits: 'Rate limits, timeout'
 
     Agent:
-      - confidence_threshold: "Only proceed if >= 0.8"
-      - quality_check: "Self-review before output"
-      - escalation: "Flag uncertainty for human"
-      - audit: "Log reasoning chain"
+      - confidence_threshold: 'Only proceed if >= 0.8'
+      - quality_check: 'Self-review before output'
+      - escalation: 'Flag uncertainty for human'
+      - audit: 'Log reasoning chain'
 
     Hybrid:
-      - draft_quality: "AI must meet min threshold"
+      - draft_quality: 'AI must meet min threshold'
       - human_triggers:
-        - "confidence < 0.7"
-        - "novel scenario detected"
-        - "high-stakes output"
-      - approval_workflow: "Clear accept/revise/reject"
-      - version_control: "Track all versions"
+          - 'confidence < 0.7'
+          - 'novel scenario detected'
+          - 'high-stakes output'
+      - approval_workflow: 'Clear accept/revise/reject'
+      - version_control: 'Track all versions'
 
     Human:
-      - instructions: "Clear, unambiguous guidance"
-      - decision_criteria: "Explicit rules for decisions"
-      - escalation_path: "Who to ask when stuck"
-      - time_limit: "Expected completion window"
+      - instructions: 'Clear, unambiguous guidance'
+      - decision_criteria: 'Explicit rules for decisions'
+      - escalation_path: 'Who to ask when stuck'
+      - time_limit: 'Expected completion window'
 ```
 
 ### Step 2.2: Set Checkpoints
 
 **Actions:**
+
 ```yaml
 set_checkpoints:
   for_complex_tasks:
     identify_transitions:
-      - "Input validation → Processing"
-      - "Processing → Output generation"
-      - "Draft → Review"
-      - "Review → Final"
+      - 'Input validation → Processing'
+      - 'Processing → Output generation'
+      - 'Draft → Review'
+      - 'Review → Final'
 
     checkpoint_design:
-      - id: "CP-001"
+      - id: 'CP-001'
         after_step: 3
-        validation: "Inputs validated and analysis complete"
+        validation: 'Inputs validated and analysis complete'
         blocking: true
 
-      - id: "CP-002"
+      - id: 'CP-002'
         after_step: 6
-        validation: "Draft meets quality threshold"
-        blocking: false  # Warning only
+        validation: 'Draft meets quality threshold'
+        blocking: false # Warning only
 
   for_simple_tasks:
     checkpoints:
-      - "Before output: Validation criteria check"
+      - 'Before output: Validation criteria check'
 ```
 
 **Output (PHASE 2):**
+
 ```yaml
 phase_2_output:
-  executor: "Hybrid"
+  executor: 'Hybrid'
   guardrails:
-    - "AI confidence threshold: 0.75"
-    - "Human review for headline selection"
-    - "Version tracking enabled"
+    - 'AI confidence threshold: 0.75'
+    - 'Human review for headline selection'
+    - 'Version tracking enabled'
   checkpoints: 2
   human_review_triggers:
-    - "Headline approval"
-    - "Final draft review"
+    - 'Headline approval'
+    - 'Final draft review'
 ```
 
 ---
@@ -797,28 +814,29 @@ phase_2_output:
 **Template:** `templates/task-tmpl.md`
 
 **Actions:**
+
 ```yaml
 generate_task:
-  template: "templates/task-tmpl.md"
+  template: 'templates/task-tmpl.md'
 
   required_sections:
     # Header
     header:
       - task_id
-      - version: "1.0"
+      - version: '1.0'
       - purpose
-      - orchestrator: "{agent that executes}"
-      - mode: "{executor type}"
+      - orchestrator: '{agent that executes}'
+      - mode: '{executor type}'
       - quality_standard
 
     # Frameworks Used
     frameworks:
-      - "List frameworks applied"
+      - 'List frameworks applied'
 
     # Overview
     overview:
-      - "ASCII flow diagram"
-      - "Version notes"
+      - 'ASCII flow diagram'
+      - 'Version notes'
 
     # Task Anatomy (8 fields)
     task_anatomy:
@@ -836,66 +854,69 @@ generate_task:
 
     # Examples
     examples:
-      - "1-3 usage examples"
-      - "Show input → output"
+      - '1-3 usage examples'
+      - 'Show input → output'
 
     # Error Handling
     error_handling:
-      - "Common errors"
-      - "Recovery procedures"
+      - 'Common errors'
+      - 'Recovery procedures'
 
     # Integration
     integration:
-      - "Related tasks"
-      - "Agent dependencies"
+      - 'Related tasks'
+      - 'Agent dependencies'
 ```
 
 ### Step 3.2: Add Usage Examples
 
 **Actions:**
+
 ```yaml
 add_examples:
   minimum: 1
   recommended: 3
 
   example_structure:
-    - scenario: "Brief description"
-    - inputs: "What was provided"
-    - execution: "Key steps taken"
-    - output: "What was produced"
+    - scenario: 'Brief description'
+    - inputs: 'What was provided'
+    - execution: 'Key steps taken'
+    - output: 'What was produced'
 
   example_types:
-    - "Happy path (normal usage)"
-    - "Edge case (unusual inputs)"
-    - "Error handling (how errors resolved)"
+    - 'Happy path (normal usage)'
+    - 'Edge case (unusual inputs)'
+    - 'Error handling (how errors resolved)'
 ```
 
 ### Step 3.3: Add Error Handling
 
 **Actions:**
+
 ```yaml
 add_error_handling:
   common_errors:
-    - error: "Missing required input"
+    - error: 'Missing required input'
       cause: "User didn't provide required field"
-      handling: "Prompt for missing input"
-      recovery: "Continue after input provided"
+      handling: 'Prompt for missing input'
+      recovery: 'Continue after input provided'
 
-    - error: "Validation failure"
+    - error: 'Validation failure'
       cause: "Output doesn't meet criteria"
-      handling: "Log specific failures"
-      recovery: "Revise and re-validate"
+      handling: 'Log specific failures'
+      recovery: 'Revise and re-validate'
 
-    - error: "Executor timeout"
-      cause: "Task took too long"
-      handling: "Save partial progress"
-      recovery: "Resume from checkpoint"
+    - error: 'Executor timeout'
+      cause: 'Task took too long'
+      handling: 'Save partial progress'
+      recovery: 'Resume from checkpoint'
 ```
 
 **Output (PHASE 3):**
+
 ```yaml
 phase_3_output:
-  task_file_content: "..."
+  task_file_content: '...'
   lines: 520
   examples: 3
   error_scenarios: 5
@@ -912,6 +933,7 @@ phase_3_output:
 ### Step 4.1: Run Quality Gate SC_TSK_001
 
 **Actions:**
+
 ```yaml
 run_quality_gate:
   heuristic_id: SC_TSK_001
@@ -958,27 +980,28 @@ run_quality_gate:
 ### Step 4.2: Fix Blocking Issues
 
 **Actions:**
+
 ```yaml
 fix_blocking_issues:
   for_each_failure:
     - identify: "What's missing"
-    - source: "Where to get it (elicit or derive)"
-    - fix: "Add the content"
+    - source: 'Where to get it (elicit or derive)'
+    - fix: 'Add the content'
 
   common_fixes:
     missing_anatomy_field:
-      - "Return to Phase 1 for that field"
-      - "Elicit missing information"
+      - 'Return to Phase 1 for that field'
+      - 'Elicit missing information'
 
     too_short:
-      - "Add more detail to steps"
-      - "Expand examples"
-      - "Add error handling scenarios"
+      - 'Add more detail to steps'
+      - 'Expand examples'
+      - 'Add error handling scenarios'
 
     unclear_steps:
-      - "Break into smaller steps"
-      - "Add expected outputs per step"
-      - "Add decision criteria"
+      - 'Break into smaller steps'
+      - 'Add expected outputs per step'
+      - 'Add decision criteria'
 
   max_iterations: 2
 ```
@@ -986,9 +1009,10 @@ fix_blocking_issues:
 ### Step 4.3: Save Task File
 
 **Actions:**
+
 ```yaml
 save_task:
-  path: "squads/{pack_name}/tasks/{task_id}.md"
+  path: 'squads/{pack_name}/tasks/{task_id}.md'
 
   post_save:
     - verify_markdown_valid
@@ -998,14 +1022,15 @@ save_task:
 ```
 
 **Output (PHASE 4):**
+
 ```yaml
 # Example output - values will vary based on your squad
 phase_4_output:
   quality_score: 8.1/10
-  blocking_requirements: "ALL PASS"
-  task_file: "squads/{squad-name}/tasks/{task-name}.md"
+  blocking_requirements: 'ALL PASS'
+  task_file: 'squads/{squad-name}/tasks/{task-name}.md'
   lines: 520
-  status: "PASS"
+  status: 'PASS'
 ```
 
 ---
@@ -1018,14 +1043,15 @@ phase_4_output:
 ### Step 5.1: Present Task Summary
 
 **Actions:**
+
 ```yaml
 # Example output - values will vary based on your squad
 present_summary:
   task_created:
-    id: "{task-name}"
-    purpose: "{task purpose description}"
-    executor: "Hybrid"
-    file: "squads/{squad-name}/tasks/{task-name}.md"
+    id: '{task-name}'
+    purpose: '{task purpose description}'
+    executor: 'Hybrid'
+    file: 'squads/{squad-name}/tasks/{task-name}.md'
     lines: 520
 
   task_anatomy:
@@ -1036,52 +1062,54 @@ present_summary:
 
   quality:
     score: 8.1/10
-    status: "PASS"
+    status: 'PASS'
 
   execution:
-    command: "*{command-name}"  # e.g., *generate-sales-page
-    agent: "@{squad-name}:{agent-name}"  # e.g., @copy:sales-page-writer
+    command: '*{command-name}' # e.g., *generate-sales-page
+    agent: '@{squad-name}:{agent-name}' # e.g., @copy:sales-page-writer
 ```
 
 ### Step 5.2: Document Integration
 
 **Actions:**
+
 ```yaml
-integration_notes:  # Example - replace with your squad agents
+integration_notes: # Example - replace with your squad agents
   agents_that_use:
-    - "{agent-1}"
-    - "{squad-name}-chief (orchestration)"
+    - '{agent-1}'
+    - '{squad-name}-chief (orchestration)'
 
   prerequisite_tasks:
-    - "avatar-research"
-    - "product-analysis"
+    - 'avatar-research'
+    - 'product-analysis'
 
   follow_up_tasks:
-    - "headline-testing"
-    - "copy-review"
+    - 'headline-testing'
+    - 'copy-review'
 
   handoff_to:
-    - agent: "squad-architect"
-      when: "Create more tasks"
-    - agent: "assigned-agent"
-      when: "Execute the task"
+    - agent: 'squad-chief'
+      when: 'Create more tasks'
+    - agent: 'assigned-agent'
+      when: 'Execute the task'
 ```
 
 ---
 
 ## Outputs
 
-| Output | Location | Description |
-|--------|----------|-------------|
-| Task File | `squads/{pack_name}/tasks/{task_id}.md` | Complete task definition |
-| Updated Agent | `squads/{pack_name}/agents/*.md` | Dependencies updated |
-| Updated README | `squads/{pack_name}/README.md` | Task added to list |
+| Output         | Location                                | Description              |
+| -------------- | --------------------------------------- | ------------------------ |
+| Task File      | `squads/{pack_name}/tasks/{task_id}.md` | Complete task definition |
+| Updated Agent  | `squads/{pack_name}/agents/*.md`        | Dependencies updated     |
+| Updated README | `squads/{pack_name}/README.md`          | Task added to list       |
 
 ---
 
 ## Validation Criteria (All Must Pass)
 
 ### Task Anatomy (8 Fields)
+
 - [ ] Field 1: ID defined (kebab-case, unique)
 - [ ] Field 2: Purpose clear and specific
 - [ ] Field 3: Executor assigned with rationale
@@ -1092,11 +1120,13 @@ integration_notes:  # Example - replace with your squad agents
 - [ ] Field 8: Validation criteria defined
 
 ### Quality
+
 - [ ] Lines >= 300 (simple) or >= 500 (complex)
 - [ ] SC_TSK_001 score >= 7.0
 - [ ] Examples >= 1
 
 ### Integration
+
 - [ ] Agent dependencies updated
 - [ ] README updated
 - [ ] Can be executed via command
@@ -1105,10 +1135,10 @@ integration_notes:  # Example - replace with your squad agents
 
 ## Heuristics Reference
 
-| Heuristic ID | Name | Where Applied | Blocking |
-|--------------|------|---------------|----------|
-| SC_ANA_001 | Task Anatomy Complete | Phase 1 | Yes |
-| SC_TSK_001 | Task Quality Gate | Phase 4 | Yes |
+| Heuristic ID | Name                  | Where Applied | Blocking |
+| ------------ | --------------------- | ------------- | -------- |
+| SC_ANA_001   | Task Anatomy Complete | Phase 1       | Yes      |
+| SC_TSK_001   | Task Quality Gate     | Phase 4       | Yes      |
 
 ---
 
@@ -1117,16 +1147,16 @@ integration_notes:  # Example - replace with your squad agents
 ```yaml
 error_handling:
   should_be_workflow:
-    - "User trying to create complex multi-phase as task"
-    - action: "Redirect to *create-workflow"
+    - 'User trying to create complex multi-phase as task'
+    - action: 'Redirect to *create-workflow'
 
   missing_anatomy_field:
-    - "User skipped required field"
-    - action: "Return to elicitation for that field"
+    - 'User skipped required field'
+    - action: 'Return to elicitation for that field'
 
   validation_fails:
     - "Task doesn't meet quality gate"
-    - action: "Identify failures, fix, re-validate"
+    - action: 'Identify failures, fix, re-validate'
 ```
 
 ---
@@ -1134,6 +1164,7 @@ error_handling:
 ## Integration with AIOS
 
 This task creates tasks that:
+
 - Follow Task Anatomy standard (8 fields)
 - Can be executed by agents via commands
 - Have appropriate executor assignments

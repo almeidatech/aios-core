@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0
 **Last Updated:** 2026-02-01
-**Author:** squad-architect
+**Author:** squad-chief
 
 ---
 
@@ -15,7 +15,7 @@ O comando `*squad-analytics` fornece uma visão detalhada de todo o ecossistema 
 ## Quick Start
 
 ```bash
-# Ativar squad-architect
+# Ativar squad-chief
 /squad-creator
 
 # Executar analytics
@@ -26,14 +26,14 @@ O comando `*squad-analytics` fornece uma visão detalhada de todo o ecossistema 
 
 ## Comandos Disponíveis
 
-| Comando | Descrição |
-|---------|-----------|
-| `*squad-analytics` | Tabela padrão ordenada por total de componentes |
-| `*squad-analytics --detailed` | Inclui nomes dos componentes |
-| `*squad-analytics --format json` | Exporta em JSON |
-| `*squad-analytics --sort-by agents` | Ordena por número de agents |
-| `*squad-analytics --sort-by tasks` | Ordena por número de tasks |
-| `*squad-analytics --sort-by name` | Ordena alfabeticamente |
+| Comando                             | Descrição                                       |
+| ----------------------------------- | ----------------------------------------------- |
+| `*squad-analytics`                  | Tabela padrão ordenada por total de componentes |
+| `*squad-analytics --detailed`       | Inclui nomes dos componentes                    |
+| `*squad-analytics --format json`    | Exporta em JSON                                 |
+| `*squad-analytics --sort-by agents` | Ordena por número de agents                     |
+| `*squad-analytics --sort-by tasks`  | Ordena por número de tasks                      |
+| `*squad-analytics --sort-by name`   | Ordena alfabeticamente                          |
 
 ---
 
@@ -41,15 +41,15 @@ O comando `*squad-analytics` fornece uma visão detalhada de todo o ecossistema 
 
 ### Por Squad
 
-| Métrica | Descrição | Extensões |
-|---------|-----------|-----------|
-| **Agents** | Arquivos de agente | `.md` em `/agents/` |
-| **Tasks** | Tarefas atômicas | `.md` em `/tasks/` |
-| **Workflows** | Workflows multi-fase | `.md`, `.yaml` em `/workflows/` |
-| **Templates** | Templates de output | `.md`, `.yaml` em `/templates/` |
-| **Checklists** | Checklists de validação | `.md` em `/checklists/` |
-| **Data** | Arquivos de dados/KB | `.md`, `.yaml`, `.json` em `/data/` |
-| **Scripts** | Scripts de automação | `.py`, `.js`, `.ts`, `.sh` em `/scripts/` |
+| Métrica        | Descrição               | Extensões                                 |
+| -------------- | ----------------------- | ----------------------------------------- |
+| **Agents**     | Arquivos de agente      | `.md` em `/agents/`                       |
+| **Tasks**      | Tarefas atômicas        | `.md` em `/tasks/`                        |
+| **Workflows**  | Workflows multi-fase    | `.md`, `.yaml` em `/workflows/`           |
+| **Templates**  | Templates de output     | `.md`, `.yaml` em `/templates/`           |
+| **Checklists** | Checklists de validação | `.md` em `/checklists/`                   |
+| **Data**       | Arquivos de dados/KB    | `.md`, `.yaml`, `.json` em `/data/`       |
+| **Scripts**    | Scripts de automação    | `.py`, `.js`, `.ts`, `.sh` em `/scripts/` |
 
 ### Totais do Ecossistema
 
@@ -67,12 +67,12 @@ O comando `*squad-analytics` fornece uma visão detalhada de todo o ecossistema 
 
 ## Quality Indicators
 
-| Indicador | Significado | Score |
-|-----------|-------------|-------|
-| ⭐⭐⭐ | Squad completo | 9+ pontos |
-| ⭐⭐ | Squad bom | 6-8 pontos |
-| ⭐ | Squad básico | 3-5 pontos |
-| 🔨 | Work in progress | 0-2 pontos |
+| Indicador | Significado      | Score      |
+| --------- | ---------------- | ---------- |
+| ⭐⭐⭐    | Squad completo   | 9+ pontos  |
+| ⭐⭐      | Squad bom        | 6-8 pontos |
+| ⭐        | Squad básico     | 3-5 pontos |
+| 🔨        | Work in progress | 0-2 pontos |
 
 ### Cálculo do Score
 
@@ -204,12 +204,12 @@ Mostra nomes dos componentes para verificar o que cada squad contém.
 
 ## Integração com Outros Comandos
 
-| Comando | Relação |
-|---------|---------|
-| `*show-registry` | Mostra metadados (domain, keywords, highlights) |
-| `*squad-analytics` | Mostra contagens detalhadas de componentes |
-| `*refresh-registry` | Atualiza o registry com novos squads |
-| `*validate-squad {name}` | Valida qualidade de um squad específico |
+| Comando                  | Relação                                         |
+| ------------------------ | ----------------------------------------------- |
+| `*show-registry`         | Mostra metadados (domain, keywords, highlights) |
+| `*squad-analytics`       | Mostra contagens detalhadas de componentes      |
+| `*refresh-registry`      | Atualiza o registry com novos squads            |
+| `*validate-squad {name}` | Valida qualidade de um squad específico         |
 
 ---
 
@@ -228,6 +228,7 @@ squads/squad-creator/scripts/squad-analytics.py
 ### "Could not find squads/ directory"
 
 Execute a partir da raiz do projeto:
+
 ```bash
 cd ${PROJECT_ROOT}
 python3 squads/squad-creator/scripts/squad-analytics.py
@@ -236,6 +237,7 @@ python3 squads/squad-creator/scripts/squad-analytics.py
 ### Contagens diferentes do esperado
 
 O script exclui automaticamente:
+
 - `README.md` e `template.md` das contagens
 - Diretórios: `.DS_Store`, `__pycache__`, `node_modules`, `.git`
 - Squads sem `config.yaml` E sem pasta `agents/`
@@ -245,6 +247,7 @@ O script exclui automaticamente:
 ## Changelog
 
 ### v1.0.0 (2026-02-01)
+
 - Initial release
 - Table, JSON output formats
 - Quality indicators

@@ -1,25 +1,25 @@
 {
   "name": "@aios/squad-creator",
-  "version": "2.9.0",
-  "description": "Meta-squad para criar squads de agentes baseados em elite minds reais",
+  "version": "3.0.0",
   "private": true,
+  "description": "Meta-squad para criacao de squads, agentes e workflows AIOS - v3.0 com squad-chief unificado",
   "main": "index.js",
   "scripts": {
     "install:expansion": "echo 'Use the tasks in this pack to install other expansion packs'"
   },
   "keywords": [
     "aios",
-    "aios-fullstack",
     "squad",
-    "expansion-creator",
-    "tools"
+    "squad-creator",
+    "agents",
+    "workflows"
   ],
   "author": "AIOS Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pedrovaleriolopez/aios-fullstack",
-    "directory": "squads/expansion-creator"
+    "url": "https://github.com/almeidatech/aios-core",
+    "directory": "squads/squad-creator"
   },
   "engines": {
     "node": ">=18.0.0"

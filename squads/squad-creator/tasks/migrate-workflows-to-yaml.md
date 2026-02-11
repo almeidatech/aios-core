@@ -4,19 +4,21 @@
 **Pattern:** HO-TP-001 (Task Anatomy Standard)
 **Version:** 1.0.0
 **Last Updated:** 2026-02-05
+**Deprecated:** true
+**Deprecation Note:** One-time migration task - completed 2026-02-05. Kept for reference only.
 
 ## Task Anatomy
 
-| Field | Value |
-|-------|-------|
-| **task_name** | Migrate Workflows to YAML |
-| **status** | `completed` |
-| **responsible_executor** | @squad-architect |
-| **execution_type** | `Agent` |
-| **input** | Workflow .md files in workflows/ folder |
-| **output** | Migrated .yaml files + archived .md files |
-| **action_items** | 4 steps |
-| **acceptance_criteria** | 3 criteria |
+| Field                    | Value                                     |
+| ------------------------ | ----------------------------------------- |
+| **task_name**            | Migrate Workflows to YAML                 |
+| **status**               | `completed`                               |
+| **responsible_executor** | @squad-chief                              |
+| **execution_type**       | `Agent`                                   |
+| **input**                | Workflow .md files in workflows/ folder   |
+| **output**               | Migrated .yaml files + archived .md files |
+| **action_items**         | 4 steps                                   |
+| **acceptance_criteria**  | 3 criteria                                |
 
 **Estimated Time:** 30min
 
@@ -25,12 +27,14 @@
 Migrar workflows em formato `.md` (legacy/narrativo) para o formato `.yaml` padrão do AIOS.
 
 **Motivação:**
+
 - Consistência no ecossistema (todos workflows em .yaml)
 - Parsing automático por scripts de validação
 - Suporte a tooling (templates, linters, geradores)
 - Validação por schema
 
 **Arquivos a migrar:**
+
 1. `workflows/mind-research-loop.md` → `workflows/wf-mind-research-loop.yaml`
 2. `workflows/research-then-create-agent.md` → `workflows/wf-research-then-create-agent.yaml`
 
@@ -63,6 +67,7 @@ Migrar workflows em formato `.md` (legacy/narrativo) para o formato `.yaml` padr
 ### Step 1: Analisar Estrutura dos Workflows .md
 
 Ler cada arquivo .md e extrair:
+
 - workflow-id
 - name/purpose
 - version
@@ -73,6 +78,7 @@ Ler cada arquivo .md e extrair:
 - agents envolvidos
 
 **Substeps:**
+
 - [ ] Ler `mind-research-loop.md` e mapear estrutura
 - [ ] Ler `research-then-create-agent.md` e mapear estrutura
 - [ ] Identificar gaps em relação ao template YAML
@@ -82,6 +88,7 @@ Ler cada arquivo .md e extrair:
 Usar `workflow-tmpl.yaml` como base e preencher com dados extraídos.
 
 **Substeps:**
+
 - [ ] Criar `wf-mind-research-loop.yaml` com estrutura completa
 - [ ] Criar `wf-research-then-create-agent.yaml` com estrutura completa
 - [ ] Validar sintaxe YAML de ambos os arquivos
@@ -91,6 +98,7 @@ Usar `workflow-tmpl.yaml` como base e preencher com dados extraídos.
 Executar validação para garantir conformidade.
 
 **Substeps:**
+
 - [ ] Verificar campos obrigatórios (workflow-id, name, version, phases)
 - [ ] Verificar que cada phase tem checkpoint
 - [ ] Verificar referências a frameworks/agents estão corretas
@@ -101,6 +109,7 @@ Executar validação para garantir conformidade.
 Mover arquivos .md para pasta de archive.
 
 **Substeps:**
+
 - [ ] Criar pasta `workflows/_archive/` se não existir
 - [ ] Mover `mind-research-loop.md` para `_archive/`
 - [ ] Mover `research-then-create-agent.md` para `_archive/`
@@ -113,42 +122,42 @@ The task is complete when ALL of the following criteria are met:
 - [ ] **AC1:** Ambos workflows convertidos para .yaml com estrutura válida
   - Measurement: `*validate-workflow` passa sem erros
 
-- [ ] **AC2:** Pasta workflows/ contém apenas arquivos .yaml (exceto _archive/)
+- [ ] **AC2:** Pasta workflows/ contém apenas arquivos .yaml (exceto \_archive/)
   - Measurement: `ls workflows/*.md` retorna vazio
 
 - [ ] **AC3:** Arquivos originais preservados em `workflows/_archive/`
-  - Measurement: Ambos .md existem em _archive/
+  - Measurement: Ambos .md existem em \_archive/
 
 ## Quality Gate
 
 ```yaml
 quality_gate:
-  id: "QG_WF_MIGRATE_001"
-  name: "Workflow Migration Quality Gate"
-  placement: "exit"
-  type: "automated"
-  severity: "blocking"
+  id: 'QG_WF_MIGRATE_001'
+  name: 'Workflow Migration Quality Gate'
+  placement: 'exit'
+  type: 'automated'
+  severity: 'blocking'
 
   criteria:
-    - check: "YAML syntax valid"
-      type: "automated"
-      field: "yaml_valid"
+    - check: 'YAML syntax valid'
+      type: 'automated'
+      field: 'yaml_valid'
       value: true
-      operator: "eq"
+      operator: 'eq'
       weight: 3
 
-    - check: "Required fields present"
-      type: "automated"
-      field: "required_fields"
-      value: ["workflow-id", "name", "version", "phases"]
-      operator: "contains_all"
+    - check: 'Required fields present'
+      type: 'automated'
+      field: 'required_fields'
+      value: ['workflow-id', 'name', 'version', 'phases']
+      operator: 'contains_all'
       weight: 3
 
-    - check: "Each phase has checkpoint"
-      type: "automated"
-      field: "phase_checkpoints"
+    - check: 'Each phase has checkpoint'
+      type: 'automated'
+      field: 'phase_checkpoints'
       value: true
-      operator: "eq"
+      operator: 'eq'
       weight: 2
 
   thresholds:
@@ -157,32 +166,34 @@ quality_gate:
     fail: 5
 
   pass_action:
-    - "Archive original .md files"
-    - "Update squad-creator dependencies"
+    - 'Archive original .md files'
+    - 'Update squad-creator dependencies'
 
   fail_action:
-    - "Report validation errors"
-    - "Keep original .md files"
+    - 'Report validation errors'
+    - 'Keep original .md files'
 ```
 
 ## Handoff
 
-| Attribute | Value |
-|-----------|-------|
+| Attribute     | Value              |
+| ------------- | ------------------ |
 | **Next Task** | `refresh-registry` |
-| **Trigger** | Migration complete |
-| **Executor** | @squad-architect |
+| **Trigger**   | Migration complete |
+| **Executor**  | @squad-chief       |
 
 ### Handoff Checklist
 
 Before handoff, verify:
+
 - [ ] Todos workflows migrados passam validação
 - [ ] Nenhuma referência quebrada a arquivos .md
-- [ ] _archive/ contém backups
+- [ ] \_archive/ contém backups
 
 ### Handoff Package
 
 The following artifacts are passed to the next task:
+
 - **migrated_workflows**: Lista de novos arquivos .yaml
 - **migration_report**: Resumo da migração
 
@@ -214,6 +225,7 @@ The following artifacts are passed to the next task:
 ### Exemplo de Conversão
 
 **Antes (mind-research-loop.md):**
+
 ```markdown
 # Workflow: Mind Research Loop
 
@@ -222,13 +234,16 @@ The following artifacts are passed to the next task:
 **Purpose:** Research and validate...
 
 ## Core Philosophy
+
 ...
 
 ## Phase 1: Initial Research
+
 ...
 ```
 
 **Depois (wf-mind-research-loop.yaml):**
+
 ```yaml
 workflow-id: wf-mind-research-loop
 name: Mind Research Loop

@@ -21,7 +21,7 @@
  *
  * Examples:
  *   node generate-squad-greeting.js squad-creator
- *   node generate-squad-greeting.js squad-creator squad-architect
+ *   node generate-squad-greeting.js squad-creator squad-chief
  *
  * @module generate-squad-greeting
  * @version 1.1.0
@@ -36,7 +36,9 @@ const yaml = require('js-yaml');
 const { SquadLoader } = require('../../../.aios-core/development/scripts/squad/squad-loader');
 const GreetingBuilder = require('../../../.aios-core/development/scripts/greeting-builder');
 const SessionContextLoader = require('../../../.aios-core/scripts/session-context-loader');
-const { loadProjectStatus } = require('../../../.aios-core/infrastructure/scripts/project-status-loader');
+const {
+  loadProjectStatus,
+} = require('../../../.aios-core/infrastructure/scripts/project-status-loader');
 
 const SQUADS_PATH = './squads';
 const REGISTRY_PATH = './squads/squad-creator/data/squad-registry.yaml';
@@ -253,7 +255,7 @@ async function generateEcosystemReport(settings = {}) {
 
   // Show gaps if enabled
   if (settings.show_gaps && registry?.gaps) {
-    const highPriorityGaps = registry.gaps.filter(g => g.priority === 'high');
+    const highPriorityGaps = registry.gaps.filter((g) => g.priority === 'high');
     if (highPriorityGaps.length > 0) {
       report += `
 
@@ -306,9 +308,9 @@ async function generateSquadGreeting(squadName, agentName) {
     const settings = config.settings || {};
     const activationSettings = settings.activation || {};
 
-    // Determine agent name (default to squad-architect or first agent)
+    // Determine agent name (default to squad-chief or first agent)
     if (!agentName) {
-      agentName = 'squad-architect'; // Default orchestrator
+      agentName = 'squad-chief'; // Default orchestrator
     }
 
     // Load agent definition
@@ -394,21 +396,21 @@ if (require.main === module) {
     console.error('Usage: node generate-squad-greeting.js <squad-name> [agent-name]');
     console.error('\nExamples:');
     console.error('  node generate-squad-greeting.js squad-creator');
-    console.error('  node generate-squad-greeting.js squad-creator squad-architect');
+    console.error('  node generate-squad-greeting.js squad-creator squad-chief');
     process.exit(1);
   }
 
   // Execute with timeout protection
   const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('Greeting timeout')), TIMEOUT_MS),
+    setTimeout(() => reject(new Error('Greeting timeout')), TIMEOUT_MS)
   );
 
   Promise.race([generateSquadGreeting(squadName, agentName), timeoutPromise])
-    .then(greeting => {
+    .then((greeting) => {
       console.log(greeting);
       process.exit(0);
     })
-    .catch(error => {
+    .catch((error) => {
       console.error('Error:', error.message);
       console.log(generateFallbackGreeting(squadName, agentName));
       process.exit(1);

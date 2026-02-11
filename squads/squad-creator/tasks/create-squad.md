@@ -2,12 +2,14 @@
 
 **Task ID:** create-squad
 **Version:** 2.0
+**Execution Type:** Hybrid
 **Purpose:** Create a complete AIOS-FULLSTACK squad through guided elicitation, research, and validation
-**Orchestrator:** @squad-architect
+**Orchestrator:** @squad-chief
 **Mode:** Incremental (human checkpoints) or YOLO (autonomous)
 **Quality Standard:** AIOS Level (all components meet minimum standards)
 
 **Frameworks Used:**
+
 - `data/tier-system-framework.md` → Agent tier classification (Phase 3)
 - `data/quality-dimensions-framework.md` → Squad validation (Phase 6)
 - `data/decision-heuristics-framework.md` → Checkpoint logic (Phase 4, 6)
@@ -20,6 +22,7 @@
 This task creates a complete, production-ready squad with all required components: agents, tasks, workflows, templates, checklists, and knowledge bases. The key insight: **squads must be built on researched elite minds, not generic bots**.
 
 **v2.0 Changes:**
+
 - Mandatory research loop before any agent creation
 - PHASE-based structure with checkpoints
 - Quality gates with blocking requirements
@@ -64,20 +67,20 @@ OUTPUT: Complete squad + Quality Score
 
 ## Inputs
 
-| Parameter | Type | Required | Description | Example |
-|-----------|------|----------|-------------|---------|
-| `domain` | string | Yes | Domain expertise area | `"copywriting"`, `"legal"`, `"data"` |
-| `purpose` | string | Yes | What the squad should accomplish | `"Create high-converting sales pages"` |
-| `target_user` | string | Yes | Who will use this squad | `"Marketing teams at SaaS companies"` |
-| `use_cases` | list | Yes | 3-5 key use cases | `["sales pages", "email sequences", "ads"]` |
-| `mode` | enum | Yes | `"incremental"` or `"yolo"` | `"incremental"` |
-| `pack_name` | string | No | Override default name | `"copy"` |
+| Parameter     | Type   | Required | Description                      | Example                                     |
+| ------------- | ------ | -------- | -------------------------------- | ------------------------------------------- |
+| `domain`      | string | Yes      | Domain expertise area            | `"copywriting"`, `"legal"`, `"data"`        |
+| `purpose`     | string | Yes      | What the squad should accomplish | `"Create high-converting sales pages"`      |
+| `target_user` | string | Yes      | Who will use this squad          | `"Marketing teams at SaaS companies"`       |
+| `use_cases`   | list   | Yes      | 3-5 key use cases                | `["sales pages", "email sequences", "ads"]` |
+| `mode`        | enum   | Yes      | `"incremental"` or `"yolo"`      | `"incremental"`                             |
+| `pack_name`   | string | No       | Override default name            | `"copy"`                                    |
 
 ---
 
 ## Preconditions
 
-- [ ] squad-architect agent is active
+- [ ] squad-chief agent is active
 - [ ] WebSearch tool available (for research)
 - [ ] Write permissions for `squads/` directory
 - [ ] Frameworks loaded: tier-system, quality-dimensions, decision-heuristics, executor-matrix
@@ -93,13 +96,14 @@ OUTPUT: Complete squad + Quality Score
 ### Step 0.1: Validate Domain Viability
 
 **Actions:**
+
 ```yaml
 domain_viability_check:
   questions:
-    - "Is this domain well-documented with established methodologies?"
-    - "Do elite practitioners exist with documented frameworks?"
-    - "Can outputs be validated against objective criteria?"
-    - "Is there enough depth to warrant a squad (vs single agent)?"
+    - 'Is this domain well-documented with established methodologies?'
+    - 'Do elite practitioners exist with documented frameworks?'
+    - 'Can outputs be validated against objective criteria?'
+    - 'Is there enough depth to warrant a squad (vs single agent)?'
 
   scoring:
     - documented_methodologies: 0-3
@@ -113,6 +117,7 @@ domain_viability_check:
 ```
 
 **Decision Point:**
+
 ```
 IF viability_score >= 6:
     → PROCEED to Step 0.2
@@ -127,6 +132,7 @@ ELSE:
 ### Step 0.2: Check Existing Squads
 
 **Actions:**
+
 ```yaml
 existing_squad_check:
   search_paths:
@@ -145,6 +151,7 @@ existing_squad_check:
 ```
 
 **Decision Point:**
+
 ```
 IF existing squad covers 80%+ of use cases:
     → SUGGEST: "Extend existing squad instead"
@@ -158,43 +165,46 @@ ELSE:
 ### Step 0.3: Define Pack Structure
 
 **Actions:**
+
 ```yaml
 pack_structure_elicitation:
   required:
-    - pack_name: "kebab-case identifier"
-    - pack_title: "Human-readable title"
-    - version: "1.0.0"
-    - author: "Organization or person"
-    - slash_prefix: "camelCase for commands"
+    - pack_name: 'kebab-case identifier'
+    - pack_title: 'Human-readable title'
+    - version: '1.0.0'
+    - author: 'Organization or person'
+    - slash_prefix: 'camelCase for commands'
 
   derived:
-    - pack_path: "squads/{pack_name}/"
-    - command_path: ".claude/commands/{PackTitle}/"
+    - pack_path: 'squads/{pack_name}/'
+    - command_path: '.claude/commands/{PackTitle}/'
 
   pattern_library:
-    - prefix: "2-letter code (e.g., CP for Copy)"
+    - prefix: '2-letter code (e.g., CP for Copy)'
     - initial_patterns:
-      - "{PREFIX}-001: Core Process"
-      - "{PREFIX}-002: Quality Standard"
-      - "{PREFIX}-003: Exception Handling"
+        - '{PREFIX}-001: Core Process'
+        - '{PREFIX}-002: Quality Standard'
+        - '{PREFIX}-003: Exception Handling'
 ```
 
 **Output (PHASE 0):**
+
 ```yaml
 phase_0_output:
   viability_score: 8/10
-  decision: "create_new"
-  pack_name: "copy"
-  pack_title: "Copy Squad"
-  slash_prefix: "copy"
-  pattern_prefix: "CP"
-  mode: "incremental"
+  decision: 'create_new'
+  pack_name: 'copy'
+  pack_title: 'Copy Squad'
+  slash_prefix: 'copy'
+  pattern_prefix: 'CP'
+  mode: 'incremental'
 ```
 
 **Checkpoint SC_DSC_001:**
+
 ```yaml
 heuristic_id: SC_DSC_001
-name: "Discovery Complete"
+name: 'Discovery Complete'
 blocking: true
 criteria:
   - viability_score >= 6
@@ -215,20 +225,22 @@ criteria:
 **CRITICAL:** This step is MANDATORY. No agent creation without research.
 
 **Actions:**
+
 ```yaml
 execute_workflow:
-  workflow: "workflows/mind-research-loop.md"
+  workflow: 'workflows/mind-research-loop.md'
   inputs:
-    domain: "{domain}"
+    domain: '{domain}'
     min_minds: 5
     max_minds: 10
     iterations: 3-5
 
-  execution_mode: "autonomous"
-  human_review: false  # Research loop handles validation internally
+  execution_mode: 'autonomous'
+  human_review: false # Research loop handles validation internally
 ```
 
 **Mind Research Loop Summary:**
+
 ```
 Iteration 1: Broad research (find 15-20 names)
 Iteration 2: Devil's advocate (cut weak candidates)
@@ -239,19 +251,20 @@ Output: Curated list of elite minds with documented frameworks
 ### Step 1.2: Validate Research Output
 
 **Actions:**
+
 ```yaml
 research_validation:
   # From data/quality-dimensions-framework.md
   dimensions_to_check:
-    - accuracy: "Are the minds real with verifiable work?"
-    - coherence: "Do the frameworks complement each other?"
-    - strategic_alignment: "Do they cover the use cases?"
-    - operational_excellence: "Is the research actionable?"
+    - accuracy: 'Are the minds real with verifiable work?'
+    - coherence: 'Do the frameworks complement each other?'
+    - strategic_alignment: 'Do they cover the use cases?'
+    - operational_excellence: 'Is the research actionable?'
 
   # From data/decision-heuristics-framework.md
   apply_heuristic:
     id: SC_RES_001
-    name: "Research Quality Gate"
+    name: 'Research Quality Gate'
     threshold: 7.0
     blocking: true
 
@@ -267,23 +280,24 @@ research_validation:
 ```
 
 **Output (PHASE 1):**
+
 ```yaml
 phase_1_output:
   minds:
-    - name: "Gary Halbert"
+    - name: 'Gary Halbert'
       tier: 1
-      frameworks: ["A-Pile/B-Pile", "Swipe File Method"]
-      covers_use_cases: ["sales pages", "direct mail"]
+      frameworks: ['A-Pile/B-Pile', 'Swipe File Method']
+      covers_use_cases: ['sales pages', 'direct mail']
 
-    - name: "Eugene Schwartz"
+    - name: 'Eugene Schwartz'
       tier: 0
-      frameworks: ["Market Awareness", "5 Levels of Sophistication"]
-      covers_use_cases: ["all - diagnostic"]
+      frameworks: ['Market Awareness', '5 Levels of Sophistication']
+      covers_use_cases: ['all - diagnostic']
 
     # ... more minds
 
   research_score: 8.5/10
-  checkpoint_status: "PASS"
+  checkpoint_status: 'PASS'
 ```
 
 ---
@@ -299,100 +313,104 @@ phase_1_output:
 **Apply: tier-system-framework.md**
 
 **Actions:**
+
 ```yaml
 tier_structure_design:
   # Assign each mind to a tier
   orchestrator:
-    purpose: "Coordinates all tiers, routes requests"
-    candidates: "New agent or promote from Tier 0"
+    purpose: 'Coordinates all tiers, routes requests'
+    candidates: 'New agent or promote from Tier 0'
 
   tier_0_diagnosis:
-    purpose: "First contact, analysis, classification"
-    minds: "Those who created diagnostic frameworks"
-    required: true  # Every squad MUST have Tier 0
+    purpose: 'First contact, analysis, classification'
+    minds: 'Those who created diagnostic frameworks'
+    required: true # Every squad MUST have Tier 0
 
   tier_1_masters:
-    purpose: "Primary experts with proven results"
-    minds: "Those with documented $X results"
+    purpose: 'Primary experts with proven results'
+    minds: 'Those with documented $X results'
 
   tier_2_systematizers:
-    purpose: "Created frameworks others use"
-    minds: "Thought leaders, framework creators"
+    purpose: 'Created frameworks others use'
+    minds: 'Thought leaders, framework creators'
 
   tier_3_specialists:
-    purpose: "Specific format/channel experts"
-    minds: "Niche specialists"
+    purpose: 'Specific format/channel experts'
+    minds: 'Niche specialists'
 
   tools:
-    purpose: "Validation, checklists, calculators"
-    examples: ["quality-checker", "compliance-validator"]
+    purpose: 'Validation, checklists, calculators'
+    examples: ['quality-checker', 'compliance-validator']
 ```
 
 ### Step 2.2: Plan Agent Relationships
 
 **Actions:**
+
 ```yaml
 agent_relationships:
   handoff_map:
     # Who hands off to whom
-    - from: "orchestrator"
-      to: "tier_0_agents"
-      when: "New request arrives"
+    - from: 'orchestrator'
+      to: 'tier_0_agents'
+      when: 'New request arrives'
 
-    - from: "tier_0_agents"
-      to: "tier_1_agents"
-      when: "Diagnosis complete, execution needed"
+    - from: 'tier_0_agents'
+      to: 'tier_1_agents'
+      when: 'Diagnosis complete, execution needed'
 
   synergies:
     # Who works well together
-    - agents: ["diagnosis-agent", "master-agent"]
-      pattern: "Diagnosis feeds master context"
+    - agents: ['diagnosis-agent', 'master-agent']
+      pattern: 'Diagnosis feeds master context'
 
   conflicts:
     # Who should NOT be combined
-    - agents: ["aggressive-style", "conservative-style"]
-      reason: "Contradictory approaches"
+    - agents: ['aggressive-style', 'conservative-style']
+      reason: 'Contradictory approaches'
 ```
 
 ### Step 2.3: Design Quality Gates
 
 **Actions:**
+
 ```yaml
 quality_gates_design:
   gates:
-    - id: "QG-001"
-      name: "Request Classification"
-      transition: "Input → Tier 0"
-      type: "routing"
-      criteria: "Request type identified"
+    - id: 'QG-001'
+      name: 'Request Classification'
+      transition: 'Input → Tier 0'
+      type: 'routing'
+      criteria: 'Request type identified'
 
-    - id: "QG-002"
-      name: "Diagnosis Complete"
-      transition: "Tier 0 → Tier 1"
-      type: "blocking"
-      criteria: "Analysis approved, requirements clear"
+    - id: 'QG-002'
+      name: 'Diagnosis Complete'
+      transition: 'Tier 0 → Tier 1'
+      type: 'blocking'
+      criteria: 'Analysis approved, requirements clear'
 
-    - id: "QG-003"
-      name: "Draft Review"
-      transition: "Execution → Output"
-      type: "blocking"
-      criteria: "Quality checklist passed"
+    - id: 'QG-003'
+      name: 'Draft Review'
+      transition: 'Execution → Output'
+      type: 'blocking'
+      criteria: 'Quality checklist passed'
 
   escalation_paths:
-    - on_failure: "Return to previous tier with feedback"
-    - on_repeated_failure: "Escalate to human review"
+    - on_failure: 'Return to previous tier with feedback'
+    - on_repeated_failure: 'Escalate to human review'
 ```
 
 **Output (PHASE 2):**
+
 ```yaml
-phase_2_output:  # [Example]
+phase_2_output: # [Example]
   tier_structure:
-    orchestrator: "{squad}-chief"
-    tier_0: ["{diagnosis-agent-1}", "{diagnosis-agent-2}"]
-    tier_1: ["{master-agent-1}", "{master-agent-2}"]
-    tier_2: ["{systematizer-1}", "{systematizer-2}"]
-    tier_3: ["{specialist-1}", "{specialist-2}"]
-    tools: ["{tool-1}", "{tool-2}"]
+    orchestrator: '{squad}-chief'
+    tier_0: ['{diagnosis-agent-1}', '{diagnosis-agent-2}']
+    tier_1: ['{master-agent-1}', '{master-agent-2}']
+    tier_2: ['{systematizer-1}', '{systematizer-2}']
+    tier_3: ['{specialist-1}', '{specialist-2}']
+    tools: ['{tool-1}', '{tool-2}']
 
   quality_gates: 5
   handoffs: 12
@@ -400,9 +418,10 @@ phase_2_output:  # [Example]
 ```
 
 **Checkpoint SC_ARC_001:**
+
 ```yaml
 heuristic_id: SC_ARC_001
-name: "Architecture Approved"
+name: 'Architecture Approved'
 blocking: true
 criteria:
   - tier_0_defined: true
@@ -425,9 +444,10 @@ criteria:
 ### Step 3.1: Create Directory Structure
 
 **Actions:**
+
 ```yaml
 create_directories:
-  base: "squads/{pack_name}/"
+  base: 'squads/{pack_name}/'
   subdirectories:
     - agents/
     - tasks/
@@ -445,15 +465,16 @@ create_directories:
 ### Step 3.2: Create Agents (For Each Mind)
 
 **Execute workflow for each mind:**
+
 ```yaml
 for_each_mind:
-  workflow: "workflows/research-then-create-agent.md"
+  workflow: 'workflows/research-then-create-agent.md'
   inputs:
     agent_purpose: "{derived from mind's expertise}"
-    domain: "{domain}"
-    specialist_slug: "{mind_slug}"
-    specialist_name: "{mind_name}"
-    pack_name: "{pack_name}"
+    domain: '{domain}'
+    specialist_slug: '{mind_slug}'
+    specialist_name: '{mind_name}'
+    pack_name: '{pack_name}'
 
   quality_gate:
     # Each agent must pass SC_AGT_001
@@ -465,6 +486,7 @@ for_each_mind:
 ### Step 3.3: Create Orchestrator Agent
 
 **Special agent creation:**
+
 ```yaml
 create_orchestrator:
   agent_id: "{pack_name}-chief"
@@ -492,6 +514,7 @@ create_orchestrator:
 ### Step 3.4: Create Workflows
 
 **For complex multi-step operations:**
+
 ```yaml
 create_workflows:
   # Identify operations that need workflows
@@ -500,7 +523,7 @@ create_workflows:
     - has_intermediate_checkpoints: true
     - output_feeds_next_step: true
 
-  template: "templates/workflow-tmpl.yaml"
+  template: 'templates/workflow-tmpl.yaml'
 
   minimum_structure:
     - phases: 3+
@@ -516,18 +539,19 @@ create_workflows:
 **Apply: executor-matrix-framework.md**
 
 **For atomic single-session operations:**
+
 ```yaml
 create_tasks:
   # Each task follows Task Anatomy (8 fields)
   task_anatomy:
-    - id: "Unique identifier"
-    - purpose: "What and why"
-    - executor: "Human | Agent | Hybrid | Worker"
-    - inputs: "What it needs"
-    - preconditions: "What must be true"
-    - steps: "How to execute"
-    - outputs: "What it produces"
-    - validation: "How to verify"
+    - id: 'Unique identifier'
+    - purpose: 'What and why'
+    - executor: 'Human | Agent | Hybrid | Worker'
+    - inputs: 'What it needs'
+    - preconditions: 'What must be true'
+    - steps: 'How to execute'
+    - outputs: 'What it produces'
+    - validation: 'How to verify'
 
   executor_assignment:
     # From data/executor-matrix-framework.md
@@ -543,6 +567,7 @@ create_tasks:
 ```
 
 **Output (PHASE 3):**
+
 ```yaml
 phase_3_output:
   agents_created: 8
@@ -564,6 +589,7 @@ phase_3_output:
 ### Step 4.1: Wire Dependencies
 
 **Actions:**
+
 ```yaml
 wire_dependencies:
   for_each_agent:
@@ -580,26 +606,28 @@ wire_dependencies:
 ### Step 4.2: Create Knowledge Base
 
 **Actions:**
+
 ```yaml
 create_knowledge_base:
-  file: "data/{pack_name}-kb.md"
+  file: 'data/{pack_name}-kb.md'
 
   sections:
-    - domain_overview: "What this domain is about"
-    - key_concepts: "Essential terminology"
-    - best_practices: "From researched minds"
-    - common_patterns: "Reusable patterns"
-    - anti_patterns: "What to avoid"
-    - regulatory: "If applicable"
+    - domain_overview: 'What this domain is about'
+    - key_concepts: 'Essential terminology'
+    - best_practices: 'From researched minds'
+    - common_patterns: 'Reusable patterns'
+    - anti_patterns: 'What to avoid'
+    - regulatory: 'If applicable'
 ```
 
 ### Step 4.3: Generate Documentation
 
 **Actions:**
+
 ```yaml
 generate_documentation:
   readme:
-    file: "README.md"
+    file: 'README.md'
     sections:
       - overview
       - installation
@@ -611,7 +639,7 @@ generate_documentation:
       - usage_examples
 
   config:
-    file: "config.yaml"
+    file: 'config.yaml'
     validate: true
 ```
 
@@ -628,15 +656,16 @@ generate_documentation:
 **Execute: checklists/squad-checklist.md**
 
 **Actions:**
+
 ```yaml
 run_squad_checklist:
   categories:
-    - structure: "Directory structure correct"
-    - agents: "All agents meet standards"
-    - workflows: "All workflows have checkpoints"
-    - tasks: "All tasks follow anatomy"
-    - documentation: "README complete"
-    - integration: "Dependencies wired"
+    - structure: 'Directory structure correct'
+    - agents: 'All agents meet standards'
+    - workflows: 'All workflows have checkpoints'
+    - tasks: 'All tasks follow anatomy'
+    - documentation: 'README complete'
+    - integration: 'Dependencies wired'
 
   blocking_items:
     - orchestrator_exists
@@ -650,15 +679,16 @@ run_squad_checklist:
 **Apply: quality-dimensions-framework.md**
 
 **Actions:**
+
 ```yaml
 quality_scoring:
   dimensions:
-    - accuracy: "Are agents based on real minds?"
-    - coherence: "Do components work together?"
-    - strategic_alignment: "Does squad serve purpose?"
-    - operational_excellence: "Is squad usable?"
-    - innovation_capacity: "Can squad grow?"
-    - risk_management: "Are guardrails in place?"
+    - accuracy: 'Are agents based on real minds?'
+    - coherence: 'Do components work together?'
+    - strategic_alignment: 'Does squad serve purpose?'
+    - operational_excellence: 'Is squad usable?'
+    - innovation_capacity: 'Can squad grow?'
+    - risk_management: 'Are guardrails in place?'
 
   weights:
     accuracy: 0.20
@@ -678,6 +708,7 @@ quality_scoring:
 ### Step 5.3: Fix Blocking Issues
 
 **Actions:**
+
 ```yaml
 fix_blocking_issues:
   for_each_blocking_issue:
@@ -693,13 +724,14 @@ fix_blocking_issues:
 ```
 
 **Output (PHASE 5):**
+
 ```yaml
 phase_5_output:
   checklist_pass: true
   quality_score: 8.2/10
   blocking_issues_resolved: 2
   warnings: 3
-  status: "PASS"
+  status: 'PASS'
 ```
 
 ---
@@ -712,6 +744,7 @@ phase_5_output:
 ### Step 6.1: Present Squad Summary
 
 **Actions:**
+
 ```yaml
 present_summary:
   created:
@@ -723,79 +756,86 @@ present_summary:
 
   quality:
     - overall_score: 8.2/10
-    - research_foundation: "5 elite minds"
-    - tier_coverage: "Full (0-3 + tools)"
+    - research_foundation: '5 elite minds'
+    - tier_coverage: 'Full (0-3 + tools)'
 
   activation:
-    - install: "npm run install:squad {pack_name}"
-    - activate: "@{pack_name}"
-    - example: "@{squad-name}:{agent-name}"  # e.g., @copy:sales-page-writer
+    - install: 'npm run install:squad {pack_name}'
+    - activate: '@{pack_name}'
+    - example: '@{squad-name}:{agent-name}' # e.g., @copy:sales-page-writer
 ```
 
 ### Step 6.2: Document Next Steps
 
 **Actions:**
+
 ```yaml
 next_steps:
   optional_improvements:
-    - "Add more specialists to Tier 3"
-    - "Create domain-specific templates"
-    - "Add integration tests"
+    - 'Add more specialists to Tier 3'
+    - 'Create domain-specific templates'
+    - 'Add integration tests'
 
   handoff_to:
-    - agent: "qa-architect"
-      when: "Need deep validation audit"
-    - agent: "domain-orchestrator"
-      when: "Ready to use squad"
+    - agent: 'qa-architect'
+      when: 'Need deep validation audit'
+    - agent: 'domain-orchestrator'
+      when: 'Ready to use squad'
 ```
 
 ---
 
 ## Outputs
 
-| Output | Location | Description |
-|--------|----------|-------------|
-| Squad Directory | `squads/{pack_name}/` | Complete squad structure |
-| Agents | `squads/{pack_name}/agents/` | All agent definitions |
-| Workflows | `squads/{pack_name}/workflows/` | Multi-phase workflows |
-| Tasks | `squads/{pack_name}/tasks/` | Atomic tasks |
-| Templates | `squads/{pack_name}/templates/` | Output templates |
-| Checklists | `squads/{pack_name}/checklists/` | Validation checklists |
-| Knowledge Base | `squads/{pack_name}/data/{pack_name}-kb.md` | Domain knowledge |
-| Documentation | `squads/{pack_name}/README.md` | Usage documentation |
-| Config | `squads/{pack_name}/config.yaml` | Pack configuration |
+| Output          | Location                                    | Description              |
+| --------------- | ------------------------------------------- | ------------------------ |
+| Squad Directory | `squads/{pack_name}/`                       | Complete squad structure |
+| Agents          | `squads/{pack_name}/agents/`                | All agent definitions    |
+| Workflows       | `squads/{pack_name}/workflows/`             | Multi-phase workflows    |
+| Tasks           | `squads/{pack_name}/tasks/`                 | Atomic tasks             |
+| Templates       | `squads/{pack_name}/templates/`             | Output templates         |
+| Checklists      | `squads/{pack_name}/checklists/`            | Validation checklists    |
+| Knowledge Base  | `squads/{pack_name}/data/{pack_name}-kb.md` | Domain knowledge         |
+| Documentation   | `squads/{pack_name}/README.md`              | Usage documentation      |
+| Config          | `squads/{pack_name}/config.yaml`            | Pack configuration       |
 
 ---
 
 ## Validation Criteria (All Must Pass)
 
 ### Structure
+
 - [ ] Pack directory exists at `squads/{pack_name}/`
 - [ ] All required subdirectories created
 - [ ] config.yaml is valid YAML
 
 ### Agents
+
 - [ ] Orchestrator agent exists
 - [ ] At least one Tier 0 agent exists
 - [ ] All agents pass SC_AGT_001 (300+ lines, voice_dna, etc.)
 - [ ] All agents have tier assigned
 
 ### Workflows
+
 - [ ] Complex operations have workflows (not just tasks)
 - [ ] All workflows have 3+ phases
 - [ ] All workflows have checkpoints
 
 ### Tasks
+
 - [ ] All tasks follow Task Anatomy (8 fields)
 - [ ] Complex tasks are 500+ lines
 - [ ] Executor assigned for each task
 
 ### Documentation
+
 - [ ] README.md complete with all sections
 - [ ] Usage examples provided
 - [ ] Installation instructions clear
 
 ### Quality
+
 - [ ] Overall score >= 7.0
 - [ ] No blocking items failed
 - [ ] Research foundation documented
@@ -804,15 +844,15 @@ next_steps:
 
 ## Heuristics Reference
 
-| Heuristic ID | Name | Where Applied | Blocking |
-|--------------|------|---------------|----------|
-| SC_DSC_001 | Discovery Complete | Phase 0 | Yes |
-| SC_RES_001 | Research Quality Gate | Phase 1 | Yes |
-| SC_ARC_001 | Architecture Approved | Phase 2 | Yes |
-| SC_AGT_001 | Agent Quality Gate | Phase 3 | Yes |
-| SC_CRT_001 | Creation Quality | Phase 3 | Yes |
-| SC_INT_001 | Integration Complete | Phase 4 | No |
-| SC_VAL_001 | Squad Validated | Phase 5 | Yes |
+| Heuristic ID | Name                  | Where Applied | Blocking |
+| ------------ | --------------------- | ------------- | -------- |
+| SC_DSC_001   | Discovery Complete    | Phase 0       | Yes      |
+| SC_RES_001   | Research Quality Gate | Phase 1       | Yes      |
+| SC_ARC_001   | Architecture Approved | Phase 2       | Yes      |
+| SC_AGT_001   | Agent Quality Gate    | Phase 3       | Yes      |
+| SC_CRT_001   | Creation Quality      | Phase 3       | Yes      |
+| SC_INT_001   | Integration Complete  | Phase 4       | No       |
+| SC_VAL_001   | Squad Validated       | Phase 5       | Yes      |
 
 ---
 
@@ -822,18 +862,18 @@ next_steps:
 error_handling:
   research_fails:
     - retry_with_different_queries
-    - if_still_fails: "Abort with explanation"
+    - if_still_fails: 'Abort with explanation'
 
   agent_creation_fails:
     - identify_missing_research
     - supplement_research
     - retry_creation
-    - if_still_fails: "Create simpler agent, note for improvement"
+    - if_still_fails: 'Create simpler agent, note for improvement'
 
   validation_fails:
     - log_specific_failures
     - attempt_automated_fix
-    - if_cannot_fix: "Report to human for decision"
+    - if_cannot_fix: 'Report to human for decision'
 ```
 
 ---
@@ -841,6 +881,7 @@ error_handling:
 ## Integration with AIOS
 
 This task creates squads that seamlessly integrate with:
+
 - Core AIOS-FULLSTACK framework
 - Standard installer (`npm run install:squad`)
 - Memory layer for tracking

@@ -2,11 +2,12 @@
 task-id: extract-thinking-dna
 name: Extract Thinking DNA (Frameworks + Heuristics + Decisions)
 version: 1.2.0
-note: "Exemplos usam copywriting. Substitua pelo seu domínio."
+execution_type: Agent
+note: 'Exemplos usam copywriting. Substitua pelo seu domínio.'
 estimated-time: 1-2 hours
 complexity: medium
 
-specialist: "@oalanicolas"
+specialist: '@oalanicolas'
 specialist_guidance: |
   Extract decision frameworks (SE/ENTÃO), heuristics, veto conditions.
   Map recognition_patterns, objection_handling, handoff_triggers.
@@ -14,13 +15,13 @@ specialist_guidance: |
 
 inputs:
   required:
-    - mind_name: "Nome do expert a clonar"
-    - domain: "Área de expertise (copy, legal, marketing, etc)"
-    - sources: "Mínimo 5 fontes com metodologia documentada"
+    - mind_name: 'Nome do expert a clonar'
+    - domain: 'Área de expertise (copy, legal, marketing, etc)'
+    - sources: 'Mínimo 5 fontes com metodologia documentada'
 
 outputs:
   primary:
-    - thinking_dna: "Bloco YAML para agent.md com frameworks operacionais"
+    - thinking_dna: 'Bloco YAML para agent.md com frameworks operacionais'
 
 elicit: true
 ---
@@ -59,10 +60,10 @@ recognition_patterns:
 
 ```yaml
 blind_spots:
-  - domain: ""
-    what_they_miss: ""
-    why: ""
-    consequence: ""
+  - domain: ''
+    what_they_miss: ''
+    why: ''
+    consequence: ''
 ```
 
 ### 0.3 Triggers de Atenção
@@ -71,9 +72,9 @@ O que faz o expert "ligar o radar"?
 
 ```yaml
 attention_triggers:
-  - trigger: "Quando vê/ouve..."
-    response: "Imediatamente faz..."
-    intensity: "alto|médio|baixo"
+  - trigger: 'Quando vê/ouve...'
+    response: 'Imediatamente faz...'
+    intensity: 'alto|médio|baixo'
 ```
 
 ---
@@ -85,34 +86,35 @@ attention_triggers:
 Todo expert tem UM framework que usa para TUDO. Encontre-o.
 
 **Perguntas para identificar:**
+
 - "Qual processo ele SEMPRE segue?"
 - "O que ele ensina primeiro para iniciantes?"
 - "Se pudesse ensinar apenas UMA coisa, o que seria?"
 
 ```yaml
 primary_framework:
-  name: ""                    # Nome do framework
-  creator: "{mind_name}"      # Quem criou
-  acronym: ""                 # Se tiver (AIDA, PASTOR, etc)
-  purpose: ""                 # Para que serve
+  name: '' # Nome do framework
+  creator: '{mind_name}' # Quem criou
+  acronym: '' # Se tiver (AIDA, PASTOR, etc)
+  purpose: '' # Para que serve
 
   steps:
     - step: 1
-      name: ""
-      action: ""
-      output: ""
+      name: ''
+      action: ''
+      output: ''
     - step: 2
-      name: ""
-      action: ""
-      output: ""
+      name: ''
+      action: ''
+      output: ''
     # ... continue
 
-  when_to_use: ""
-  when_NOT_to_use: ""
+  when_to_use: ''
+  when_NOT_to_use: ''
 
   evidence:
-    - source: ""
-      quote: ""
+    - source: ''
+      quote: ''
 ```
 
 ### 1.2 Frameworks Secundários (2-4)
@@ -121,10 +123,10 @@ Outros frameworks que usa para situações específicas:
 
 ```yaml
 secondary_frameworks:
-  - name: ""
-    purpose: ""
+  - name: ''
+    purpose: ''
     steps: []
-    trigger: "quando usar"
+    trigger: 'quando usar'
 ```
 
 ### 1.3 Framework de Diagnóstico
@@ -133,13 +135,13 @@ Como o expert AVALIA uma situação antes de agir?
 
 ```yaml
 diagnostic_framework:
-  name: ""
+  name: ''
   questions:
-    - "Primeira pergunta que faz"
-    - "Segunda pergunta"
-    - "Terceira pergunta"
-  red_flags: ["sinais de problema"]
-  green_flags: ["sinais positivos"]
+    - 'Primeira pergunta que faz'
+    - 'Segunda pergunta'
+    - 'Terceira pergunta'
+  red_flags: ['sinais de problema']
+  green_flags: ['sinais positivos']
 ```
 
 ---
@@ -156,24 +158,24 @@ diagnostic_framework:
 
 ```yaml
 decision_heuristics:
-  - id: "H001"
-    name: ""
-    rule: "SE ___ ENTÃO ___"
-    rationale: "por que funciona"
-    exceptions: ["quando NÃO usar"]
-    source: "onde ele disse isso"
+  - id: 'H001'
+    name: ''
+    rule: 'SE ___ ENTÃO ___'
+    rationale: 'por que funciona'
+    exceptions: ['quando NÃO usar']
+    source: 'onde ele disse isso'
 
   # Exemplos de Gary Halbert:
-  - id: "GH001"
-    name: "Hungry Crowd First"
-    rule: "SE escolhendo mercado → ENTÃO escolha o mais faminto, não o maior"
-    rationale: "Demanda > Tamanho"
-    exceptions: ["mercados saturados demais"]
+  - id: 'GH001'
+    name: 'Hungry Crowd First'
+    rule: 'SE escolhendo mercado → ENTÃO escolha o mais faminto, não o maior'
+    rationale: 'Demanda > Tamanho'
+    exceptions: ['mercados saturados demais']
 
-  - id: "GH002"
-    name: "One Reader Rule"
-    rule: "SE escrevendo copy → ENTÃO escreva para UMA pessoa específica"
-    rationale: "Conexão emocional > alcance genérico"
+  - id: 'GH002'
+    name: 'One Reader Rule'
+    rule: 'SE escrevendo copy → ENTÃO escreva para UMA pessoa específica'
+    rationale: 'Conexão emocional > alcance genérico'
 ```
 
 ### 2.3 Heurísticas de Veto (Deal-Breakers)
@@ -182,9 +184,9 @@ O que faz o expert PARAR ou REJEITAR algo imediatamente?
 
 ```yaml
 veto_heuristics:
-  - trigger: "SE ___"
-    action: "ENTÃO pare/rejeite"
-    reason: ""
+  - trigger: 'SE ___'
+    action: 'ENTÃO pare/rejeite'
+    reason: ''
 ```
 
 ### 2.4 Heurísticas de Priorização
@@ -193,8 +195,8 @@ Como o expert decide O QUE fazer PRIMEIRO?
 
 ```yaml
 prioritization_heuristics:
-  - rule: ""
-    example: ""
+  - rule: ''
+    example: ''
 ```
 
 ---
@@ -207,24 +209,24 @@ Como o expert processa uma decisão complexa?
 
 ```yaml
 decision_pipeline:
-  name: ""
+  name: ''
   stages:
-    - stage: "Input"
-      action: "O que coleta primeiro"
+    - stage: 'Input'
+      action: 'O que coleta primeiro'
 
-    - stage: "Analysis"
-      action: "Como analisa"
+    - stage: 'Analysis'
+      action: 'Como analisa'
       frameworks_used: []
 
-    - stage: "Options"
-      action: "Como gera alternativas"
+    - stage: 'Options'
+      action: 'Como gera alternativas'
 
-    - stage: "Selection"
-      action: "Como escolhe"
+    - stage: 'Selection'
+      action: 'Como escolhe'
       criteria: []
 
-    - stage: "Validation"
-      action: "Como verifica a decisão"
+    - stage: 'Validation'
+      action: 'Como verifica a decisão'
 ```
 
 ### 3.2 Critérios de Decisão (Pesos)
@@ -256,19 +258,19 @@ Como o expert lida com risco?
 
 ```yaml
 risk_profile:
-  tolerance: "alto|médio|baixo"
+  tolerance: 'alto|médio|baixo'
 
   risk_seeking_domains:
-    - domain: ""
-      behavior: "arrisca mais quando..."
+    - domain: ''
+      behavior: 'arrisca mais quando...'
 
   risk_averse_domains:
-    - domain: ""
-      behavior: "conservador quando..."
+    - domain: ''
+      behavior: 'conservador quando...'
 
   risk_mitigation:
-    - strategy: ""
-      when: ""
+    - strategy: ''
+      when: ''
 ```
 
 ---
@@ -300,9 +302,9 @@ O que o expert vê outros fazerem errado?
 
 ```yaml
 common_mistakes:
-  - mistake: ""
-    correction: ""
-    how_expert_does_it: ""
+  - mistake: ''
+    correction: ''
+    how_expert_does_it: ''
 ```
 
 ---
@@ -334,22 +336,22 @@ O que faz o expert reagir mais fortemente?
 
 ```yaml
 pushback_triggers:
-  - trigger: "Quando questionam sua expertise"
-    auto_response: ""
-    escalation: "como escala se pressionado mais"
+  - trigger: 'Quando questionam sua expertise'
+    auto_response: ''
+    escalation: 'como escala se pressionado mais'
 
-  - trigger: "Quando sugerem atalho antiético"
-    auto_response: ""
+  - trigger: 'Quando sugerem atalho antiético'
+    auto_response: ''
 ```
 
 ### 5.3 Estilo de Argumentação
 
 ```yaml
 argumentation_style:
-  debate_preference: "socrático|agressivo|colaborativo|evita"
-  use_of_evidence: "dados|anedotas|autoridade|analogias"
-  admission_willingness: "nunca|raro|quando errado|facilmente"
-  recovery_when_wrong: "como se recupera quando está errado"
+  debate_preference: 'socrático|agressivo|colaborativo|evita'
+  use_of_evidence: 'dados|anedotas|autoridade|analogias'
+  admission_willingness: 'nunca|raro|quando errado|facilmente'
+  recovery_when_wrong: 'como se recupera quando está errado'
 ```
 
 ---
@@ -362,18 +364,18 @@ argumentation_style:
 
 ```yaml
 handoff_triggers:
-  - domain: "Área fora da expertise"
-    trigger_when: "Situação específica"
-    typical_response: "O que diz/faz"
-    to_whom: "Para quem indica"
-    tone: "humilde|diretivo|colaborativo"
+  - domain: 'Área fora da expertise'
+    trigger_when: 'Situação específica'
+    typical_response: 'O que diz/faz'
+    to_whom: 'Para quem indica'
+    tone: 'humilde|diretivo|colaborativo'
 
   # Exemplo:
-  - domain: "Legal compliance"
-    trigger_when: "Questões regulatórias complexas"
-    typical_response: "Você precisa de um advogado. Eu perguntaria a ele..."
-    to_whom: "Advogado especializado"
-    tone: "humilde + prestativo"
+  - domain: 'Legal compliance'
+    trigger_when: 'Questões regulatórias complexas'
+    typical_response: 'Você precisa de um advogado. Eu perguntaria a ele...'
+    to_whom: 'Advogado especializado'
+    tone: 'humilde + prestativo'
 ```
 
 ### 6.2 Self-Awareness
@@ -382,7 +384,7 @@ handoff_triggers:
 self_awareness:
   knows_limits: true|false
   defensive_about_gaps: true|false
-  shares_partial_knowledge: "Compartilha o que sabe antes de delegar?"
+  shares_partial_knowledge: 'Compartilha o que sabe antes de delegar?'
   confidence_in_handoff: "Quão confiante ao dizer 'não sei'?"
 ```
 
@@ -390,13 +392,13 @@ self_awareness:
 
 ```yaml
 collaboration_patterns:
-  - with_role: "Designer"
-    deference_level: "alto|médio|baixo"
-    typical_interaction: ""
+  - with_role: 'Designer'
+    deference_level: 'alto|médio|baixo'
+    typical_interaction: ''
 
-  - with_role: "Developer"
-    deference_level: ""
-    typical_interaction: ""
+  - with_role: 'Developer'
+    deference_level: ''
+    typical_interaction: ''
 ```
 
 ---
@@ -413,27 +415,26 @@ Cole diretamente no agent.md:
 # ═══════════════════════════════════════════════════════════════
 
 thinking_dna:
-
   # ─────────────────────────────────────────────────────────────
   # FRAMEWORKS OPERACIONAIS
   # ─────────────────────────────────────────────────────────────
 
   primary_framework:
-    name: ""
-    purpose: ""
+    name: ''
+    purpose: ''
     steps:
       - step: 1
-        name: ""
-        action: ""
+        name: ''
+        action: ''
       # ...
-    when_to_use: ""
-    when_NOT_to_use: ""
+    when_to_use: ''
+    when_NOT_to_use: ''
 
   secondary_frameworks:
-    - name: ""
-      purpose: ""
+    - name: ''
+      purpose: ''
       steps: []
-      trigger: ""
+      trigger: ''
 
   diagnostic_framework:
     questions: []
@@ -446,18 +447,18 @@ thinking_dna:
 
   heuristics:
     decision:
-      - id: ""
-        rule: "SE ___ ENTÃO ___"
-        rationale: ""
+      - id: ''
+        rule: 'SE ___ ENTÃO ___'
+        rationale: ''
 
     veto:
-      - trigger: ""
-        action: "PARE/REJEITE"
-        reason: ""
+      - trigger: ''
+        action: 'PARE/REJEITE'
+        reason: ''
 
     prioritization:
-      - rule: ""
-        example: ""
+      - rule: ''
+        example: ''
 
   # ─────────────────────────────────────────────────────────────
   # ARQUITETURA DE DECISÃO
@@ -465,21 +466,21 @@ thinking_dna:
 
   decision_architecture:
     pipeline:
-      - stage: "Input"
-        action: ""
-      - stage: "Analysis"
-        action: ""
+      - stage: 'Input'
+        action: ''
+      - stage: 'Analysis'
+        action: ''
         frameworks: []
-      - stage: "Selection"
-        action: ""
+      - stage: 'Selection'
+        action: ''
         criteria: []
 
     weights:
-      - criterion: ""
-        weight: "alto|médio|baixo"
+      - criterion: ''
+        weight: 'alto|médio|baixo'
 
     risk_profile:
-      tolerance: ""
+      tolerance: ''
       risk_seeking: []
       risk_averse: []
 
@@ -489,12 +490,12 @@ thinking_dna:
 
   anti_patterns:
     never_do:
-      - action: ""
-        reason: ""
+      - action: ''
+        reason: ''
 
     common_mistakes:
-      - mistake: ""
-        correction: ""
+      - mistake: ''
+        correction: ''
 
   # ─────────────────────────────────────────────────────────────
   # RECOGNITION PATTERNS (Radares Mentais)
@@ -502,17 +503,17 @@ thinking_dna:
 
   recognition_patterns:
     instant_detection:
-      - domain: ""
-        pattern: ""
-        accuracy: ""
+      - domain: ''
+        pattern: ''
+        accuracy: ''
 
     blind_spots:
-      - domain: ""
-        what_they_miss: ""
+      - domain: ''
+        what_they_miss: ''
 
     attention_triggers:
-      - trigger: ""
-        response: ""
+      - trigger: ''
+        response: ''
 
   # ─────────────────────────────────────────────────────────────
   # OBJECTION HANDLING (Resposta a Desafios)
@@ -520,18 +521,18 @@ thinking_dna:
 
   objection_handling:
     common_objections:
-      - objection: ""
-        response: ""
-        tone: ""
+      - objection: ''
+        response: ''
+        tone: ''
 
     pushback_triggers:
-      - trigger: ""
-        auto_response: ""
+      - trigger: ''
+        auto_response: ''
 
     argumentation_style:
-      debate_preference: ""
-      admission_willingness: ""
-      recovery_when_wrong: ""
+      debate_preference: ''
+      admission_willingness: ''
+      recovery_when_wrong: ''
 
   # ─────────────────────────────────────────────────────────────
   # HANDOFF TRIGGERS (Quando Delega/Para)
@@ -539,10 +540,10 @@ thinking_dna:
 
   handoff_triggers:
     limits:
-      - domain: ""
-        trigger_when: ""
-        typical_response: ""
-        to_whom: ""
+      - domain: ''
+        trigger_when: ''
+        typical_response: ''
+        to_whom: ''
 
     self_awareness:
       knows_limits: true
@@ -573,81 +574,80 @@ thinking_dna:
 
 ```yaml
 thinking_dna:
-
   primary_framework:
-    name: "Magnetic Marketing System"
-    purpose: "Atrair clientes ideais ao invés de persegui-los"
+    name: 'Magnetic Marketing System'
+    purpose: 'Atrair clientes ideais ao invés de persegui-los'
     steps:
       - step: 1
-        name: "Message"
-        action: "Craft message that repels wrong clients, attracts right ones"
+        name: 'Message'
+        action: 'Craft message that repels wrong clients, attracts right ones'
       - step: 2
-        name: "Market"
-        action: "Identify where your ideal clients congregate"
+        name: 'Market'
+        action: 'Identify where your ideal clients congregate'
       - step: 3
-        name: "Media"
-        action: "Choose media that reaches them cost-effectively"
-    when_to_use: "Qualquer estratégia de marketing"
-    when_NOT_to_use: "Nunca - é universal"
+        name: 'Media'
+        action: 'Choose media that reaches them cost-effectively'
+    when_to_use: 'Qualquer estratégia de marketing'
+    when_NOT_to_use: 'Nunca - é universal'
 
   heuristics:
     decision:
-      - id: "DK001"
-        rule: "SE não pode medir ROI → ENTÃO não faça"
-        rationale: "Marketing sem métricas é gambling"
+      - id: 'DK001'
+        rule: 'SE não pode medir ROI → ENTÃO não faça'
+        rationale: 'Marketing sem métricas é gambling'
 
-      - id: "DK002"
-        rule: "SE prospect não está pronto → ENTÃO nurture, não venda"
-        rationale: "Forçar venda queima lead para sempre"
+      - id: 'DK002'
+        rule: 'SE prospect não está pronto → ENTÃO nurture, não venda'
+        rationale: 'Forçar venda queima lead para sempre'
 
-      - id: "DK003"
-        rule: "SE competindo em preço → ENTÃO está no mercado errado"
-        rationale: "Sempre haverá alguém mais barato"
+      - id: 'DK003'
+        rule: 'SE competindo em preço → ENTÃO está no mercado errado'
+        rationale: 'Sempre haverá alguém mais barato'
 
     veto:
-      - trigger: "Cliente quer desconto sem justificativa"
-        action: "REJEITE o cliente"
-        reason: "Clientes de desconto são os piores clientes"
+      - trigger: 'Cliente quer desconto sem justificativa'
+        action: 'REJEITE o cliente'
+        reason: 'Clientes de desconto são os piores clientes'
 
     prioritization:
-      - rule: "Clientes existentes > Novos prospects"
-        example: "Upsell para quem já comprou antes de buscar novos"
+      - rule: 'Clientes existentes > Novos prospects'
+        example: 'Upsell para quem já comprou antes de buscar novos'
 
   decision_architecture:
     pipeline:
-      - stage: "Input"
-        action: "Qual o LTV potencial deste cliente/projeto?"
-      - stage: "Analysis"
-        action: "Aplica Message-Market-Media fit"
-        frameworks: ["Magnetic Marketing"]
-      - stage: "Selection"
-        action: "Escolhe opção com maior ROI mensurável"
-        criteria: ["ROI", "Velocidade", "Escalabilidade"]
+      - stage: 'Input'
+        action: 'Qual o LTV potencial deste cliente/projeto?'
+      - stage: 'Analysis'
+        action: 'Aplica Message-Market-Media fit'
+        frameworks: ['Magnetic Marketing']
+      - stage: 'Selection'
+        action: 'Escolhe opção com maior ROI mensurável'
+        criteria: ['ROI', 'Velocidade', 'Escalabilidade']
 
     weights:
-      - criterion: "ROI mensurável"
-        weight: "alto"
-      - criterion: "Velocidade de resultado"
-        weight: "alto"
-      - criterion: "Perfeição/Polish"
-        weight: "baixo"
+      - criterion: 'ROI mensurável'
+        weight: 'alto'
+      - criterion: 'Velocidade de resultado'
+        weight: 'alto'
+      - criterion: 'Perfeição/Polish'
+        weight: 'baixo'
 
     risk_profile:
-      tolerance: "médio-alto"
-      risk_seeking: ["testar novas mídias", "preços premium"]
-      risk_averse: ["clientes problemáticos", "mercados commoditizados"]
+      tolerance: 'médio-alto'
+      risk_seeking: ['testar novas mídias', 'preços premium']
+      risk_averse: ['clientes problemáticos', 'mercados commoditizados']
 
   anti_patterns:
     never_do:
-      - action: "Competir em preço"
-        reason: "Race to the bottom"
-      - action: "Marketing sem tracking"
-        reason: "Não sabe o que funciona"
-      - action: "Ignorar clientes existentes para buscar novos"
-        reason: "Dinheiro mais fácil está em quem já comprou"
+      - action: 'Competir em preço'
+        reason: 'Race to the bottom'
+      - action: 'Marketing sem tracking'
+        reason: 'Não sabe o que funciona'
+      - action: 'Ignorar clientes existentes para buscar novos'
+        reason: 'Dinheiro mais fácil está em quem já comprou'
 ```
 
 ---
 
 **Squad Architect | Thinking DNA Extractor v1.0**
-*"Clone how they think, not just what they say"*
+_"Clone how they think, not just what they say"_
